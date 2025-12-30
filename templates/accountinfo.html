@@ -5,7 +5,55 @@
 {% block content %}
 
     <h1>Your Account information:</h1>
+    <ul>
+        <li>First Name: <span id="accountinfo_first_name"></span></li>
+        <li>Last Name: <span id="accountinfo_last_name"></span></li>
+        <li>Gender: <span id="accountinfo_gender"></span></li>
+        <li>Date of Birth: <span id="accountinfo_dob"></span></li>
+        <li>Social Security Number: <span id="accountinfo_ssn"></span></li>
+        <li>Phone Number: <span id="accountinfo_phonenum"></span></li>
+        <li>Email: <span id="accountinfo_email"></span></li>
+        <li>Credit Card Number: <span id="accountinfo_cc_number"></span></li>
+        <li>Address: <span id="accountinfo_streetaddr"></span></li>
+        <li>City: <span id="accountinfo_city"></span></li>
+        <li>State: <span id="accountinfo_cc_state"></span></li>
+        <li>Zip Code: <span id="accountinfo_zipcode"></span></li>
+        <li>Country: <span id="accountinfo_country"></span></li>
+    </ul>
 
+<script>
+
+      fetch('/api/data')
+        .then(res => res.json())
+        .then(data => {
+          if(data.userid) {
+            fetch('/api/GetUserData', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id: data.userid})
+            })
+              .then(res => res.json())
+              .then(data => {
+                document.getElementById('accountinfo_first_name').textContent = data.data.first_name;
+                document.getElementById('accountinfo_last_name').textContent = data.data.last_name;
+                document.getElementById('accountinfo_gender').textContent = data.data.gender;
+                document.getElementById('accountinfo_dob').textContent = data.data.dob;
+                document.getElementById('accountinfo_ssn').textContent = data.data.ssn;
+                document.getElementById('accountinfo_phonenum').textContent = data.data.phonenum;
+                document.getElementById('accountinfo_email').textContent = data.data.email;
+                document.getElementById('accountinfo_cc_number').textContent = data.data.cc_number;
+                document.getElementById('accountinfo_streetaddr').textContent = data.data.streetaddr;
+                document.getElementById('accountinfo_city').textContent = data.data.city;
+                document.getElementById('accountinfo_cc_state').textContent = data.data.cc_state;
+                document.getElementById('accountinfo_zipcode').textContent = data.data.zipcode;
+                document.getElementById('accountinfo_country').textContent = data.data.country;
+
+              });
+          } 
+        });
+ 
+    
+</script>
 
 {% endblock %}
 

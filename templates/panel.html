@@ -28,6 +28,11 @@
     <button id="GetSumButton">Reflect Input (POST /get/GetSum)</button>
     <div id="GetSumResult" class="result"></div>
 
+    <p>Get User Data (POST /get/GetUserData)</p>
+    <input type="text" id="GetUserDataInput" placeholder="Type the userID">
+    <button id="GetUserDataButton">Reflect Input (POST /get/ReflectInput)</button>
+    <div id="GetUserDataResult" class="result"></div>
+  
     <p>Reflect Input (POST /get/ReflectInput)</p>
     <input type="text" id="ReflectInputInput" placeholder="Type your message here">
     <button id="ReflectInputButton">Reflect Input (POST /get/ReflectInput)</button>
@@ -72,7 +77,6 @@
         return;
       }
 
-
       fetch('/api/GetSum', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -85,6 +89,29 @@
         document.getElementById('GetSumInput2').value = ''; // clear input
       });
     };
+
+
+    // GetUserData POST Request
+    document.getElementById('GetUserDataButton').onclick = () => {
+      const userInput = document.getElementById('GetUserDataInput').value;
+      if (!userInput) {
+        alert("Please type a message!");
+        return;
+      }
+
+      fetch('/api/GetUserData', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: userInput })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('GetUserDataResult').innerText = JSON.stringify(data.data, null, 2);
+        document.getElementById('GetUserDataInput').value = ''; // clear input
+      });
+    };
+
+
 
     // ReflectInput POST Request
     document.getElementById('ReflectInputButton').onclick = () => {
@@ -105,6 +132,8 @@
         document.getElementById('ReflectInputInput').value = ''; // clear input
       });
     };
+
+
 
   </script>
 

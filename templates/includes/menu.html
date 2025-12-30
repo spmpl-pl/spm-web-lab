@@ -16,30 +16,43 @@
 
     const logoutBtn = document.getElementById('logoutButton');
     const usernameSpan = document.getElementById('usernameDisplay');
-  
+    var userid = ""
 
     // Display logged-in user and enable/disable logout
     function updateUserInfo() {
       fetch('/api/data')
         .then(res => res.json())
         .then(data => {
-          if(data.logged_in_as) {
-            usernameSpan.innerText = "Logged in as: " + data.logged_in_as;
+          if(data.username) {
+            usernameSpan.innerText = "Logged in as: [ " + data.username + " ]";
+            userid = data.userid
             //extract the name of the user instad of username once the GetUserData API is ready. 
+            fetch('/api/GetUserData', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id: data.userid })
+            })
+              .then(res => res.json())
+              .then(data => {
+                usernameSpan.innerText = "Logged in as: [ " + data.data.first_name + " " + data.data.last_name + " ]";
+              });
 
             logoutBtn.disabled = false;
             loginlink = document.getElementById('loginlink').style.display = 'none'
 
           } else {
             usernameSpan.innerText = "Not logged in";
+            userid = null;
             logoutBtn.disabled = true;
             document.getElementById('accountinfolink').style.display =  'none'; 
-            document.getElementById('guestbooklink').style.dysplay = 'none';
+            document.getElementById('guestbooklink').style.display = 'none';
           }
         });
     }
 
     window.onload = updateUserInfo;
+
+
 
     // Logout
     logoutBtn.onclick = () => {

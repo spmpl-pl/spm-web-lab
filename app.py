@@ -3,9 +3,22 @@ import base64
 from datetime import datetime
 import hashlib
 import json
+from pathlib import Path
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey123"  # Needed for sessions
+
+GUESTBOOK_FILE = Path("GuestBookEntries.json")
+
+def load_guestbook():
+    if not GUESTBOOK_FILE.exists():
+        return {"entries": []}
+    with open(GUESTBOOK_FILE, "r") as f:
+        return json.load(f)
+
+def save_guestbook(data):
+    with open(GUESTBOOK_FILE, "w") as f:
+        json.dump(data, f, indent=2)
 
 with open("UserData.json") as f:
     users = json.load(f)
@@ -41,7 +54,7 @@ def logout():
 def get_data():
     username = session.get("username")
     msg = f"Hello from SPM LAB! Logged in as {username}" if username else "Hello from SPM LAB! Not logged in."
-    return jsonify({"message": msg, "logged_in_as": username, "userid": session.get("userid")})
+    return jsonify({"message": msg, "username": username, "userid": session.get("userid")})
 
 # Login Support
 @app.route('/api/login', methods=['POST'])
@@ -61,14 +74,37 @@ def login():
 
     return jsonify({"success": False, "message": "Invalid username or password"})
 
+# GUESTBOOK
+@app.route("/api/guestbook", methods=["GET"])
+def get_entries():
+    data = load_guestbook()
+    return jsonify(data["entries"])
+
+@app.route("/api/guestbook", methods=["POST"])
+def add_entry():
+    payload = request.json
+    username = session.get("username")
+    message = payload.get("message", "").strip()
+
+    if not username or not message:
+        return jsonify({"error": "Name and message required"}), 400
+
+    entry = {
+        "username": username,
+        "message": message,
+        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    }
+
+    data = load_guestbook()
+    data["entries"].insert(0, entry)
+    save_guestbook(data)
+
+    return jsonify({"success": True})
 
 
 ##
 ## Other API Calls
 ##
-
-
-
 
 @app.route('/api/GetTime', methods=['GET'])
 def lab_GetTime():
@@ -87,6 +123,11 @@ def lab_GetSum():
     arg2 = int(data["arg2"])
     sum = arg1 + arg2
     return jsonify({"status": 200, "status_message": "OK", "data": sum})
+
+@app.route('/api/GetUserData', methods=['POST'])
+def lab_GetUserData():
+    data = request.json  # Get JSON data from frontend
+    return jsonify({"status": 200, "status_message": "OK", "data": users.get(data["id"])})
 
 @app.route('/api/ReflectInput', methods=['POST'])
 def lab_ReflectInput():

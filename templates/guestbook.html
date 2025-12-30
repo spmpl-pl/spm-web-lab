@@ -1,11 +1,65 @@
 {% extends "base.html" %}
 
-{% block title %}GuestBook{% endblock %}
+{% block title %}Guest Book{% endblock %}
 
 {% block content %}
+<h1>Guest Book</h1>
 
-    <h1>GuestBook!</h1>
+<p style="font-size:16px; color:#333; margin-bottom:10px;">
+  We’d love to hear from you! Please share your thoughts, memories, or just say hello in our guestbook. Your comments will brighten our day and make this space more special.
+</p>
+<br><br>
 
+<div class="guestbook-form">
+  <textarea type="text" rows="5" id="message" placeholder="Your message"></textarea>
+  <button id="submitEntry">Sign Guest Book</button>
+</div>
 
+<ul id="entries"></ul>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  loadEntries();
+
+  document.getElementById("submitEntry").onclick = () => {
+    const message = document.getElementById("message").value.trim();
+
+    if (!message) {
+      alert("Please fill in the message!");
+      return;
+    }
+
+    fetch("/api/guestbook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    })
+    .then(() => {
+      document.getElementById("message").value = "";
+      loadEntries();
+    });
+  };
+});
+
+function loadEntries() {
+  fetch("/api/guestbook")
+    .then(res => res.json())
+    .then(entries => {
+      const ul = document.getElementById("entries");
+      ul.innerHTML = "";
+
+      entries.forEach(e => {
+        const li = document.createElement("li");
+        li.innerHTML = `
+          <strong>${e.username}</strong>
+          <small>${e.timestamp}</small>
+          <div>${e.message}</div>
+        `;
+        ul.appendChild(li);
+      });
+    });
+}
+</script>
 {% endblock %}
+
 
