@@ -1,26 +1,34 @@
-from flask import Flask, jsonify, request, send_from_directory, session
+from flask import Flask, jsonify, request, send_from_directory, session, render_template
 import base64
 from datetime import datetime
+import hashlib
+import json
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey123"  # Needed for sessions
 
-VALID_USERNAME = base64.b64encode("bartoszch".encode()).decode()
-VALID_PASSWORD = base64.b64encode("Test123123#".encode()).decode()
-
+with open("UserData.json") as f:
+    users = json.load(f)
 
 @app.route('/')
 def index():
-    return send_from_directory('.', 'index.html')
+    return render_template('index.html')
 
 @app.route('/panel')
 def info():
-    return send_from_directory('.', 'panel.html')
+    return render_template('panel.html')
 
 @app.route('/login')
 def login_page():
-    return send_from_directory('.', 'login.html')
+    return render_template('login.html')
 
+@app.route('/guestbook')
+def guestbook_page():
+    return render_template('guestbook.html')
+
+@app.route('/accountinfo')
+def accountinfo_page():
+    return render_template('accountinfo.html')
 
 @app.route('/logout')
 def logout():
@@ -33,7 +41,7 @@ def logout():
 def get_data():
     username = session.get("username")
     msg = f"Hello from SPM LAB! Logged in as {username}" if username else "Hello from SPM LAB! Not logged in."
-    return jsonify({"message": msg, "logged_in_as": username})
+    return jsonify({"message": msg, "logged_in_as": username, "userid": session.get("userid")})
 
 # Login Support
 @app.route('/api/login', methods=['POST'])
@@ -42,16 +50,18 @@ def login():
     username = data.get("username", "")
     password = data.get("password", "")
 
-    # Encode inputs
-    username_enc = base64.b64encode(username.encode()).decode()
-    password_enc = base64.b64encode(password.encode()).decode()
+    password_md5 = hashlib.md5(password.encode()).hexdigest()
 
-    if username_enc == VALID_USERNAME and password_enc == VALID_PASSWORD:
-        session["username"] = username
-        return jsonify({"success": True, "message": "Login successful"})
+    # Search for user in JSON
+    for user_id, user in users.items():
+        if user.get("username") == username and user.get("password") == password_md5:
+            session["username"] = username
+            session["userid"] = user_id
+            return jsonify({"success": True, "message": "Login successful"})
 
-    else:
-        return jsonify({"success": False, "message": "Invalid credentials"})
+    return jsonify({"success": False, "message": "Invalid username or password"})
+
+
 
 ##
 ## Other API Calls

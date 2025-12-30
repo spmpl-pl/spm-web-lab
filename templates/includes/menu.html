@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>About This Project</title>
-  <link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-<!-- Top menu -->
   <nav class="top-menu">
     <a href="/" class="menu-link">Home</a>
-    <a href="/panel" class="menu-link">Panel</a>
+    <a href="/panel" class="menu-link">API Panel</a>
+    <a href="/accountinfo" id="accountinfolink" class="menu-link">Account Info</a>
+    <a href="/guestbook" id="guestbooklink" class="menu-link">Guest Book</a>
     <a href="/login" id="loginlink" class="menu-link">Login</a>
   </nav>
 
@@ -19,12 +12,11 @@
       <button id="logoutButton">Logout</button>
     </div>
 
-
 <script>
 
     const logoutBtn = document.getElementById('logoutButton');
     const usernameSpan = document.getElementById('usernameDisplay');
-    const loginlink = document.getElementById('loginlink');
+  
 
     // Display logged-in user and enable/disable logout
     function updateUserInfo() {
@@ -33,12 +25,16 @@
         .then(data => {
           if(data.logged_in_as) {
             usernameSpan.innerText = "Logged in as: " + data.logged_in_as;
+            //extract the name of the user instad of username once the GetUserData API is ready. 
+
             logoutBtn.disabled = false;
-            loginlink.style.display = data.logged_in_as ? 'none' : 'inline-block';
+            loginlink = document.getElementById('loginlink').style.display = 'none'
 
           } else {
             usernameSpan.innerText = "Not logged in";
             logoutBtn.disabled = true;
+            document.getElementById('accountinfolink').style.display =  'none'; 
+            document.getElementById('guestbooklink').style.dysplay = 'none';
           }
         });
     }
@@ -56,27 +52,3 @@
     };
 
 </script>
-
-  <!-- Info content -->
-  <div class="container">
-    <h1>Hello World!</h1>
-    <p>
-      This is the home page of lab.spm.pl. The site is designed to test the effectiveness of security solutions. 
-      Every piece of data published on this site as well as through any API interfaces is fake.
-    </p>
-    <p>
-      Features:
-      <ul>
-        <li>API Interfaces</li>
-        <li>Sign-In Experience</li>
-        <li>Check-out Experience</li>
-
-      </ul>
-    </p>
-    <p>
-      You can extend this project to build more complex web apps with Python.
-    </p>
-    <!--<a href="/" class="link-button">Go Back</a>-->
-  </div>
-</body>
-</html>
