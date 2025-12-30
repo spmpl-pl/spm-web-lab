@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Webshop{% endblock %}
+
+{% block content %}
+
+    <h1>Webshop</h1>
+<p style="font-size:16px; color:#333; margin-bottom:10px;">
+  Please select what looks interesting for you!  
+
+<table id="productTable">
+  <thead>
+    <tr>
+      <th>Products</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Rows will be inserted here -->
+  </tbody>
+</table>
+</p>
+
+<script>
+  fetch("/api/GetProductOverview")
+    .then(res => res.json())
+    .then(data => {
+      
+      const tbody = document.querySelector("#productTable tbody");
+
+      // Loop through data and create rows
+      data.data.forEach(item => {
+      const tr = document.createElement("tr");
+
+    tr.innerHTML = `
+      <td>ID: ${item.id}<br>Category: ${item.category_name}<br>Product Description: ${item.description}
+        <br><div>Price: <span class="priceCell"></span></div><br><br>
+        <button class="getPriceBtn" data-id1="${item.id}" data-id2="${item.category_id}">Get Price</button>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  // Attach click listeners to buttons
+document.querySelectorAll(".getPriceBtn").forEach(button => {
+  button.addEventListener("click", async (e) => {
+    const btn = e.target;
+    const productId = btn.dataset.id1;
+    const productCategory = btn.dataset.id2;
+    const row = btn.closest("tr");
+    const priceCell = row.querySelector(".priceCell");
+
+    try {
+      fetch('/api/GetProduct', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category: productCategory, id: productId })
+      })
+      .then(res => res.json())
+      .then(data => {
+        priceCell.textContent = data.data.price;
+      });}
+      catch (err) {
+      console.error(err);
+      priceCell.textContent = "Error";
+    }
+    
+  });
+});
+      
+    });
+</script>
+
+{% endblock %}
+

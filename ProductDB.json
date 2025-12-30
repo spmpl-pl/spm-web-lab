@@ -1,0 +1,56 @@
+[
+  {
+    "category_id": 1,
+    "category_name": "Electronics",
+    "products": [
+      {
+      "id": 1,
+      "name": "Smartphone",
+      "price": 699.99,
+      "description": "Latest model smartphone with 128GB storage"
+    },
+    {
+      "id": 2,
+      "name": "Laptop",
+      "price": 1199.99,
+      "description": "Lightweight laptop with 16GB RAM"
+    }
+    ]
+  },
+  {
+    "category_id": 2,
+    "category_name": "Books",
+    "products": [
+          {
+      "id": 3,
+      "name": "Python Programming",
+      "price": 39.99,
+      "description": "Learn Python from scratch"
+    },
+    {
+      "id": 4,
+      "name": "Data Science Handbook",
+      "price": 49.99,
+      "description": "Complete guide to data science"
+    }
+    ]
+  },
+  {
+    "category_id": 3,
+    "category_name": "Clothes",
+    "products": [
+          {
+      "id": 5,
+      "name": "T-Shirt",
+      "price": 19.99,
+      "description": "100% cotton t-shirt"
+    },
+    {
+      "id": 6,
+      "name": "Jeans",
+      "price": 49.99,
+      "description": "Blue denim jeans"
+    }
+    ]
+  }
+]

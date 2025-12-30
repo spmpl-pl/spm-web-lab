@@ -1,0 +1,39 @@
+{
+  "entries": [
+    {
+      "username": "bartoszch",
+      "message": "fasdfaaf",
+      "timestamp": "2025-12-31 00:30:00"
+    },
+    {
+      "username": "bartoszch",
+      "message": "sdaffasdf",
+      "timestamp": "2025-12-30 22:12:52"
+    },
+    {
+      "username": "bartoszch",
+      "message": "now now",
+      "timestamp": "2025-12-30 22:12:28"
+    },
+    {
+      "username": "bartoszch",
+      "message": "sdfg",
+      "timestamp": "2025-12-30 21:47:38"
+    },
+    {
+      "username": "bartoszch",
+      "message": "To jest test wiadomosci",
+      "timestamp": "2025-12-30 21:47:51"
+    },
+    {
+      "username": "bartoszch",
+      "message": "this is another entry!",
+      "timestamp": "2025-12-30 22:00:42"
+    },
+    {
+      "username": "bartoszch",
+      "message": "test test",
+      "timestamp": "2025-12-30 22:02:19"
+    }
+  ]
+}

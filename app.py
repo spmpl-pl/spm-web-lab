@@ -20,6 +20,11 @@ def save_guestbook(data):
     with open(GUESTBOOK_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
+def load_ProductDB():
+    with open("ProductDB.json") as f:
+        return json.load(f)
+
+
 with open("UserData.json") as f:
     users = json.load(f)
 
@@ -28,8 +33,12 @@ def index():
     return render_template('index.html')
 
 @app.route('/panel')
-def info():
+def panel_page():
     return render_template('panel.html')
+
+@app.route('/webshop')
+def webshop_page():
+    return render_template('webshop.html')
 
 @app.route('/login')
 def login_page():
@@ -128,6 +137,38 @@ def lab_GetSum():
 def lab_GetUserData():
     data = request.json  # Get JSON data from frontend
     return jsonify({"status": 200, "status_message": "OK", "data": users.get(data["id"])})
+
+@app.route('/api/GetProductOverview', methods=['GET'])
+def lab_GetProductOverview():
+    data = load_ProductDB()
+    flat_products = []
+    for category in data:
+        cat_id = category["category_id"]
+        cat_name = category["category_name"]
+        for product in category["products"]:
+            flat_product = {
+                "id": product["id"],
+                "name": product["name"],
+                "description": product.get("description", ""),
+                "category_id": cat_id,
+                "category_name": cat_name
+            }       
+            flat_products.append(flat_product)
+    return jsonify({"status": 200, "status_message": "OK", "data": flat_products})
+
+
+@app.route('/api/GetProduct', methods=['POST'])
+def lab_GetProduct():
+    products = load_ProductDB()
+    data = request.json  # Get JSON data from frontend
+
+    for category in products:
+        if category["category_id"] == int(data["category"]):
+            for product in category["products"]:
+                if product["id"] == int(data["id"]):
+                    return jsonify({"status": 200, "status_message": "OK", "data": product})
+    return None
+
 
 @app.route('/api/ReflectInput', methods=['POST'])
 def lab_ReflectInput():
