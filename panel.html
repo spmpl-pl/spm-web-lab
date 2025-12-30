@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Python + Fetch Example</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <!-- Top menu -->
+  <nav class="top-menu">
+    <a href="/" class="menu-link">Home</a>
+    <a href="/panel" class="menu-link">Panel</a>
+    <a href="/login" id="loginlink" class="menu-link">Login</a>
+  </nav>
+
+<!--Login Information-->
+<div class="login-info" style="text-align: right">
+  <span id="usernameDisplay">Logged in as: user</span>
+  <button id="logoutButton">Logout</button>
+</div>
+
+  <!-- Main content -->
+  <div class="container">
+    <h1><p>API Panel</p></h1>
+
+    <!-- GetData Section -->
+     <p><b>GET Requests:</b></p>
+    <button id="GetDataButton">Get The Session Message (/api/data)</button>
+    <div id="GetDataResult" class="result"></div>
+
+    <!-- GetTime Section -->
+    <button id="GetTimeButton">Get The Current Time (/api/GetTime)</button>
+    <div id="GetTimeResult" class="result"></div>
+
+    <!-- GetDayOfWeek Section -->
+    <button id="GetDayOfWeekButton">Get The Day of The Week (/api/GetDayOfWeek)</button>
+    <div id="GetDayOfWeekResult" class="result"></div>
+    <br><br>
+    <p><b>POST Requests:</b></p>
+
+    <p>GetSum (POST /get/GetSum)</p>
+    <input type="text" id="GetSumInput1" placeholder="Argument 1">
+    <input type="text" id="GetSumInput2" placeholder="Argument 2">
+    <button id="GetSumButton">Reflect Input (POST /get/GetSum)</button>
+    <div id="GetSumResult" class="result"></div>
+
+    <p>Reflect Input (POST /get/ReflectInput)</p>
+    <input type="text" id="ReflectInputInput" placeholder="Type your message here">
+    <button id="ReflectInputButton">Reflect Input (POST /get/ReflectInput)</button>
+    <div id="ReflectInputResult" class="result"></div>
+  </div>
+
+  <script>
+
+    const logoutBtn = document.getElementById('logoutButton');
+    const usernameSpan = document.getElementById('usernameDisplay');
+    const loginlink = document.getElementById('loginlink');
+
+    // Display logged-in user and enable/disable logout
+    function updateUserInfo() {
+      fetch('/api/data')
+        .then(res => res.json())
+        .then(data => {
+          if(data.logged_in_as) {
+            usernameSpan.innerText = "Logged in as: " + data.logged_in_as;
+            logoutBtn.disabled = false;
+            loginlink.style.display = data.logged_in_as ? 'none' : 'inline-block';
+
+          } else {
+            usernameSpan.innerText = "Not logged in";
+            logoutBtn.disabled = true;
+          }
+        });
+    }
+
+    window.onload = updateUserInfo;
+
+    // Logout
+    logoutBtn.onclick = () => {
+      fetch('/logout')
+        .then(res => res.json())
+        .then(data => {
+          alert(data.message);
+          window.location.href = '/login';
+        });
+    };
+
+
+    // GETData request
+    document.getElementById('GetDataButton').onclick = () => {
+      fetch('/api/data')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('GetDataResult').innerText = data.message;
+        });
+    };
+    // GETTime request
+    document.getElementById('GetTimeButton').onclick = () => {
+      fetch('/api/GetTime')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('GetTimeResult').innerText = data.data;
+        });
+    };
+    // GETDayOfWeek request
+    document.getElementById('GetDayOfWeekButton').onclick = () => {
+      fetch('/api/GetDayOfWeek')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('GetDayOfWeekResult').innerText = data.data;
+        });
+    };
+
+
+      // GetSum POST Request
+    document.getElementById('GetSumButton').onclick = () => {
+      const a = document.getElementById('GetSumInput1').value
+      const b = document.getElementById('GetSumInput2').value
+
+      if (!a || !b)  {
+        alert("Please type a message!");
+        return;
+      }
+
+
+      fetch('/api/GetSum', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ arg1: a, arg2: b })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('GetSumResult').innerText = data.data;
+        document.getElementById('GetSumInput1').value = ''; // clear input
+        document.getElementById('GetSumInput2').value = ''; // clear input
+      });
+    };
+
+    // ReflectInput POST Request
+    document.getElementById('ReflectInputButton').onclick = () => {
+      const userInput = document.getElementById('ReflectInputInput').value;
+      if (!userInput) {
+        alert("Please type a message!");
+        return;
+      }
+
+      fetch('/api/ReflectInput', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ input: userInput })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('ReflectInputResult').innerText = data.data;
+        document.getElementById('ReflectInputInput').value = ''; // clear input
+      });
+    };
+
+  </script>
+</body>
+</html>
