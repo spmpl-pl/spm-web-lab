@@ -9,31 +9,34 @@ import os
 app = Flask(__name__)
 app.secret_key = "supersecretkey123"  # Needed for sessions
 
+file_basedir = os.path.dirname(os.path.abspath(__file__))
+file_guestbook = Path( os.path.join(file_basedir, "GuestBookEntries.json"))
+file_productdb = os.path.join(file_basedir, "ProductDB.json")
+file_userdb = os.path.join(file_basedir, "UserDB.json")
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+###### LOAD DATA FUNCTIONS 
 
-GUESTBOOK_FILE = Path( os.path.join(BASE_DIR, "GuestBookEntries.json"))
+def load_UserDB():
+    with open(file_userdb) as f:
+        return json.load(f)
+
+def load_ProductDB():
+    with open(file_productdb) as f:
+        return json.load(f)
+    
 def load_guestbook():
-    if not GUESTBOOK_FILE.exists():
+    if not file_guestbook.exists():
         return {"entries": []}
     
-    with open(GUESTBOOK_FILE, "r") as f:
+    with open(file_guestbook, "r") as f:
         return json.load(f)
 
 def save_guestbook(data):
-    with open(GUESTBOOK_FILE, "w") as f:
+    with open(file_guestbook, "w") as f:
         json.dump(data, f, indent=2)
 
 
-def load_ProductDB():
-    DATA_FILE = os.path.join(BASE_DIR, "ProductDB.json")
-    with open(DATA_FILE) as f:
-        return json.load(f)
-
-DATA_FILE = os.path.join(BASE_DIR, "UserData.json")
-with open(DATA_FILE) as f:
-    users = json.load(f)
-
+###### ERROR HANDLING 
 
 @app.errorhandler(500)
 def handle_500(error):
@@ -42,6 +45,9 @@ def handle_500(error):
         "status_message": "Internal Server Error"
     }), 500
 
+
+
+###### ROUTING 
 
 @app.route('/')
 def index():
@@ -67,24 +73,17 @@ def guestbook_page():
 def accountinfo_page():
     return render_template('accountinfo.html')
 
-@app.route('/logout')
-def logout():
-    session.clear()  # remove session
-    return jsonify({"success": True, "message": "Logged out. Thank you for using this demo environment;]"})
 
-@app.route('/api/GetSession', methods=['GET'])
-def get_data():
-    username = session.get("first_name")
-    msg = f"Hello {username}! This is SPM LAB! Enjoy your day!" if username else "Hello from SPM LAB! Not logged in."
-    return jsonify({"message": msg, "username": username, "userid": session.get("userid"), "first_name": session.get("first_name"), "last_name": session.get("last_name") })
+###### API FUNCTIONS 
 
 @app.route('/api/login', methods=['POST'])
-def login():
+def api_login():
     data = request.json
     username = data.get("username", "")
     password = data.get("password", "")
 
     password_md5 = hashlib.md5(password.encode()).hexdigest()
+    users = load_UserDB()
 
     # Search for user in JSON
     for user_id, user in users.items():
@@ -98,9 +97,21 @@ def login():
     return jsonify({"success": False, "message": "Invalid username or password"})
 
 
+@app.route('/logout')
+def api_logout():
+    session.clear() 
+    return jsonify({"success": True, "message": "Logged out. Thank you for using this demo environment;]"})
+
+
+@app.route('/api/GetSession', methods=['GET'])
+def api_GetSession():
+    username = session.get("first_name")
+    msg = f"Hello {username}! This is SPM LAB! Enjoy your day!" if username else "Hello from SPM LAB! Not logged in."
+    return jsonify({"message": msg, "username": username, "userid": session.get("userid"), "first_name": session.get("first_name"), "last_name": session.get("last_name") })
+
 
 @app.route('/api/GetSum', methods=['POST'])
-def lab_GetSum():
+def api_GetSum():
     data = request.json  # Get JSON data from frontend
     try:
         arg1 = int(data["arg1"])
@@ -111,18 +122,22 @@ def lab_GetSum():
     sum = arg1 + arg2
     return jsonify({"sum": sum})
 
+
 @app.route('/api/GetUserData', methods=['POST'])
-def lab_GetUserData():
+def api_GetUserData():
     if ( "username" not in session ):
         return jsonify({"error_message": "Not Authenticated"}), 401
     
     data = request.json  # Get JSON data from frontend
+    users = load_UserDB()
+
     if data["id"] == "' OR 1 = 1;":
         return jsonify(users)
     return jsonify(users.get(data["id"]))
 
+
 @app.route('/api/GetProductOverview', methods=['GET'])
-def lab_GetProductOverview():
+def api_GetProductOverview():
     data = load_ProductDB()
     flat_products = []
     for category in data:
@@ -141,9 +156,9 @@ def lab_GetProductOverview():
 
 
 @app.route('/api/GetProduct', methods=['POST'])
-def lab_GetProduct():
+def api_GetProduct():
     if ( "username" not in session ):
-        return jsonify({"status": 401, "status_message": "Not Authenticated", "data": "Not Authenticated"}), 401
+        return jsonify({"error_message": "Not Authenticated"}), 401
     
     products = load_ProductDB()
     data = request.json  # Get JSON data from frontend
@@ -157,20 +172,18 @@ def lab_GetProduct():
     return None
 
 
-@app.route("/api/guestbook", methods=["GET"])
-def get_entries():
+@app.route("/api/GuestBook", methods=["GET"])
+def api_guestbook_get():
     if ( "username" not in session ):
         return jsonify({"error_message": "Not Authenticated"}), 401
     data = load_guestbook()
     return jsonify(data["entries"])
 
 
-@app.route("/api/guestbook", methods=["POST"])
-def add_entry():
+@app.route("/api/GuestBook", methods=["POST"])
+def api_guestbook_post():
     payload = request.json
-    if ( "username" not in session ):
-        return jsonify({"error_message": "Not Authenticated"}), 401
-    
+
     first_name = session.get("first_name")
     last_name = session.get("last_name")
     message = payload.get("message", "").strip()
@@ -179,7 +192,7 @@ def add_entry():
         return jsonify({"error": "Message required"}), 400
 
     entry = {
-        "username": first_name + " " + last_name,
+        "username": str(first_name) + " " + str(last_name),
         "message": message,
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
@@ -191,13 +204,15 @@ def add_entry():
     return jsonify({"success": True})
 
 
-@app.route("/api/guestbook", methods=["DELETE"])
-def delete_entry():
- 
+@app.route("/api/GuestBook", methods=["DELETE"])
+def api_guestbook_delete():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
     data = { "entries": [] }
     save_guestbook(data)
     return jsonify({"success": True})
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

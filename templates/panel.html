@@ -29,12 +29,16 @@
     <div id="GetProductResult" class="result"></div>
 
     <br>
-    <p>Get User Data (POST /get/GetUserData)</p>
+    <p>Get User Data (POST /api/GetUserData)</p>
     <input type="text" id="GetUserDataInput" placeholder="Type the userID">
-    <button id="GetUserDataButton">Get User Data (POST /get/GetUserData)</button>
+    <button id="GetUserDataButton">Get User Data (POST /api/GetUserData)</button>
     <div id="GetUserDataResult" class="result"></div>
 
-
+    <br>
+    <p>Guestbook (POST /api/GuestBook)</p>
+    <input type="text" id="GuestBookInput" placeholder="Type the userID">
+    <button id="GuestBookButton">GuestBook Data (POST /api/GetUserData)</button>
+    <div id="GuestBookResult" class="result"></div>
 
   <script>
 
@@ -85,8 +89,6 @@
       .then(res => res.json())
       .then(data => {
         document.getElementById('GetProductResult').innerText = JSON.stringify(data, null, 2);;
-        //a.value = ''; // clear input
-        //b.value = ''; // clear input
       });
     };
 
@@ -108,11 +110,27 @@
       .then(res => res.json())
       .then(data => {
         document.getElementById('GetUserDataResult').innerText = JSON.stringify(data, null, 2);
-        //document.getElementById('GetUserDataInput').value = ''; // clear input
       });
     };
 
+    // GuestBook POST Request
+    document.getElementById('GuestBookButton').onclick = () => {
+      const userInput = document.getElementById('GuestBookInput').value;
+      if (!userInput) {
+        alert("Please type a message!");
+        return;
+      }
 
+      fetch('/api/GuestBook', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userInput })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('GuestBookResult').innerText = JSON.stringify(data, null, 2);
+      });
+    };
 
   </script>
 

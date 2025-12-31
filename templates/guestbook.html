@@ -31,7 +31,7 @@
       return;
     }
 
-    fetch("/api/guestbook", {
+    fetch("/api/GuestBook", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message })
@@ -44,7 +44,7 @@
 
   document.getElementById("DeleteEntries").onclick = () => {
 
-    fetch("/api/guestbook", {
+    fetch("/api/GuestBook", {
       method: "DELETE",
       headers: { "Content-Type": "application/json" }
     })
@@ -59,7 +59,7 @@
 });
 
 function loadEntries() {
-  fetch("/api/guestbook")
+  fetch("/api/GuestBook")
     .then(res => res.json())
     .then(entries => {
       const ul = document.getElementById("entries");
