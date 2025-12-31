@@ -96,6 +96,8 @@ def login():
 # GUESTBOOK
 @app.route("/api/guestbook", methods=["GET"])
 def get_entries():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
     data = load_guestbook()
     return jsonify(data["entries"])
 
