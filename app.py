@@ -97,7 +97,7 @@ def api_login():
     return jsonify({"success": False, "message": "Invalid username or password"})
 
 
-@app.route('/logout')
+@app.route('/api/logout')
 def api_logout():
     session.clear() 
     return jsonify({"success": True, "message": "Logged out. Thank you for using this demo environment;]"})

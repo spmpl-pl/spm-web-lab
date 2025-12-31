@@ -39,7 +39,7 @@
 
     // Logout
     LogoutButton.onclick = () => {
-      fetch('/logout')
+      fetch('/api/logout')
         .then(res => res.json())
         .then(data => {
           alert(data.message);

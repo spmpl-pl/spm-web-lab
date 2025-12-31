@@ -21,7 +21,7 @@
 <script>
   
   document.addEventListener("DOMContentLoaded", () => {
-  loadEntries();
+  LoadEntries();
 
   document.getElementById("submitEntry").onclick = () => {
     const message = document.getElementById("message").value.trim();
@@ -38,7 +38,7 @@
     })
     .then(() => {
       document.getElementById("message").value = "";
-      loadEntries();
+      LoadEntries();
     });
   };
 
@@ -58,7 +58,7 @@
   };
 });
 
-function loadEntries() {
+function LoadEntries() {
   fetch("/api/GuestBook")
     .then(res => res.json())
     .then(entries => {

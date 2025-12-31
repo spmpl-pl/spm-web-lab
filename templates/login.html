@@ -10,14 +10,11 @@
     <button id="loginButton">Login</button>
     <div id="loginResult" class="result"></div>
 
-
   <script>
-
 
     document.getElementById('loginButton').onclick = () => {
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
-
 
       fetch('/api/login', {
         method: 'POST',
