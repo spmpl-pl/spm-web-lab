@@ -144,7 +144,11 @@ def lab_GetDayOfWeek():
 @app.route('/api/GetSum', methods=['POST'])
 def lab_GetSum():
     data = request.json  # Get JSON data from frontend
-    arg1 = int(data["arg1"])
+    try:
+        arg1 = int(data["arg1"])
+    except (ValueError, TypeError): 
+        return jsonify({"error_message": "Invalid argument type"}), 400
+    
     arg2 = int(data["arg2"])
     sum = arg1 + arg2
     return jsonify({"sum": sum})
