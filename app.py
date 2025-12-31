@@ -10,8 +10,6 @@ app = Flask(__name__)
 app.secret_key = "supersecretkey123"  # Needed for sessions
 
 
-
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 GUESTBOOK_FILE = Path( os.path.join(BASE_DIR, "GuestBookEntries.json"))
@@ -74,14 +72,11 @@ def logout():
     session.clear()  # remove session
     return jsonify({"success": True, "message": "Logged out. Thank you for using this demo environment;]"})
 
-
-
 @app.route('/api/GetSession', methods=['GET'])
 def get_data():
     username = session.get("first_name")
     msg = f"Hello {username}! This is SPM LAB! Enjoy your day!" if username else "Hello from SPM LAB! Not logged in."
     return jsonify({"message": msg, "username": username, "userid": session.get("userid"), "first_name": session.get("first_name"), "last_name": session.get("last_name") })
-
 
 @app.route('/api/login', methods=['POST'])
 def login():
@@ -193,6 +188,14 @@ def add_entry():
     data["entries"].insert(0, entry)
     save_guestbook(data)
 
+    return jsonify({"success": True})
+
+
+@app.route("/api/guestbook", methods=["DELETE"])
+def delete_entry():
+ 
+    data = { "entries": [] }
+    save_guestbook(data)
     return jsonify({"success": True})
 
 

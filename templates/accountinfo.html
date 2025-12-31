@@ -20,9 +20,11 @@
         <li>Zip Code: <span id="accountinfo_zipcode"></span></li>
         <li>Country: <span id="accountinfo_country"></span></li>
     </ul>
-
+      <br>
+      <button id="RefreshData">Refresh Data</button>
 <script>
-
+    function GetUserData()
+    {
       fetch('/api/GetSession')
         .then(res => res.json())
         .then(data => {
@@ -51,8 +53,13 @@
               });
           } 
         });
- 
-    
+    }
+    GetUserData();
+
+    document.getElementById("RefreshData").onclick = () => {
+    GetUserData();
+    };
+
 </script>
 
 {% endblock %}

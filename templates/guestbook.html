@@ -13,12 +13,14 @@
 <div class="guestbook-form">
   <textarea type="text" rows="5" id="message" placeholder="Your message"></textarea>
   <button id="submitEntry">Sign Guest Book</button>
+  <button id="DeleteEntries">Delete Entries</button>
 </div>
 
 <ul id="entries"></ul>
 
 <script>
-document.addEventListener("DOMContentLoaded", () => {
+  
+  document.addEventListener("DOMContentLoaded", () => {
   loadEntries();
 
   document.getElementById("submitEntry").onclick = () => {
@@ -38,6 +40,21 @@ document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("message").value = "";
       loadEntries();
     });
+  };
+
+  document.getElementById("DeleteEntries").onclick = () => {
+
+    fetch("/api/guestbook", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(data => {
+        loadEntries();
+        if(data.success) {
+          alert("Successfully deleted the Guest Book!")
+        }
+      });
   };
 });
 
