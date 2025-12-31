@@ -14,7 +14,7 @@ app.secret_key = "supersecretkey123"  # Needed for sessions
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-GUESTBOOK_FILE = Path("GuestBookEntries.json")
+GUESTBOOK_FILE = Path( os.path.join(BASE_DIR, "GuestBookEntries.json"))
 def load_guestbook():
     if not GUESTBOOK_FILE.exists():
         return {"entries": []}
