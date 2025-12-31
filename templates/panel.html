@@ -8,48 +8,36 @@
     <h1><p>API Panel</p></h1>
 
     <!-- GetGetSession Section -->
-     <p><b>GET Requests:</b></p>
+
+    <p>GetSession (POST /api/GetSession)</p>
     <button id="GetGetSessionButton">Get The Session Data (/api/GetSession)</button>
     <div id="GetGetSessionResult" class="result"></div>
 
-
-    <!-- GetTime Section -->
-    <button id="GetTimeButton">Get The Current Time (/api/GetTime)</button>
-    <div id="GetTimeResult" class="result"></div>
-
-
-    <!-- GetDayOfWeek Section -->
-    <button id="GetDayOfWeekButton">Get The Day of The Week (/api/GetDayOfWeek)</button>
-    <div id="GetDayOfWeekResult" class="result"></div>
    
-    <br><br>
-    <p><b>POST Requests:</b></p>
+    <br>
     <p>GetSum (POST /api/GetSum)</p>
     <input type="text" id="GetSumInput1" placeholder="Argument 1">
     <input type="text" id="GetSumInput2" placeholder="Argument 2">
     <button id="GetSumButton">Get Sum (POST /get/GetSum)</button>
     <div id="GetSumResult" class="result"></div>
 
+    <br>
     <p>GetProduct (POST /api/GetProduct)</p>
     <input type="text" id="GetProductCategory" placeholder="Product Category ID">
     <input type="text" id="GetProductId" placeholder="Product ID">
     <button id="GetProductButton">Get Product (POST /api/GetProduct)</button>
     <div id="GetProductResult" class="result"></div>
 
+    <br>
     <p>Get User Data (POST /get/GetUserData)</p>
     <input type="text" id="GetUserDataInput" placeholder="Type the userID">
     <button id="GetUserDataButton">Get User Data (POST /get/GetUserData)</button>
     <div id="GetUserDataResult" class="result"></div>
-  
-    <p>Reflect Input (POST /get/ReflectInput)</p>
-    <input type="text" id="ReflectInputInput" placeholder="Type your message here">
-    <button id="ReflectInputButton">Reflect Input (POST /get/ReflectInput)</button>
-    <div id="ReflectInputResult" class="result"></div>
+
 
 
   <script>
 
-    // GETData request
     document.getElementById('GetGetSessionButton').onclick = () => {
       fetch('/api/GetSession')
         .then(res => res.json())
@@ -57,23 +45,6 @@
           document.getElementById('GetGetSessionResult').innerText = JSON.stringify(data, null, 2);
         });
     };
-    // GETTime request
-    document.getElementById('GetTimeButton').onclick = () => {
-      fetch('/api/GetTime')
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('GetTimeResult').innerText = JSON.stringify(data, null, 2);
-        });
-    };
-    // GETDayOfWeek request
-    document.getElementById('GetDayOfWeekButton').onclick = () => {
-      fetch('/api/GetDayOfWeek')
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('GetDayOfWeekResult').innerText = JSON.stringify(data, null, 2);
-        });
-    };
-
 
       // GetSum POST Request
     document.getElementById('GetSumButton').onclick = () => {
@@ -114,8 +85,8 @@
       .then(res => res.json())
       .then(data => {
         document.getElementById('GetProductResult').innerText = JSON.stringify(data, null, 2);;
-        a.value = ''; // clear input
-        b.value = ''; // clear input
+        //a.value = ''; // clear input
+        //b.value = ''; // clear input
       });
     };
 
@@ -137,29 +108,7 @@
       .then(res => res.json())
       .then(data => {
         document.getElementById('GetUserDataResult').innerText = JSON.stringify(data, null, 2);
-        document.getElementById('GetUserDataInput').value = ''; // clear input
-      });
-    };
-
-
-
-    // ReflectInput POST Request
-    document.getElementById('ReflectInputButton').onclick = () => {
-      const userInput = document.getElementById('ReflectInputInput').value;
-      if (!userInput) {
-        alert("Please type a message!");
-        return;
-      }
-
-      fetch('/api/ReflectInput', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ input: userInput })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('ReflectInputResult').innerText = JSON.stringify(data, null, 2);
-        document.getElementById('ReflectInputInput').value = ''; // clear input
+        //document.getElementById('GetUserDataInput').value = ''; // clear input
       });
     };
 

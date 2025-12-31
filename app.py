@@ -75,14 +75,14 @@ def logout():
     return jsonify({"success": True, "message": "Logged out. Thank you for using this demo environment;]"})
 
 
-# Example route to return data
+
 @app.route('/api/GetSession', methods=['GET'])
 def get_data():
-    username = session.get("username")
-    msg = f"Hello from SPM LAB! Logged in as {username}" if username else "Hello from SPM LAB! Not logged in."
+    username = session.get("first_name")
+    msg = f"Hello {username}! This is SPM LAB! Enjoy your day!" if username else "Hello from SPM LAB! Not logged in."
     return jsonify({"message": msg, "username": username, "userid": session.get("userid"), "first_name": session.get("first_name"), "last_name": session.get("last_name") })
 
-# Login Support
+
 @app.route('/api/login', methods=['POST'])
 def login():
     data = request.json
@@ -102,13 +102,73 @@ def login():
 
     return jsonify({"success": False, "message": "Invalid username or password"})
 
-# GUESTBOOK
+
+
+@app.route('/api/GetSum', methods=['POST'])
+def lab_GetSum():
+    data = request.json  # Get JSON data from frontend
+    try:
+        arg1 = int(data["arg1"])
+    except (ValueError, TypeError): 
+        return jsonify({"error_message": "Invalid argument type"}), 400
+    
+    arg2 = int(data["arg2"])
+    sum = arg1 + arg2
+    return jsonify({"sum": sum})
+
+@app.route('/api/GetUserData', methods=['POST'])
+def lab_GetUserData():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    data = request.json  # Get JSON data from frontend
+    if data["id"] == "' OR 1 = 1;":
+        return jsonify(users)
+    return jsonify(users.get(data["id"]))
+
+@app.route('/api/GetProductOverview', methods=['GET'])
+def lab_GetProductOverview():
+    data = load_ProductDB()
+    flat_products = []
+    for category in data:
+        cat_id = category["category_id"]
+        cat_name = category["category_name"]
+        for product in category["products"]:
+            flat_product = {
+                "id": product["id"],
+                "name": product["name"],
+                "description": product.get("description", ""),
+                "category_id": cat_id,
+                "category_name": cat_name
+            }       
+            flat_products.append(flat_product)
+    return jsonify({"status": 200, "status_message": "OK", "data": flat_products})
+
+
+@app.route('/api/GetProduct', methods=['POST'])
+def lab_GetProduct():
+    if ( "username" not in session ):
+        return jsonify({"status": 401, "status_message": "Not Authenticated", "data": "Not Authenticated"}), 401
+    
+    products = load_ProductDB()
+    data = request.json  # Get JSON data from frontend
+
+    
+    for category in products:
+        if category["category_id"] == int(data["category"]):
+            for product in category["products"]:
+                if product["id"] == int(data["id"]):
+                    return jsonify(product)
+    return None
+
+
 @app.route("/api/guestbook", methods=["GET"])
 def get_entries():
     if ( "username" not in session ):
         return jsonify({"error_message": "Not Authenticated"}), 401
     data = load_guestbook()
     return jsonify(data["entries"])
+
 
 @app.route("/api/guestbook", methods=["POST"])
 def add_entry():
@@ -135,79 +195,6 @@ def add_entry():
 
     return jsonify({"success": True})
 
-
-##
-## Other API Calls
-##
-
-@app.route('/api/GetTime', methods=['GET'])
-def lab_GetTime():
-    time = datetime.now()
-    return jsonify({"time": time})
-
-@app.route('/api/GetDayOfWeek', methods=['GET'])
-def lab_GetDayOfWeek():
-    weekday = datetime.now().strftime("%A")
-    return jsonify({"weekday": weekday})
-
-@app.route('/api/GetSum', methods=['POST'])
-def lab_GetSum():
-    data = request.json  # Get JSON data from frontend
-    try:
-        arg1 = int(data["arg1"])
-    except (ValueError, TypeError): 
-        return jsonify({"error_message": "Invalid argument type"}), 400
-    
-    arg2 = int(data["arg2"])
-    sum = arg1 + arg2
-    return jsonify({"sum": sum})
-
-@app.route('/api/GetUserData', methods=['POST'])
-def lab_GetUserData():
-    data = request.json  # Get JSON data from frontend
-    if ( "username" not in session ):
-        return jsonify({"error_message": "Not Authenticated"}), 401
-    
-    return jsonify(users.get(data["id"]))
-
-@app.route('/api/GetProductOverview', methods=['GET'])
-def lab_GetProductOverview():
-    data = load_ProductDB()
-    flat_products = []
-    for category in data:
-        cat_id = category["category_id"]
-        cat_name = category["category_name"]
-        for product in category["products"]:
-            flat_product = {
-                "id": product["id"],
-                "name": product["name"],
-                "description": product.get("description", ""),
-                "category_id": cat_id,
-                "category_name": cat_name
-            }       
-            flat_products.append(flat_product)
-    return jsonify({"status": 200, "status_message": "OK", "data": flat_products})
-
-
-@app.route('/api/GetProduct', methods=['POST'])
-def lab_GetProduct():
-    products = load_ProductDB()
-    data = request.json  # Get JSON data from frontend
-    if ( "username" not in session ):
-        return jsonify({"status": 401, "status_message": "Not Authenticated", "data": "Not Authenticated"}), 401
-    else:
-        for category in products:
-            if category["category_id"] == int(data["category"]):
-                for product in category["products"]:
-                    if product["id"] == int(data["id"]):
-                        return jsonify(product)
-        return None
-
-
-@app.route('/api/ReflectInput', methods=['POST'])
-def lab_ReflectInput():
-    data = request.json  # Get JSON data from frontend
-    return jsonify({"status": 200, "status_message": "OK", "data": data["input"]})
 
 if __name__ == '__main__':
     app.run(debug=True)
