@@ -163,14 +163,11 @@ def api_GetProduct():
     products = load_ProductDB()
     data = request.json 
 
-    input_category = data["category"]
-    input_id = data["id"]
-
-    if input_category and input_id:
+    if data["category"] and data["id"]:
         for category in products:
-            if category["category_id"] == int(input_category):
+            if category["category_id"] == int(data["category"]):
                 for product in category["products"]:
-                    if product["id"] == int(input_id):
+                    if product["id"] == int(data["id"]):
                         return jsonify(product)
     
     return jsonify({"error_message": "Unknown Error"}), 400
