@@ -1,8 +1,8 @@
-# lab-site
-#Lab Site Project
+
+# Lab Site Project
 
 
-##Functions:
+## Functions:
 
 /api/GetUserData - BOLA, SQL Injection
 /api/GetSum - Input Validation.
