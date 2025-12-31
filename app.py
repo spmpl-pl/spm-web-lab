@@ -102,14 +102,18 @@ def get_entries():
 @app.route("/api/guestbook", methods=["POST"])
 def add_entry():
     payload = request.json
-    username = session.get("username")
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    first_name = session.get("first_name")
+    last_name = session.get("last_name")
     message = payload.get("message", "").strip()
 
-    if not username or not message:
-        return jsonify({"error": "Name and message required"}), 400
+    if not message:
+        return jsonify({"error": "Message required"}), 400
 
     entry = {
-        "username": username,
+        "username": first_name + " " + last_name,
         "message": message,
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
@@ -148,8 +152,8 @@ def lab_GetUserData():
     data = request.json  # Get JSON data from frontend
     if ( "username" not in session ):
         return jsonify({"error_message": "Not Authenticated"}), 401
-    else:
-        return jsonify(users.get(data["id"]))
+    
+    return jsonify(users.get(data["id"]))
 
 @app.route('/api/GetProductOverview', methods=['GET'])
 def lab_GetProductOverview():

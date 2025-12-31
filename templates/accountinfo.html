@@ -34,19 +34,19 @@
             })
               .then(res => res.json())
               .then(data => {
-                document.getElementById('accountinfo_first_name').textContent = data.data.first_name;
-                document.getElementById('accountinfo_last_name').textContent = data.data.last_name;
-                document.getElementById('accountinfo_gender').textContent = data.data.gender;
-                document.getElementById('accountinfo_dob').textContent = data.data.dob;
-                document.getElementById('accountinfo_ssn').textContent = data.data.ssn;
-                document.getElementById('accountinfo_phonenum').textContent = data.data.phonenum;
-                document.getElementById('accountinfo_email').textContent = data.data.email;
-                document.getElementById('accountinfo_cc_number').textContent = data.data.cc_number;
-                document.getElementById('accountinfo_streetaddr').textContent = data.data.streetaddr;
-                document.getElementById('accountinfo_city').textContent = data.data.city;
-                document.getElementById('accountinfo_cc_state').textContent = data.data.cc_state;
-                document.getElementById('accountinfo_zipcode').textContent = data.data.zipcode;
-                document.getElementById('accountinfo_country').textContent = data.data.country;
+                document.getElementById('accountinfo_first_name').textContent = data.first_name;
+                document.getElementById('accountinfo_last_name').textContent = data.last_name;
+                document.getElementById('accountinfo_gender').textContent = data.gender;
+                document.getElementById('accountinfo_dob').textContent = data.dob;
+                document.getElementById('accountinfo_ssn').textContent = data.ssn;
+                document.getElementById('accountinfo_phonenum').textContent = data.phonenum;
+                document.getElementById('accountinfo_email').textContent = data.email;
+                document.getElementById('accountinfo_cc_number').textContent = data.cc_number;
+                document.getElementById('accountinfo_streetaddr').textContent = data.streetaddr;
+                document.getElementById('accountinfo_city').textContent = data.city;
+                document.getElementById('accountinfo_cc_state').textContent = data.cc_state;
+                document.getElementById('accountinfo_zipcode').textContent = data.zipcode;
+                document.getElementById('accountinfo_country').textContent = data.country;
 
               });
           } 
