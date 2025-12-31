@@ -36,6 +36,15 @@ DATA_FILE = os.path.join(BASE_DIR, "UserData.json")
 with open(DATA_FILE) as f:
     users = json.load(f)
 
+
+@app.errorhandler(500)
+def handle_500(error):
+    return jsonify({
+        "status": 500,
+        "status_message": "Internal Server Error"
+    }), 500
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
