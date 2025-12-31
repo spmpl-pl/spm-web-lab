@@ -27,12 +27,12 @@
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          document.getElementById('loginResult').innerText = data.message;
+          document.getElementById('loginResult').innerText = JSON.stringify(data, null, 2);;
             setTimeout(() => {
             window.location.href = '/';
-            }, 1000);
+            }, 2000);
         } else {
-          document.getElementById('loginResult').innerText = data.message;
+          document.getElementById('loginResult').innerText = JSON.stringify(data, null, 2);;
         }
       });
     };

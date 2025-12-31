@@ -9,54 +9,37 @@
 
 <!--Login Information-->
     <div class="login-info">
-      <span id="usernameDisplay">Not logged in</span>
-      <button id="logoutButton">Logout</button>
+      <span id="UsernameField">Not logged in</span>
+      <button id="LogoutButton">Logout</button>
     </div>
 
 <script>
 
-    const logoutBtn = document.getElementById('logoutButton');
-    const usernameSpan = document.getElementById('usernameDisplay');
-    var userid = ""
+    const UsernameField = document.getElementById('UsernameField');
+    const LogoutButton = document.getElementById('LogoutButton');
 
     // Display logged-in user and enable/disable logout
-    function updateUserInfo() {
-      fetch('/api/data')
-        .then(res => res.json())
-        .then(data => {
-          if(data.username) {
-            usernameSpan.innerText = "Logged in as: [ " + data.username + " ]";
-            userid = data.userid
-            //extract the name of the user instad of username once the GetUserData API is ready. 
-            fetch('/api/GetUserData', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ id: data.userid })
-            })
-              .then(res => res.json())
-              .then(data => {
-                usernameSpan.innerText = "Logged in as: [ " + data.data.first_name + " " + data.data.last_name + " ]";
-              });
+    fetch('/api/GetSession')
+      .then(res => res.json())
+      .then(data => {
+        
+        if(data.username) {
+          UsernameField.innerText = "Logged in as: [ " + data.first_name + " " + data.last_name + " ]";
+          LogoutButton.disabled = false;
+          loginlink = document.getElementById('loginlink').style.display = 'none'
 
-            logoutBtn.disabled = false;
-            loginlink = document.getElementById('loginlink').style.display = 'none'
-
-          } else {
-            usernameSpan.innerText = "Not logged in";
-            userid = null;
-            logoutBtn.disabled = true;
-            document.getElementById('accountinfolink').style.display =  'none'; 
-            document.getElementById('guestbooklink').style.display = 'none';
-          }
-        });
-    }
-
-    window.onload = updateUserInfo;
-
-
+        } else {
+          UsernameField.innerText = "Not logged in";
+          userid = null;
+          LogoutButton.disabled = true;
+          document.getElementById('accountinfolink').style.display =  'none'; 
+          document.getElementById('guestbooklink').style.display = 'none';
+        }
+      });
+  
 
     // Logout
-    logoutBtn.onclick = () => {
+    LogoutButton.onclick = () => {
       fetch('/logout')
         .then(res => res.json())
         .then(data => {

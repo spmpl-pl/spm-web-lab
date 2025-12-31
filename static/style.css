@@ -108,7 +108,7 @@ textarea {
   font-size: 14px;
 }
 
-#logoutButton {
+#LogoutButton {
   padding: 5px 10px;
   border: none;
   border-radius: 5px;
@@ -119,12 +119,12 @@ textarea {
   min-width: 0;         /* remove inherited min-width if any */
 }
 
-#logoutButton:hover {
+#LogoutButton:hover {
   background-color: #c82333;
 }
 
 /* Disabled state */
-#logoutButton:disabled {
+#LogoutButton:disabled {
   background-color: #aaa;      /* gray color */
   cursor: not-allowed;
   opacity: 0.7;

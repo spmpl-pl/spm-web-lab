@@ -67,11 +67,11 @@ def logout():
 
 
 # Example route to return data
-@app.route('/api/data', methods=['GET'])
+@app.route('/api/GetSession', methods=['GET'])
 def get_data():
     username = session.get("username")
     msg = f"Hello from SPM LAB! Logged in as {username}" if username else "Hello from SPM LAB! Not logged in."
-    return jsonify({"message": msg, "username": username, "userid": session.get("userid")})
+    return jsonify({"message": msg, "username": username, "userid": session.get("userid"), "first_name": session.get("first_name"), "last_name": session.get("last_name") })
 
 # Login Support
 @app.route('/api/login', methods=['POST'])
@@ -87,6 +87,8 @@ def login():
         if user.get("username") == username and user.get("password") == password_md5:
             session["username"] = username
             session["userid"] = user_id
+            session["first_name"] = user.get("first_name")
+            session["last_name"] = user.get("last_name")
             return jsonify({"success": True, "message": "Login successful"})
 
     return jsonify({"success": False, "message": "Invalid username or password"})
@@ -126,12 +128,12 @@ def add_entry():
 @app.route('/api/GetTime', methods=['GET'])
 def lab_GetTime():
     time = datetime.now()
-    return jsonify({"status": 200, "status_message": "OK", "data": time})
+    return jsonify({"time": time})
 
 @app.route('/api/GetDayOfWeek', methods=['GET'])
 def lab_GetDayOfWeek():
     weekday = datetime.now().strftime("%A")
-    return jsonify({"status": 200, "status_message": "OK", "data": weekday})
+    return jsonify({"weekday": weekday})
 
 @app.route('/api/GetSum', methods=['POST'])
 def lab_GetSum():
@@ -139,15 +141,15 @@ def lab_GetSum():
     arg1 = int(data["arg1"])
     arg2 = int(data["arg2"])
     sum = arg1 + arg2
-    return jsonify({"status": 200, "status_message": "OK", "data": sum})
+    return jsonify({"sum": sum})
 
 @app.route('/api/GetUserData', methods=['POST'])
 def lab_GetUserData():
     data = request.json  # Get JSON data from frontend
     if ( "username" not in session ):
-        return jsonify({"status": 401, "status_message": "Not Authenticated", "data": "Not Authenticated"}), 401
+        return jsonify({"error_message": "Not Authenticated"}), 401
     else:
-        return jsonify({"status": 200, "status_message": "OK", "data": users.get(data["id"])})
+        return jsonify(users.get(data["id"]))
 
 @app.route('/api/GetProductOverview', methods=['GET'])
 def lab_GetProductOverview():
@@ -179,7 +181,7 @@ def lab_GetProduct():
             if category["category_id"] == int(data["category"]):
                 for product in category["products"]:
                     if product["id"] == int(data["id"]):
-                        return jsonify({"status": 200, "status_message": "OK", "data": product})
+                        return jsonify(product)
         return None
 
 

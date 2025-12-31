@@ -7,21 +7,23 @@
   <!-- Main content -->
     <h1><p>API Panel</p></h1>
 
-    <!-- GetData Section -->
+    <!-- GetGetSession Section -->
      <p><b>GET Requests:</b></p>
-    <button id="GetDataButton">Get The Session Message (/api/data)</button>
-    <div id="GetDataResult" class="result"></div>
+    <button id="GetGetSessionButton">Get The Session Data (/api/GetSession)</button>
+    <div id="GetGetSessionResult" class="result"></div>
+
 
     <!-- GetTime Section -->
     <button id="GetTimeButton">Get The Current Time (/api/GetTime)</button>
     <div id="GetTimeResult" class="result"></div>
 
+
     <!-- GetDayOfWeek Section -->
     <button id="GetDayOfWeekButton">Get The Day of The Week (/api/GetDayOfWeek)</button>
     <div id="GetDayOfWeekResult" class="result"></div>
+   
     <br><br>
     <p><b>POST Requests:</b></p>
-
     <p>GetSum (POST /api/GetSum)</p>
     <input type="text" id="GetSumInput1" placeholder="Argument 1">
     <input type="text" id="GetSumInput2" placeholder="Argument 2">
@@ -48,11 +50,11 @@
   <script>
 
     // GETData request
-    document.getElementById('GetDataButton').onclick = () => {
-      fetch('/api/data')
+    document.getElementById('GetGetSessionButton').onclick = () => {
+      fetch('/api/GetSession')
         .then(res => res.json())
         .then(data => {
-          document.getElementById('GetDataResult').innerText = data.message;
+          document.getElementById('GetGetSessionResult').innerText = JSON.stringify(data, null, 2);
         });
     };
     // GETTime request
@@ -60,7 +62,7 @@
       fetch('/api/GetTime')
         .then(res => res.json())
         .then(data => {
-          document.getElementById('GetTimeResult').innerText = data.data;
+          document.getElementById('GetTimeResult').innerText = JSON.stringify(data, null, 2);
         });
     };
     // GETDayOfWeek request
@@ -68,7 +70,7 @@
       fetch('/api/GetDayOfWeek')
         .then(res => res.json())
         .then(data => {
-          document.getElementById('GetDayOfWeekResult').innerText = data.data;
+          document.getElementById('GetDayOfWeekResult').innerText = JSON.stringify(data, null, 2);
         });
     };
 
@@ -90,9 +92,7 @@
       })
       .then(res => res.json())
       .then(data => {
-        document.getElementById('GetSumResult').innerText = data.data;
-        document.getElementById('GetSumInput1').value = ''; // clear input
-        document.getElementById('GetSumInput2').value = ''; // clear input
+        document.getElementById('GetSumResult').innerText = JSON.stringify(data, null, 2);
       });
     };
 
@@ -113,7 +113,7 @@
       })
       .then(res => res.json())
       .then(data => {
-        document.getElementById('GetProductResult').innerText = JSON.stringify(data.data, null, 2);;
+        document.getElementById('GetProductResult').innerText = JSON.stringify(data, null, 2);;
         a.value = ''; // clear input
         b.value = ''; // clear input
       });
@@ -136,7 +136,7 @@
       })
       .then(res => res.json())
       .then(data => {
-        document.getElementById('GetUserDataResult').innerText = JSON.stringify(data.data, null, 2);
+        document.getElementById('GetUserDataResult').innerText = JSON.stringify(data, null, 2);
         document.getElementById('GetUserDataInput').value = ''; // clear input
       });
     };
@@ -158,7 +158,7 @@
       })
       .then(res => res.json())
       .then(data => {
-        document.getElementById('ReflectInputResult').innerText = data.data;
+        document.getElementById('ReflectInputResult').innerText = JSON.stringify(data, null, 2);
         document.getElementById('ReflectInputInput').value = ''; // clear input
       });
     };

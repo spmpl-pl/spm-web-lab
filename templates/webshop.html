@@ -56,7 +56,7 @@ document.querySelectorAll(".getPriceBtn").forEach(button => {
       })
       .then(res => res.json())
       .then(data => {
-        priceCell.textContent = data.data.price;
+        priceCell.textContent = data.price;
       });}
       catch (err) {
       console.error(err);
