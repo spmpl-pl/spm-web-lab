@@ -9,14 +9,16 @@ import os
 app = Flask(__name__)
 app.secret_key = "supersecretkey123"  # Needed for sessions
 
-GUESTBOOK_FILE = Path("GuestBookEntries.json")
+
 
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
+GUESTBOOK_FILE = Path("GuestBookEntries.json")
 def load_guestbook():
     if not GUESTBOOK_FILE.exists():
         return {"entries": []}
+    
     with open(GUESTBOOK_FILE, "r") as f:
         return json.load(f)
 
@@ -24,8 +26,10 @@ def save_guestbook(data):
     with open(GUESTBOOK_FILE, "w") as f:
         json.dump(data, f, indent=2)
 
+
 def load_ProductDB():
-    with open("ProductDB.json") as f:
+    DATA_FILE = os.path.join(BASE_DIR, "ProductDB.json")
+    with open(DATA_FILE) as f:
         return json.load(f)
 
 DATA_FILE = os.path.join(BASE_DIR, "UserData.json")
