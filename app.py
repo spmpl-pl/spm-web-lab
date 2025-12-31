@@ -161,15 +161,19 @@ def api_GetProduct():
         return jsonify({"error_message": "Not Authenticated"}), 401
     
     products = load_ProductDB()
-    data = request.json  # Get JSON data from frontend
+    data = request.json 
 
+    input_category = data["category"]
+    input_id = data["id"]
+
+    if input_category and input_id:
+        for category in products:
+            if category["category_id"] == int(input_category):
+                for product in category["products"]:
+                    if product["id"] == int(input_id):
+                        return jsonify(product)
     
-    for category in products:
-        if category["category_id"] == int(data["category"]):
-            for product in category["products"]:
-                if product["id"] == int(data["id"]):
-                    return jsonify(product)
-    return None
+    return jsonify({"error_message": "Unknown Error"}), 400
 
 
 @app.route("/api/GuestBook", methods=["GET"])
