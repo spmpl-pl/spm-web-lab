@@ -39,7 +39,7 @@ with open(DATA_FILE) as f:
 def handle_500(error):
     return jsonify({
         "status": 500,
-        "status_message": "Internal Server Error"
+        "status_message": "Well… this is awkward. The server tripped over its own shoelaces while trying to help you. It’s picking itself up now — please try again in a moment."
     }), 500
 
 
