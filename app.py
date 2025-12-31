@@ -4,11 +4,15 @@ from datetime import datetime
 import hashlib
 import json
 from pathlib import Path
+import os
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey123"  # Needed for sessions
 
 GUESTBOOK_FILE = Path("GuestBookEntries.json")
+
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 def load_guestbook():
     if not GUESTBOOK_FILE.exists():
@@ -24,8 +28,8 @@ def load_ProductDB():
     with open("ProductDB.json") as f:
         return json.load(f)
 
-
-with open("UserData.json") as f:
+DATA_FILE = os.path.join(BASE_DIR, "UserData.json")
+with open(DATA_FILE) as f:
     users = json.load(f)
 
 @app.route('/')
@@ -136,7 +140,10 @@ def lab_GetSum():
 @app.route('/api/GetUserData', methods=['POST'])
 def lab_GetUserData():
     data = request.json  # Get JSON data from frontend
-    return jsonify({"status": 200, "status_message": "OK", "data": users.get(data["id"])})
+    if ( "username" not in session ):
+        return jsonify({"status": 401, "status_message": "Not Authenticated", "data": "Not Authenticated"}), 401
+    else:
+        return jsonify({"status": 200, "status_message": "OK", "data": users.get(data["id"])})
 
 @app.route('/api/GetProductOverview', methods=['GET'])
 def lab_GetProductOverview():
@@ -161,13 +168,15 @@ def lab_GetProductOverview():
 def lab_GetProduct():
     products = load_ProductDB()
     data = request.json  # Get JSON data from frontend
-
-    for category in products:
-        if category["category_id"] == int(data["category"]):
-            for product in category["products"]:
-                if product["id"] == int(data["id"]):
-                    return jsonify({"status": 200, "status_message": "OK", "data": product})
-    return None
+    if ( "username" not in session ):
+        return jsonify({"status": 401, "status_message": "Not Authenticated", "data": "Not Authenticated"}), 401
+    else:
+        for category in products:
+            if category["category_id"] == int(data["category"]):
+                for product in category["products"]:
+                    if product["id"] == int(data["id"]):
+                        return jsonify({"status": 200, "status_message": "OK", "data": product})
+        return None
 
 
 @app.route('/api/ReflectInput', methods=['POST'])

@@ -22,11 +22,17 @@
     <br><br>
     <p><b>POST Requests:</b></p>
 
-    <p>GetSum (POST /get/GetSum)</p>
+    <p>GetSum (POST /api/GetSum)</p>
     <input type="text" id="GetSumInput1" placeholder="Argument 1">
     <input type="text" id="GetSumInput2" placeholder="Argument 2">
     <button id="GetSumButton">Reflect Input (POST /get/GetSum)</button>
     <div id="GetSumResult" class="result"></div>
+
+    <p>GetProduct (POST /api/GetProduct)</p>
+    <input type="text" id="GetProductCategory" placeholder="Product Category ID">
+    <input type="text" id="GetProductId" placeholder="Product ID">
+    <button id="GetProductButton">Get Product (POST /api/GetProduct)</button>
+    <div id="GetProductResult" class="result"></div>
 
     <p>Get User Data (POST /get/GetUserData)</p>
     <input type="text" id="GetUserDataInput" placeholder="Type the userID">
@@ -89,6 +95,30 @@
         document.getElementById('GetSumInput2').value = ''; // clear input
       });
     };
+
+      // GetProduct POST Request
+    document.getElementById('GetProductButton').onclick = () => {
+      const a = document.getElementById('GetProductCategory').value
+      const b = document.getElementById('GetProductId').value
+
+      if (!a || !b)  {
+        alert("Please type a Category ID and Product ID!");
+        return;
+      }
+
+      fetch('/api/GetProduct', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ category: a, id: b })
+      })
+      .then(res => res.json())
+      .then(data => {
+        document.getElementById('GetProductResult').innerText = JSON.stringify(data.data, null, 2);;
+        a.value = ''; // clear input
+        b.value = ''; // clear input
+      });
+    };
+
 
 
     // GetUserData POST Request
