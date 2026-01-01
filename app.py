@@ -162,6 +162,7 @@ def api_GetProduct():
     
     products = load_ProductDB()
     data = request.json 
+    ## TODO - error handling and excessive data exposure 
 
     if data["category"] and data["id"]:
         for category in products:
