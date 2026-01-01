@@ -5,14 +5,14 @@
     "products": [
       {
       "id": 1,
-      "name": "Smartphone",
-      "price": 699.99,
+      "name": "Samsung Galaxy S26 (black)",
+      "price": 1199.99,
       "description": "Latest model smartphone with 128GB storage"
     },
     {
       "id": 2,
-      "name": "Laptop",
-      "price": 1199.99,
+      "name": "Laptop Lenovo T14 Gen4",
+      "price": 1899.99,
       "description": "Lightweight laptop with 16GB RAM"
     }
     ]
@@ -23,7 +23,7 @@
     "products": [
           {
       "id": 3,
-      "name": "Python Programming",
+      "name": "Python Programming for Beginners",
       "price": 39.99,
       "description": "Learn Python from scratch"
     },
@@ -41,13 +41,13 @@
     "products": [
           {
       "id": 5,
-      "name": "T-Shirt",
+      "name": "T-Shirt Adidas Limited Edition",
       "price": 19.99,
       "description": "100% cotton t-shirt"
     },
     {
       "id": 6,
-      "name": "Jeans",
+      "name": "Jeans Levis Blue Slim",
       "price": 49.99,
       "description": "Blue denim jeans"
     }

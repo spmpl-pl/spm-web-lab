@@ -33,9 +33,9 @@
       const tr = document.createElement("tr");
 
     tr.innerHTML = `
-      <td>ID: ${item.id}<br>Category: ${item.category_name}<br>Product Description: ${item.description}
-        <br><div>Price: <span class="priceCell"></span></div><br><br>
-        <button class="getPriceBtn" data-id1="${item.id}" data-id2="${item.category_id}">Get Price</button>
+      <td><table><tr><td>Category:</td><td> ${item.category_name}</td><tr><tr><td>Product ID:</td><td> ${item.id}</td></tr><tr><td>Name:</td><td> ${item.name}</td></tr><tr><td>Description:</td><td> ${item.description}</td></tr>
+        </table><br><br><div><b> Price: <span id="pricefield-${item.category_id}-${item.id}" class="priceCell">Click "Get Price" to see the price!</span></b></div><br><br>
+        <button class="getPriceBtn" id="getPriceBtn-${item.category_id}-${item.id}" data-id1="${item.id}" data-id2="${item.category_id}">Get Price</button>
     `;
     tbody.appendChild(tr);
   });
@@ -49,22 +49,30 @@ document.querySelectorAll(".getPriceBtn").forEach(button => {
     const row = btn.closest("tr");
     const priceCell = row.querySelector(".priceCell");
 
-    try {
-      fetch('/api/GetProduct', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category: productCategory, id: productId })
-      })
-      .then(res => res.json())
-      .then(data => {
-        priceCell.textContent = data.price;
-      });}
-      catch (err) {
-      console.error(err);
-      priceCell.textContent = "Error";
-    }
+    fetch('/api/GetProduct', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ category: productCategory, id: productId })
+    })
+    .then(async res => {
+      if (!res.ok) {
+        if (res.status === 401) {
+          throw new Error('Unauthorized - please log in');
+        }
+        const message = await res.text();
+        throw new Error(message || `HTTP error ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      priceCell.textContent = data.price + " USD"; 
+    })
+    .catch (err => {
+    console.error(err);
+    priceCell.textContent = err.message;
+    })
     
-  });
+})  
 });
       
     });
