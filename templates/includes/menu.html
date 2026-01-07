@@ -15,7 +15,6 @@
 
 <script>
 
-
     const UsernameField = document.getElementById('UsernameField');
     const LogoutButton = document.getElementById('LogoutButton');
 
@@ -26,7 +25,6 @@
         
         if(data.username) {
           UsernameField.innerText = "Logged in as: [ " + data.first_name + " " + data.last_name + " ]";
-          window.userid = data.userid;
           LogoutButton.disabled = false;
           loginlink = document.getElementById('loginlink').style.display = 'none'
 
