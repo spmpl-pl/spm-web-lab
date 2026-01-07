@@ -5,9 +5,14 @@ import hashlib
 import json
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+from openai import OpenAI, OpenAIError
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey123"  # Needed for sessions
+client = OpenAI() 
+app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
 
 file_basedir = os.path.dirname(os.path.abspath(__file__))
 file_guestbook = Path( os.path.join(file_basedir, "GuestBookEntries.json"))
@@ -72,6 +77,10 @@ def guestbook_page():
 @app.route('/accountinfo')
 def accountinfo_page():
     return render_template('accountinfo.html')
+
+@app.route('/chatbot')
+def chatbot_page():
+    return render_template('chatbot.html')
 
 
 ###### API FUNCTIONS 
@@ -214,6 +223,37 @@ def api_guestbook_delete():
     data = { "entries": [] }
     save_guestbook(data)
     return jsonify({"success": True})
+
+@app.route("/api/ChatBot", methods=["POST"])
+def api_ChatBot():
+
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    data = request.get_json()
+    
+    if not data or "message" not in data:
+        return jsonify({"error": "Message is required"}), 400
+
+    user_message = data["message"]
+
+    try:
+        response = client.responses.create(
+            model="gpt-5-nano",
+            input=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": user_message}
+            ]
+        )
+
+        return jsonify({
+            "reply": response.output_text
+        })
+
+    except OpenAIError as e:
+        return jsonify({"error": str(e)}), 500
+
+
 
 
 if __name__ == '__main__':

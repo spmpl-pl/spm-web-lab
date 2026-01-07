@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Chatbot{% endblock %}
+
+{% block content %}
+<h1>Chatbot</h1>
+
+<p>
+  Please ask the question to our chat boot.
+</p>
+
+
+<div class="chatbot-form">
+  <textarea type="text" rows="5" id="message" placeholder="Your message"></textarea>
+  <button id="submitEntry">Send the message</button>
+  <div id="Result" class="result"></div>
+</div>
+
+<ul id="entries"></ul>
+
+<script>
+  
+
+  document.getElementById("submitEntry").onclick = () => {
+    const message = document.getElementById("message").value.trim();
+
+    if (!message) {
+      alert("Please fill in the message!");
+      return;
+    }
+
+    fetch("/api/ChatBot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message })
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("message").value = "";
+      document.getElementById('Result').innerText = JSON.stringify(data, null, 2);;
+
+    });
+  };
+
+
+</script>
+{% endblock %}
+
+
