@@ -8,7 +8,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI, OpenAIError
 
-load_dotenv()
+load_dotenv("/var/www/spm-web-lab/.env")
 
 app = Flask(__name__)
 client = OpenAI() 
@@ -231,7 +231,7 @@ def api_ChatBot():
         return jsonify({"error_message": "Not Authenticated"}), 401
     
     data = request.get_json()
-    
+
     if not data or "message" not in data:
         return jsonify({"error": "Message is required"}), 400
 
