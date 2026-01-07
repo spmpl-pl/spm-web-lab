@@ -152,7 +152,7 @@ def api_GetProductOverview():
                 "category_name": cat_name
             }       
             flat_products.append(flat_product)
-    return jsonify({"status": 200, "status_message": "OK", "data": flat_products})
+    return jsonify( flat_products )
 
 
 @app.route('/api/GetProduct', methods=['POST'])

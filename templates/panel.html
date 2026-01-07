@@ -9,17 +9,35 @@
 
     <!-- GetGetSession Section -->
 
-    <p>GetSession (POST /api/GetSession)</p>
+    <p>GetSession (POST /api/GetSession)  [ <a href="#" id="infoLink">info</a> ]</p></p>
     <button id="GetGetSessionButton">Get The Session Data (/api/GetSession)</button>
     <div id="GetGetSessionResult" class="result"></div>
 
+
+    <div id="infoWindow" class="hidden">
+      <p>This is some extra information.</p>
+      <button id="closeInfo">Close</button>
+    </div>
+
+  <script>
+    document.getElementById("infoLink").addEventListener("click", function (e) {
+    e.preventDefault(); // stop link navigation
+    document.getElementById("infoWindow").classList.remove("hidden");
+    });
+
+    document.getElementById("closeInfo").addEventListener("click", function () {
+    document.getElementById("infoWindow").classList.add("hidden");
+    });
+  </script>
    
     <br>
-    <p>GetSum (POST /api/GetSum)</p>
+    <p>GetSum (POST /api/GetSum)
     <input type="text" id="GetSumInput1" placeholder="Argument 1">
     <input type="text" id="GetSumInput2" placeholder="Argument 2">
     <button id="GetSumButton">Get Sum (POST /get/GetSum)</button>
     <div id="GetSumResult" class="result"></div>
+
+
 
     <br>
     <p>GetProduct (POST /api/GetProduct)</p>
