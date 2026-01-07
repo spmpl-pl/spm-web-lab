@@ -5,10 +5,20 @@
 {% block content %}
 <h1>Chatbot</h1>
 
+
+
+<div class="toggle-wrapper">
+  <div class="slider-toggle">
+    <input type="checkbox" id="sliderToggle">
+    <label for="sliderToggle"></label>
+  </div>
+  <span id="toggleText">AI Firewall Protection: OFF</span>
+</div>
+
+<br>
 <p>
   Please ask the question to our chat boot.
 </p>
-
 
 <div class="chatbot-form">
   <textarea type="text" rows="5" id="message" placeholder="Your message"></textarea>
@@ -22,7 +32,17 @@
 <ul id="entries"></ul>
 
 <script>
-  
+
+  //toggle
+  const toggle = document.getElementById('sliderToggle');
+  const text = document.getElementById('toggleText');
+
+  toggle.addEventListener('change', () => {
+    text.textContent = toggle.checked ? 'AI Firewall Protection: ON' : 'AI Firewall Protection: OFF';
+  });
+
+
+
 
   document.getElementById("submitEntry").onclick = () => {
     const message = document.getElementById("message").value.trim();
@@ -35,7 +55,7 @@
     fetch("/api/ChatBot", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message })
+      body: JSON.stringify({ message, "protected": toggle.checked })
     })
     .then(res => res.json())
     .then(data => {

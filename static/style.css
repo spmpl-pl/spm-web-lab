@@ -149,3 +149,72 @@ ul li {
   }
 
 
+/* toggle styling */
+
+/* The switch container */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.toggle-wrapper {
+  display: flex;
+  align-items: center; /* vertically center toggle and text */
+  gap: 8px;            /* space between toggle and text */
+}
+
+.slider-toggle {
+  position: relative;
+  width: 40px;   /* narrow slider */
+  height: 15px;
+}
+
+.slider-toggle input {
+  display: none;
+}
+
+.slider-toggle label {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: #ccc;
+  border-radius: 7.5px;
+  cursor: pointer;
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+.slider-toggle label::after {
+  content: "";
+  position: absolute;
+  width: 13px;
+  height: 13px;
+  left: 1px;
+  top: 1px;
+  background-color: white;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+input:checked + label {
+  background-color: #2196F3;
+}
+
+input:checked + label::after {
+  transform: translateX(26px); /* move circle to right when checked */
+}
+
+#toggleText {
+  font-family: sans-serif;
+  font-size: 14px;
+}
