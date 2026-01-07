@@ -13,7 +13,10 @@
 <div class="chatbot-form">
   <textarea type="text" rows="5" id="message" placeholder="Your message"></textarea>
   <button id="submitEntry">Send the message</button>
+  <p><b>AI Response</b></p>
   <div id="Result" class="result"></div>
+  <p><b>JSON Response</b></p>
+  <div id="ResultCode" class="result"></div>
 </div>
 
 <ul id="entries"></ul>
@@ -37,8 +40,8 @@
     .then(res => res.json())
     .then(data => {
       document.getElementById("message").value = "";
-      document.getElementById('Result').innerText = JSON.stringify(data, null, 2);;
-
+      document.getElementById('Result').innerText = data.reply
+      document.getElementById('ResultCode').innerText = JSON.stringify(data, null, 2);;
     });
   };
 
