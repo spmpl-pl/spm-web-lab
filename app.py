@@ -254,14 +254,14 @@ def api_ChatBot():
 
     try:
         if data["protected"]: 
-            response = AIclient_direct.chat.completions.create(
+            response = AIclient_AIFirewall.chat.completions.create(
             model="gpt-5-nano",
             messages=input_prompt,
             )
             AIresponse = response.choices[0].message.content
 
         else:
-            response = AIclient_AIFirewall.responses.create(
+            response = AIclient_direct.responses.create(
                 model="gpt-5-nano",
                 input=input_prompt
             )
