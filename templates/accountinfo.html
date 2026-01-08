@@ -21,7 +21,10 @@
         <li>Country: <span id="accountinfo_country"></span></li>
     </ul>
       <br>
-      <button id="RefreshData">Refresh Data</button>
+      <button id="RefreshData">Get User Data</button>
+
+    <p><b>API Response</b></p>
+    <div id="Result" class="result"></div>
 <script>
     function GetUserData()
     {
@@ -36,6 +39,9 @@
             })
               .then(res => res.json())
               .then(data => {
+
+                document.getElementById('Result').innerText = JSON.stringify(data, null, 2);;
+
                 document.getElementById('accountinfo_first_name').textContent = data.first_name;
                 document.getElementById('accountinfo_last_name').textContent = data.last_name;
                 document.getElementById('accountinfo_gender').textContent = data.gender;
@@ -54,7 +60,7 @@
           } 
         });
     }
-    GetUserData();
+    //GetUserData();
 
     document.getElementById("RefreshData").onclick = () => {
     GetUserData();

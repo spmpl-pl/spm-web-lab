@@ -16,6 +16,7 @@
   <button id="DeleteEntries">Delete Entries</button>
 </div>
 
+<p><b>Entries:</b></p>
 <ul id="entries"></ul>
 
 <script>
@@ -62,21 +63,27 @@ function LoadEntries() {
   fetch("/api/GuestBook")
     .then(res => res.json())
     .then(entries => {
+      document.getElementById('Result').innerText = JSON.stringify(entries, null, 2);;
       const ul = document.getElementById("entries");
       ul.innerHTML = "";
 
       entries.forEach(e => {
         const li = document.createElement("li");
         li.innerHTML = `
-          <strong>${e.username}</strong>
-          <small>${e.timestamp}</small>
-          <div>${e.message}</div>
+          Author: ${e.username}<br>
+          Date: ${e.timestamp}
+          <div>${e.message}</div><br>
         `;
         ul.appendChild(li);
       });
     });
 }
 </script>
+
+<br>    
+<p><b>API Response</b></p>
+<div id="Result" class="result"></div>
+
 {% endblock %}
 
 
