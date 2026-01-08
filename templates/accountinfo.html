@@ -35,7 +35,7 @@
             fetch('/api/GetUserData', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ id: data.userid})
+              body: JSON.stringify({ id: data.userid })
             })
               .then(res => res.json())
               .then(data => {
