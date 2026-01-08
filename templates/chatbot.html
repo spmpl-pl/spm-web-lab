@@ -9,10 +9,18 @@
 
 <div class="toggle-wrapper">
   <div class="slider-toggle">
-    <input type="checkbox" id="sliderToggle">
-    <label for="sliderToggle"></label>
+    <input type="checkbox" id="AIProtectedToggle">
+    <label for="AIProtectedToggle"></label>
   </div>
-  <span id="toggleText">AI Firewall Protection: OFF</span>
+  <span id="AIProtectedtoggleText">AI Firewall Protection: OFF</span>
+</div>
+
+<div class="toggle-wrapper">
+  <div class="slider-toggle">
+    <input type="checkbox" id="AIMoodToggle">
+    <label for="AIMoodToggle"></label>
+  </div>
+  <span id="AIMoodtoggleText">AI Mood: BAD</span>
 </div>
 
 <br>
@@ -34,14 +42,21 @@
 <script>
 
   //toggle
-  const toggle = document.getElementById('sliderToggle');
-  const text = document.getElementById('toggleText');
+  const AIProtectedtoggle = document.getElementById('AIProtectedToggle');
+  const AIProtectedtext = document.getElementById('AIProtectedtoggleText');
 
-  toggle.addEventListener('change', () => {
-    text.textContent = toggle.checked ? 'AI Firewall Protection: ON' : 'AI Firewall Protection: OFF';
+  AIProtectedtoggle.addEventListener('change', () => {
+    AIProtectedtext.textContent = AIProtectedtoggle.checked ? 'AI Firewall Protection: ON' : 'AI Firewall Protection: OFF';
   });
 
+  //AIMoodToggle
+  const AIMoodtoggle = document.getElementById('AIMoodToggle');
+  const AIMoodtext = document.getElementById('AIMoodtoggleText');
 
+  AIMoodtoggle.addEventListener('change', () => {
+    AIMoodtext.textContent = AIMoodtoggle.checked ? 'AI Mood: GOOD' : 'AI Mood: BAD';
+
+  });
 
 
   document.getElementById("submitEntry").onclick = () => {
@@ -58,7 +73,7 @@
     fetch("/api/ChatBot", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, "protected": toggle.checked })
+      body: JSON.stringify({ message, "protected": AIProtectedtoggle.checked, "good_mood": AIMoodtoggle.checked })
     })
     .then(res => res.json())
     .then(data => {

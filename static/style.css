@@ -214,8 +214,3 @@ input:checked + label {
 input:checked + label::after {
   transform: translateX(26px); /* move circle to right when checked */
 }
-
-#toggleText {
-  font-family: sans-serif;
-  font-size: 14px;
-}

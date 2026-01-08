@@ -245,13 +245,20 @@ def api_ChatBot():
     else: 
         selectedAI = AIclient_direct
 
+    if data["good_mood"]: 
+        system_prompt = "You are a helpful assistant."
+    else: 
+        system_prompt = "You are rude assistant."
+
+    print(system_prompt)
+
     user_message = data["message"]
 
     try:
         response = selectedAI.responses.create(
             model="gpt-5-nano",
             input=[
-                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_message}
             ]
         )
