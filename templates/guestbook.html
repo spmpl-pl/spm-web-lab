@@ -70,8 +70,7 @@ function LoadEntries() {
       entries.forEach(e => {
         const li = document.createElement("li");
         li.innerHTML = `
-          Author: ${e.username}<br>
-          Date: ${e.timestamp}
+          [  ${e.username} | ${e.timestamp} ]<br>
           <div>${e.message}</div><br>
         `;
         ul.appendChild(li);

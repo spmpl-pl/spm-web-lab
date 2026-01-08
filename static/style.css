@@ -12,6 +12,12 @@ p {
   margin-bottom:10px;
 }
 
+ul li {
+  font-size:16px; 
+  color:#333; 
+  margin-bottom:8px;
+}
+
 /* Top navigation menu */
 .top-menu {
   display: flex;
@@ -55,9 +61,6 @@ button {
   color: #fff;
   background-color:#28A745;
 }
-
-#getButton { background-color: #007BFF; }
-#postButton { background-color: #28A745; }
 
 button:hover {
   opacity: 0.9;
@@ -137,9 +140,6 @@ textarea {
   opacity: 0.7;
 }
 
-ul li {
-  margin-bottom: 8px;
-}
 
  table {
     width: 100%;
