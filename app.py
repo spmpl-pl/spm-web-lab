@@ -16,6 +16,7 @@ AIclient_AIFirewall = OpenAI(base_url=os.getenv("AIFIREWALL_BASE_URL"),
                     default_headers={"x-imperva-api-key": os.getenv("AIFIREWALL_API_KEY"),
                                     "x-target-url": os.getenv("ORIGINAL_LLM_PROVIDER_URL")})
 
+
 app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
 
 file_basedir = os.path.dirname(os.path.abspath(__file__))
@@ -238,12 +239,6 @@ def api_ChatBot():
 
     if not data or "message" not in data:
         return jsonify({"error": "Message is required"}), 400
-    
-
-    if data["protected"]: 
-        selectedAI = AIclient_AIFirewall
-    else: 
-        selectedAI = AIclient_direct
 
     if data["good_mood"]: 
         system_prompt = "You are a helpful assistant."
@@ -252,19 +247,28 @@ def api_ChatBot():
 
     user_message = data["message"]
 
+    input_prompt = [
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_message}
+        ]
+
     try:
-        input_prompt = [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": user_message}
-            ]
-        
-        response = selectedAI.responses.create(
+        if data["protected"]: 
+            response = AIclient_direct.chat.completions.create(
             model="gpt-5-nano",
-            input=input_prompt
-        )
+            messages=input_prompt,
+            )
+            AIresponse = response.choices[0].message.content
+
+        else:
+            response = AIclient_AIFirewall.responses.create(
+                model="gpt-5-nano",
+                input=input_prompt
+            )
+            AIresponse = response.output_text
 
         return jsonify({
-            "reply": response.output_text,
+            "reply": AIresponse,
             "prompt": input_prompt
         })
 
