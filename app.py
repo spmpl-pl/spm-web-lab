@@ -255,16 +255,19 @@ def api_ChatBot():
     user_message = data["message"]
 
     try:
-        response = selectedAI.responses.create(
-            model="gpt-5-nano",
-            input=[
+        input_prompt = [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_message}
             ]
+        
+        response = selectedAI.responses.create(
+            model="gpt-5-nano",
+            input=input_prompt
         )
 
         return jsonify({
-            "reply": response.output_text
+            "reply": response.output_text,
+            "prompt": input_prompt
         })
 
     except OpenAIError as e:
