@@ -77,7 +77,6 @@
     })
     .then(res => res.json())
     .then(data => {
-      document.getElementById("message").value = "";
       document.getElementById('Result').innerText = data.reply
       document.getElementById('ResultCode').innerText = JSON.stringify(data, null, 2);;
     });
