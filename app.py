@@ -248,9 +248,7 @@ def api_ChatBot():
     if data["good_mood"]: 
         system_prompt = "You are a helpful assistant."
     else: 
-        system_prompt = "You are rude assistant."
-
-    print(system_prompt)
+        system_prompt = "You are rude and unwilling to help assistant."
 
     user_message = data["message"]
 

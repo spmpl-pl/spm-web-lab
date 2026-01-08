@@ -172,12 +172,17 @@ ul li {
   display: flex;
   align-items: center; /* vertically center toggle and text */
   gap: 8px;            /* space between toggle and text */
+  /*font-family: Arial, sans-serif;*/
 }
 
 .slider-toggle {
+  --w: 32px;   /* change ONLY this to make it narrower/wider */
+  --h: 15px;
+  --k: 13px;
+
   position: relative;
-  width: 40px;   /* narrow slider */
-  height: 15px;
+  width: var(--w);
+  height: var(--h);
 }
 
 .slider-toggle input {
@@ -189,7 +194,7 @@ ul li {
   width: 100%;
   height: 100%;
   background-color: red;
-  border-radius: 7.5px;
+  border-radius: calc(var(--h) / 2);
   cursor: pointer;
   position: relative;
   transition: background-color 0.3s;
@@ -198,8 +203,8 @@ ul li {
 .slider-toggle label::after {
   content: "";
   position: absolute;
-  width: 13px;
-  height: 13px;
+  width: var(--k);
+  height: var(--k);
   left: 1px;
   top: 1px;
   background-color: white;
@@ -207,10 +212,10 @@ ul li {
   transition: transform 0.3s;
 }
 
-input:checked + label {
+.slider-toggle input:checked + label {
   background-color: green;
 }
 
-input:checked + label::after {
-  transform: translateX(26px); /* move circle to right when checked */
+.slider-toggle input:checked + label::after {
+  transform: translateX(calc(var(--w) - var(--k) - 1px));
 }
