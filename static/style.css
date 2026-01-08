@@ -65,7 +65,7 @@ textarea {
   padding: 8px;
   margin-bottom: 10px;
   border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #a7a4a4;
   box-sizing: border-box;
 }
 
@@ -78,6 +78,7 @@ textarea {
   margin-bottom: 10px;
   font-size: 14px;
   word-wrap: break-word;
+  border: 1px solid #a7a4a4;
 }
 
 /* Info page link button */
