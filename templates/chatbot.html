@@ -47,6 +47,9 @@
   document.getElementById("submitEntry").onclick = () => {
     const message = document.getElementById("message").value.trim();
 
+    document.getElementById('Result').innerText = "Waiting for the response..."
+    document.getElementById('ResultCode').innerText = "Waiting for the response..."
+
     if (!message) {
       alert("Please fill in the message!");
       return;

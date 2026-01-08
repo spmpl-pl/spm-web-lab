@@ -11,7 +11,11 @@ from openai import OpenAI, OpenAIError
 load_dotenv("/var/www/spm-web-lab/.env")
 
 app = Flask(__name__)
-client = OpenAI() 
+AIclient_direct = OpenAI() 
+AIclient_AIFirewall = OpenAI(base_url=os.getenv("AIFIREWALL_BASE_URL"), 
+                    default_headers={"x-imperva-api-key": os.getenv("AIFIREWALL_API_KEY"),
+                                    "x-target-url": os.getenv("ORIGINAL_LLM_PROVIDER_URL")})
+
 app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
 
 file_basedir = os.path.dirname(os.path.abspath(__file__))
@@ -234,11 +238,17 @@ def api_ChatBot():
 
     if not data or "message" not in data:
         return jsonify({"error": "Message is required"}), 400
+    
+
+    if data["protected"]: 
+        selectedAI = AIclient_AIFirewall
+    else: 
+        selectedAI = AIclient_direct
 
     user_message = data["message"]
 
     try:
-        response = client.responses.create(
+        response = selectedAI.responses.create(
             model="gpt-5-nano",
             input=[
                 {"role": "system", "content": "You are a helpful assistant."},
