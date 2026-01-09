@@ -11,10 +11,7 @@ from openai import OpenAI, OpenAIError
 load_dotenv("/var/www/spm-web-lab/.env")
 
 app = Flask(__name__)
-AIclient_direct = OpenAI() 
-AIclient_AIFirewall = OpenAI(base_url=os.getenv("AIFIREWALL_BASE_URL"), 
-                    default_headers={"x-imperva-api-key": os.getenv("AIFIREWALL_API_KEY"),
-                                    "x-target-url": os.getenv("ORIGINAL_LLM_PROVIDER_URL")})
+
 
 
 app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
@@ -119,7 +116,7 @@ def api_logout():
 
 @app.route('/api/GetSession', methods=['GET'])
 def api_GetSession():
-    username = session.get("first_name")
+    username = session.get("username")
     msg = f"Hello {username}! This is SPM LAB! Enjoy your day!" if username else "Hello from SPM LAB! Not logged in."
     return jsonify({"message": msg, "username": username, "userid": session.get("userid"), "first_name": session.get("first_name"), "last_name": session.get("last_name") })
 
@@ -241,27 +238,45 @@ def api_ChatBot():
         return jsonify({"error": "Message is required"}), 400
 
     if data["good_mood"]: 
-        system_prompt = "You are a helpful assistant."
+        system_prompt = "Be a helpful, supportive, and encouraging assistant. Answer clearly and politely. Do not respond in Spanish or include Spanish words or phrases."
     else: 
-        system_prompt = "You are rude assistant."
+        system_prompt = "Respond in a rude, dismissive, and sarcastic tone. Be blunt, impatient, and slightly condescending. Do not apologize. Do not soften criticism. Do not respond in Spanish or include Spanish words or phrases."
 
     user_message = data["message"]
 
-    input_prompt = [
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": user_message}
-        ]
+
 
     try:
         if data["protected"]: 
-            response = AIclient_AIFirewall.chat.completions.create(
-            model="gpt-5-nano",
-            messages=input_prompt,
+
+            client = OpenAI(base_url=os.getenv("AIFIREWALL_BASE_URL"), 
+                    default_headers={
+                        "x-imperva-api-key": os.getenv("AIFIREWALL_API_KEY"),
+                        "x-user-id": session.get("username"),
+                        "x-target-url": os.getenv("ORIGINAL_LLM_PROVIDER_URL")
+                        })
+            if "<USER_INPUT>" in user_message or "</USER_INPUT>" in user_message:
+                return {"error": "User input contains invalid tags."}, 400
+
+            input_prompt = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": f"<USER_INPUT>{user_message}</USER_INPUT>"}
+                ]
+            response = client.chat.completions.create(
+                model="gpt-5-nano",
+                messages=input_prompt,
             )
             AIresponse = response.choices[0].message.content
 
         else:
-            response = AIclient_direct.responses.create(
+            client = OpenAI() 
+
+            input_prompt = [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": user_message}
+                ]
+
+            response = client.responses.create(
                 model="gpt-5-nano",
                 input=input_prompt
             )
