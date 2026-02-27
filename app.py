@@ -60,9 +60,13 @@ def handle_500(error):
 def index():
     return render_template('index.html')
 
-@app.route('/panel')
-def panel_page():
-    return render_template('panel.html')
+@app.route('/wafpanel')
+def wafpanel_page():
+    return render_template('wafpanel.html')
+
+@app.route('/apipanel')
+def apipanel_page():
+    return render_template('apipanel.html')
 
 @app.route('/webshop')
 def webshop_page():
@@ -225,6 +229,10 @@ def api_guestbook_delete():
     data = { "entries": [] }
     save_guestbook(data)
     return jsonify({"success": True})
+
+@app.route("/api/GetHeaders", methods=["GET"])
+def api_getheaders_get():
+    return jsonify(list(request.headers.items()))
 
 @app.route("/api/ChatBot", methods=["POST"])
 def api_ChatBot():

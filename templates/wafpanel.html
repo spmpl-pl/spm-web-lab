@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}API Panel{% endblock %}
+
+{% block content %}
+
+  <!-- Main content -->
+    <h1>WAF Panel (under construction)</h1>
+ 
+
+    <!-- GetGetSession Section -->
+    <p><b>Get Origin Headers</b><br>
+    This function returns the origin server headers</p>
+    <button id="GetHeadersButton">Get Headers from the Origin Server</button>
+    <div id="GetHeadersResult" class="result"></div>
+
+
+    <script>
+
+    document.getElementById('GetHeadersButton').onclick = () => {
+      fetch('/api/GetHeaders')
+        .then(res => res.json())
+        .then(data => {
+          const lines = data.map(([key, value]) => `${key}: ${value}`);
+          document.getElementById("GetHeadersResult").textContent = lines.join("\n");
+          //document.getElementById('GetHeadersResult').innerText = JSON.stringify(data);
+        });
+    };
+    </script>
+    TODO:
+    WAF Rules to add extra headers
+    ABP headers - x-d-action, x-d-tags
+
+
+{% endblock %}
