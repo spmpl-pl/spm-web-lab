@@ -1,0 +1,1202 @@
+{
+  "1": {
+    "name": "Samsung Galaxy S25",
+    "price": 1042.32,
+    "description": "Samsung Galaxy S25 - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "2": {
+    "name": "Apple iPhone 15",
+    "price": 719.49,
+    "description": "Apple iPhone 15 - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "3": {
+    "name": "Sony Noise Cancelling Headphones",
+    "price": 658.11,
+    "description": "Sony Noise Cancelling Headphones - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "4": {
+    "name": "LG OLED Smart TV",
+    "price": 441.69,
+    "description": "LG OLED Smart TV - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "5": {
+    "name": "Dell XPS Laptop",
+    "price": 54.7,
+    "description": "Dell XPS Laptop - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "6": {
+    "name": "HP Envy Laptop",
+    "price": 793.42,
+    "description": "HP Envy Laptop - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "7": {
+    "name": "iPad Air Tablet",
+    "price": 653.48,
+    "description": "iPad Air Tablet - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "8": {
+    "name": "Logitech Wireless Mouse",
+    "price": 1359.58,
+    "description": "Logitech Wireless Mouse - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "9": {
+    "name": "Mechanical Gaming Keyboard",
+    "price": 1470.97,
+    "description": "Mechanical Gaming Keyboard - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "10": {
+    "name": "GoPro Hero Action Camera",
+    "price": 1729.17,
+    "description": "GoPro Hero Action Camera - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "11": {
+    "name": "Canon Mirrorless Camera",
+    "price": 1130.59,
+    "description": "Canon Mirrorless Camera - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "12": {
+    "name": "JBL Bluetooth Speaker",
+    "price": 1224.47,
+    "description": "JBL Bluetooth Speaker - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "13": {
+    "name": "ASUS Gaming Monitor",
+    "price": 681.0,
+    "description": "ASUS Gaming Monitor - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "14": {
+    "name": "External SSD Drive",
+    "price": 1368.97,
+    "description": "External SSD Drive - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "15": {
+    "name": "Wireless Charging Pad",
+    "price": 17.27,
+    "description": "Wireless Charging Pad - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "16": {
+    "name": "Smart Home Hub",
+    "price": 1384.76,
+    "description": "Smart Home Hub - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "17": {
+    "name": "Amazon Echo Speaker",
+    "price": 93.4,
+    "description": "Amazon Echo Speaker - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "18": {
+    "name": "Portable Power Bank",
+    "price": 1660.31,
+    "description": "Portable Power Bank - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "19": {
+    "name": "Fitbit Fitness Tracker",
+    "price": 1775.55,
+    "description": "Fitbit Fitness Tracker - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "20": {
+    "name": "Garmin Smartwatch",
+    "price": 997.7,
+    "description": "Garmin Smartwatch - high-quality product designed for reliability and performance.",
+    "category_id": 1
+  },
+  "21": {
+    "name": "Python Programming Guide",
+    "price": 1034.78,
+    "description": "Python Programming Guide - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "22": {
+    "name": "Machine Learning Basics",
+    "price": 1584.61,
+    "description": "Machine Learning Basics - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "23": {
+    "name": "Deep Learning Handbook",
+    "price": 1319.39,
+    "description": "Deep Learning Handbook - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "24": {
+    "name": "Clean Code Developer Guide",
+    "price": 469.12,
+    "description": "Clean Code Developer Guide - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "25": {
+    "name": "Data Science from Scratch",
+    "price": 1268.73,
+    "description": "Data Science from Scratch - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "26": {
+    "name": "Algorithms Explained",
+    "price": 1563.94,
+    "description": "Algorithms Explained - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "27": {
+    "name": "Web Development with Flask",
+    "price": 1144.72,
+    "description": "Web Development with Flask - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "28": {
+    "name": "Docker for Professionals",
+    "price": 825.09,
+    "description": "Docker for Professionals - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "29": {
+    "name": "Cybersecurity Essentials",
+    "price": 1100.18,
+    "description": "Cybersecurity Essentials - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "30": {
+    "name": "Artificial Intelligence Foundations",
+    "price": 83.51,
+    "description": "Artificial Intelligence Foundations - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "31": {
+    "name": "Cloud Computing Guide",
+    "price": 734.43,
+    "description": "Cloud Computing Guide - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "32": {
+    "name": "Statistics for Beginners",
+    "price": 622.1,
+    "description": "Statistics for Beginners - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "33": {
+    "name": "SQL Mastery",
+    "price": 1831.18,
+    "description": "SQL Mastery - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "34": {
+    "name": "Software Architecture Patterns",
+    "price": 621.64,
+    "description": "Software Architecture Patterns - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "35": {
+    "name": "Agile Project Management",
+    "price": 996.11,
+    "description": "Agile Project Management - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "36": {
+    "name": "DevOps Handbook",
+    "price": 1778.68,
+    "description": "DevOps Handbook - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "37": {
+    "name": "Linux Command Line Guide",
+    "price": 917.32,
+    "description": "Linux Command Line Guide - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "38": {
+    "name": "Computer Networks Explained",
+    "price": 903.04,
+    "description": "Computer Networks Explained - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "39": {
+    "name": "Programming Interview Prep",
+    "price": 1109.72,
+    "description": "Programming Interview Prep - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "40": {
+    "name": "Advanced JavaScript Techniques",
+    "price": 669.14,
+    "description": "Advanced JavaScript Techniques - high-quality product designed for reliability and performance.",
+    "category_id": 2
+  },
+  "41": {
+    "name": "Adidas Sports T-Shirt",
+    "price": 1441.43,
+    "description": "Adidas Sports T-Shirt - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "42": {
+    "name": "Nike Running Shoes",
+    "price": 558.76,
+    "description": "Nike Running Shoes - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "43": {
+    "name": "Levi's Slim Jeans",
+    "price": 1205.24,
+    "description": "Levi's Slim Jeans - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "44": {
+    "name": "Winter Puffer Jacket",
+    "price": 1274.37,
+    "description": "Winter Puffer Jacket - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "45": {
+    "name": "Cotton Hoodie",
+    "price": 1372.72,
+    "description": "Cotton Hoodie - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "46": {
+    "name": "Formal White Shirt",
+    "price": 372.76,
+    "description": "Formal White Shirt - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "47": {
+    "name": "Casual Sneakers",
+    "price": 16.51,
+    "description": "Casual Sneakers - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "48": {
+    "name": "Summer Shorts",
+    "price": 411.53,
+    "description": "Summer Shorts - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "49": {
+    "name": "Leather Belt",
+    "price": 378.35,
+    "description": "Leather Belt - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "50": {
+    "name": "Wool Sweater",
+    "price": 997.14,
+    "description": "Wool Sweater - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "51": {
+    "name": "Baseball Cap",
+    "price": 1443.22,
+    "description": "Baseball Cap - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "52": {
+    "name": "Training Tracksuit",
+    "price": 1698.91,
+    "description": "Training Tracksuit - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "53": {
+    "name": "Running Leggings",
+    "price": 1015.66,
+    "description": "Running Leggings - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "54": {
+    "name": "Denim Jacket",
+    "price": 37.89,
+    "description": "Denim Jacket - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "55": {
+    "name": "Polo Shirt",
+    "price": 1083.23,
+    "description": "Polo Shirt - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "56": {
+    "name": "Ankle Socks Pack",
+    "price": 1971.16,
+    "description": "Ankle Socks Pack - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "57": {
+    "name": "Business Suit Jacket",
+    "price": 212.14,
+    "description": "Business Suit Jacket - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "58": {
+    "name": "Yoga Pants",
+    "price": 1859.07,
+    "description": "Yoga Pants - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "59": {
+    "name": "Raincoat Waterproof",
+    "price": 1955.49,
+    "description": "Raincoat Waterproof - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "60": {
+    "name": "Thermal Underwear Set",
+    "price": 1073.52,
+    "description": "Thermal Underwear Set - high-quality product designed for reliability and performance.",
+    "category_id": 3
+  },
+  "61": {
+    "name": "Air Fryer XL",
+    "price": 533.74,
+    "description": "Air Fryer XL - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "62": {
+    "name": "Robot Vacuum Cleaner",
+    "price": 1880.49,
+    "description": "Robot Vacuum Cleaner - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "63": {
+    "name": "Espresso Coffee Machine",
+    "price": 997.29,
+    "description": "Espresso Coffee Machine - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "64": {
+    "name": "Blender High Speed",
+    "price": 1861.93,
+    "description": "Blender High Speed - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "65": {
+    "name": "Electric Kettle",
+    "price": 1085.91,
+    "description": "Electric Kettle - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "66": {
+    "name": "Microwave Oven",
+    "price": 522.23,
+    "description": "Microwave Oven - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "67": {
+    "name": "Non-stick Cookware Set",
+    "price": 736.29,
+    "description": "Non-stick Cookware Set - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "68": {
+    "name": "Chef Knife Professional",
+    "price": 1671.91,
+    "description": "Chef Knife Professional - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "69": {
+    "name": "Food Storage Container Set",
+    "price": 972.34,
+    "description": "Food Storage Container Set - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "70": {
+    "name": "Toaster 4-Slice",
+    "price": 1977.56,
+    "description": "Toaster 4-Slice - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "71": {
+    "name": "Rice Cooker Automatic",
+    "price": 1304.12,
+    "description": "Rice Cooker Automatic - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "72": {
+    "name": "Dish Drying Rack",
+    "price": 497.04,
+    "description": "Dish Drying Rack - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "73": {
+    "name": "Stand Mixer",
+    "price": 1804.24,
+    "description": "Stand Mixer - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "74": {
+    "name": "Water Filter Pitcher",
+    "price": 1659.62,
+    "description": "Water Filter Pitcher - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "75": {
+    "name": "Slow Cooker",
+    "price": 1355.48,
+    "description": "Slow Cooker - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "76": {
+    "name": "Hand Mixer Electric",
+    "price": 225.49,
+    "description": "Hand Mixer Electric - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "77": {
+    "name": "Digital Kitchen Scale",
+    "price": 804.34,
+    "description": "Digital Kitchen Scale - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "78": {
+    "name": "Induction Cooktop",
+    "price": 1596.17,
+    "description": "Induction Cooktop - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "79": {
+    "name": "Bread Maker",
+    "price": 1769.48,
+    "description": "Bread Maker - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "80": {
+    "name": "Electric Grill",
+    "price": 198.71,
+    "description": "Electric Grill - high-quality product designed for reliability and performance.",
+    "category_id": 4
+  },
+  "81": {
+    "name": "Mountain Bike",
+    "price": 1369.64,
+    "description": "Mountain Bike - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "82": {
+    "name": "Camping Tent 4-Person",
+    "price": 753.16,
+    "description": "Camping Tent 4-Person - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "83": {
+    "name": "Sleeping Bag Thermal",
+    "price": 853.04,
+    "description": "Sleeping Bag Thermal - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "84": {
+    "name": "Trekking Backpack",
+    "price": 132.07,
+    "description": "Trekking Backpack - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "85": {
+    "name": "Yoga Mat Premium",
+    "price": 87.88,
+    "description": "Yoga Mat Premium - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "86": {
+    "name": "Adjustable Dumbbells",
+    "price": 1713.74,
+    "description": "Adjustable Dumbbells - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "87": {
+    "name": "Fitness Resistance Bands",
+    "price": 759.85,
+    "description": "Fitness Resistance Bands - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "88": {
+    "name": "Treadmill Home",
+    "price": 103.74,
+    "description": "Treadmill Home - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "89": {
+    "name": "Exercise Bike",
+    "price": 489.88,
+    "description": "Exercise Bike - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "90": {
+    "name": "Football Professional",
+    "price": 1627.29,
+    "description": "Football Professional - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "91": {
+    "name": "Basketball Official Size",
+    "price": 913.7,
+    "description": "Basketball Official Size - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "92": {
+    "name": "Tennis Racket Carbon",
+    "price": 1172.21,
+    "description": "Tennis Racket Carbon - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "93": {
+    "name": "Golf Club Set",
+    "price": 996.62,
+    "description": "Golf Club Set - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "94": {
+    "name": "Hiking Boots Waterproof",
+    "price": 525.04,
+    "description": "Hiking Boots Waterproof - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "95": {
+    "name": "Camping Stove Portable",
+    "price": 1374.92,
+    "description": "Camping Stove Portable - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "96": {
+    "name": "Fishing Rod Set",
+    "price": 925.72,
+    "description": "Fishing Rod Set - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "97": {
+    "name": "Kayak Inflatable",
+    "price": 103.09,
+    "description": "Kayak Inflatable - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "98": {
+    "name": "Climbing Helmet",
+    "price": 736.55,
+    "description": "Climbing Helmet - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "99": {
+    "name": "Running Hydration Vest",
+    "price": 1057.63,
+    "description": "Running Hydration Vest - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "100": {
+    "name": "Jump Rope Speed",
+    "price": 956.53,
+    "description": "Jump Rope Speed - high-quality product designed for reliability and performance.",
+    "category_id": 5
+  },
+  "101": {
+    "name": "Electric Toothbrush",
+    "price": 919.28,
+    "description": "Electric Toothbrush - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "102": {
+    "name": "Hair Dryer Professional",
+    "price": 525.75,
+    "description": "Hair Dryer Professional - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "103": {
+    "name": "Hair Straightener Ceramic",
+    "price": 1216.2,
+    "description": "Hair Straightener Ceramic - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "104": {
+    "name": "Beard Trimmer Kit",
+    "price": 320.08,
+    "description": "Beard Trimmer Kit - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "105": {
+    "name": "Facial Cleansing Brush",
+    "price": 889.46,
+    "description": "Facial Cleansing Brush - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "106": {
+    "name": "Moisturizing Face Cream",
+    "price": 1605.84,
+    "description": "Moisturizing Face Cream - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "107": {
+    "name": "Anti-aging Serum",
+    "price": 1611.89,
+    "description": "Anti-aging Serum - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "108": {
+    "name": "Sunscreen SPF50",
+    "price": 1163.0,
+    "description": "Sunscreen SPF50 - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "109": {
+    "name": "Shampoo Repair Formula",
+    "price": 1624.64,
+    "description": "Shampoo Repair Formula - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "110": {
+    "name": "Conditioner Nourishing",
+    "price": 606.32,
+    "description": "Conditioner Nourishing - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "111": {
+    "name": "Body Lotion Hydrating",
+    "price": 1550.92,
+    "description": "Body Lotion Hydrating - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "112": {
+    "name": "Perfume Eau de Parfum",
+    "price": 616.26,
+    "description": "Perfume Eau de Parfum - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "113": {
+    "name": "Makeup Brush Set",
+    "price": 1556.98,
+    "description": "Makeup Brush Set - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "114": {
+    "name": "Foundation Liquid",
+    "price": 1212.71,
+    "description": "Foundation Liquid - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "115": {
+    "name": "Lipstick Matte",
+    "price": 1757.64,
+    "description": "Lipstick Matte - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "116": {
+    "name": "Nail Care Kit",
+    "price": 451.06,
+    "description": "Nail Care Kit - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "117": {
+    "name": "Electric Shaver",
+    "price": 854.31,
+    "description": "Electric Shaver - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "118": {
+    "name": "Massage Gun Deep Tissue",
+    "price": 229.54,
+    "description": "Massage Gun Deep Tissue - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "119": {
+    "name": "Essential Oils Set",
+    "price": 1982.71,
+    "description": "Essential Oils Set - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "120": {
+    "name": "Skincare Gift Set",
+    "price": 679.39,
+    "description": "Skincare Gift Set - high-quality product designed for reliability and performance.",
+    "category_id": 6
+  },
+  "121": {
+    "name": "LEGO Building Set",
+    "price": 1537.7,
+    "description": "LEGO Building Set - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "122": {
+    "name": "Remote Control Car",
+    "price": 1105.78,
+    "description": "Remote Control Car - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "123": {
+    "name": "Board Game Strategy",
+    "price": 1353.43,
+    "description": "Board Game Strategy - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "124": {
+    "name": "Puzzle 1000 Pieces",
+    "price": 1274.31,
+    "description": "Puzzle 1000 Pieces - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "125": {
+    "name": "Dollhouse Wooden",
+    "price": 1566.78,
+    "description": "Dollhouse Wooden - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "126": {
+    "name": "Action Figure Collectible",
+    "price": 1943.34,
+    "description": "Action Figure Collectible - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "127": {
+    "name": "Card Game Family",
+    "price": 741.78,
+    "description": "Card Game Family - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "128": {
+    "name": "Educational STEM Kit",
+    "price": 1964.4,
+    "description": "Educational STEM Kit - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "129": {
+    "name": "Toy Train Set",
+    "price": 1504.08,
+    "description": "Toy Train Set - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "130": {
+    "name": "Drone Mini",
+    "price": 1415.25,
+    "description": "Drone Mini - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "131": {
+    "name": "Gaming Console Controller",
+    "price": 1745.04,
+    "description": "Gaming Console Controller - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "132": {
+    "name": "Chess Set Tournament",
+    "price": 430.47,
+    "description": "Chess Set Tournament - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "133": {
+    "name": "Rubik's Cube Speed",
+    "price": 1712.86,
+    "description": "Rubik's Cube Speed - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "134": {
+    "name": "Plush Toy Large",
+    "price": 1581.73,
+    "description": "Plush Toy Large - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "135": {
+    "name": "Water Gun Blaster",
+    "price": 148.96,
+    "description": "Water Gun Blaster - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "136": {
+    "name": "Kite Outdoor",
+    "price": 1392.78,
+    "description": "Kite Outdoor - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "137": {
+    "name": "RC Helicopter",
+    "price": 342.46,
+    "description": "RC Helicopter - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "138": {
+    "name": "Magic Trick Kit",
+    "price": 630.47,
+    "description": "Magic Trick Kit - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "139": {
+    "name": "Science Experiment Kit",
+    "price": 1700.08,
+    "description": "Science Experiment Kit - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "140": {
+    "name": "Foosball Table",
+    "price": 1830.57,
+    "description": "Foosball Table - high-quality product designed for reliability and performance.",
+    "category_id": 7
+  },
+  "141": {
+    "name": "Car Phone Mount",
+    "price": 768.94,
+    "description": "Car Phone Mount - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "142": {
+    "name": "Dash Camera 4K",
+    "price": 1879.07,
+    "description": "Dash Camera 4K - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "143": {
+    "name": "Portable Car Vacuum",
+    "price": 274.86,
+    "description": "Portable Car Vacuum - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "144": {
+    "name": "Jump Starter Battery Pack",
+    "price": 1935.59,
+    "description": "Jump Starter Battery Pack - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "145": {
+    "name": "Tire Pressure Gauge Digital",
+    "price": 1582.62,
+    "description": "Tire Pressure Gauge Digital - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "146": {
+    "name": "Car Seat Covers Leather",
+    "price": 1879.67,
+    "description": "Car Seat Covers Leather - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "147": {
+    "name": "Windshield Sunshade",
+    "price": 1957.31,
+    "description": "Windshield Sunshade - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "148": {
+    "name": "Bluetooth Car Adapter",
+    "price": 956.92,
+    "description": "Bluetooth Car Adapter - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "149": {
+    "name": "Motor Oil Synthetic",
+    "price": 1441.35,
+    "description": "Motor Oil Synthetic - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "150": {
+    "name": "Car Cleaning Kit",
+    "price": 1592.96,
+    "description": "Car Cleaning Kit - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "151": {
+    "name": "LED Headlight Bulbs",
+    "price": 790.02,
+    "description": "LED Headlight Bulbs - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "152": {
+    "name": "Roof Cargo Box",
+    "price": 685.74,
+    "description": "Roof Cargo Box - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "153": {
+    "name": "Portable Air Compressor",
+    "price": 1939.77,
+    "description": "Portable Air Compressor - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "154": {
+    "name": "Car Emergency Kit",
+    "price": 1417.97,
+    "description": "Car Emergency Kit - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "155": {
+    "name": "Steering Wheel Cover",
+    "price": 1043.6,
+    "description": "Steering Wheel Cover - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "156": {
+    "name": "Parking Sensors Kit",
+    "price": 171.19,
+    "description": "Parking Sensors Kit - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "157": {
+    "name": "OBD2 Scanner",
+    "price": 1679.18,
+    "description": "OBD2 Scanner - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "158": {
+    "name": "Car Battery Charger",
+    "price": 1636.93,
+    "description": "Car Battery Charger - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "159": {
+    "name": "All-weather Floor Mats",
+    "price": 1133.97,
+    "description": "All-weather Floor Mats - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "160": {
+    "name": "Rearview Mirror Camera",
+    "price": 1475.32,
+    "description": "Rearview Mirror Camera - high-quality product designed for reliability and performance.",
+    "category_id": 8
+  },
+  "161": {
+    "name": "Dog Food Premium",
+    "price": 1376.77,
+    "description": "Dog Food Premium - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "162": {
+    "name": "Cat Food Grain-Free",
+    "price": 242.71,
+    "description": "Cat Food Grain-Free - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "163": {
+    "name": "Pet Water Fountain",
+    "price": 41.6,
+    "description": "Pet Water Fountain - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "164": {
+    "name": "Automatic Pet Feeder",
+    "price": 1058.0,
+    "description": "Automatic Pet Feeder - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "165": {
+    "name": "Dog Leash Nylon",
+    "price": 502.74,
+    "description": "Dog Leash Nylon - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "166": {
+    "name": "Cat Scratching Post",
+    "price": 269.2,
+    "description": "Cat Scratching Post - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "167": {
+    "name": "Pet Carrier Travel",
+    "price": 369.64,
+    "description": "Pet Carrier Travel - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "168": {
+    "name": "Dog Bed Memory Foam",
+    "price": 84.9,
+    "description": "Dog Bed Memory Foam - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "169": {
+    "name": "Cat Litter Box Covered",
+    "price": 1374.43,
+    "description": "Cat Litter Box Covered - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "170": {
+    "name": "Pet Grooming Brush",
+    "price": 1185.35,
+    "description": "Pet Grooming Brush - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "171": {
+    "name": "Dog Training Pads",
+    "price": 283.52,
+    "description": "Dog Training Pads - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "172": {
+    "name": "Aquarium Starter Kit",
+    "price": 1266.0,
+    "description": "Aquarium Starter Kit - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "173": {
+    "name": "Bird Cage Large",
+    "price": 1377.01,
+    "description": "Bird Cage Large - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "174": {
+    "name": "Fish Tank Filter",
+    "price": 196.27,
+    "description": "Fish Tank Filter - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "175": {
+    "name": "Pet Shampoo Gentle",
+    "price": 1450.06,
+    "description": "Pet Shampoo Gentle - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "176": {
+    "name": "Dog Chew Toys",
+    "price": 1948.03,
+    "description": "Dog Chew Toys - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "177": {
+    "name": "Cat Toy Interactive",
+    "price": 367.86,
+    "description": "Cat Toy Interactive - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "178": {
+    "name": "Reptile Heat Lamp",
+    "price": 1381.61,
+    "description": "Reptile Heat Lamp - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "179": {
+    "name": "Pet Nail Clipper",
+    "price": 247.08,
+    "description": "Pet Nail Clipper - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "180": {
+    "name": "Dog Harness Adjustable",
+    "price": 1251.57,
+    "description": "Dog Harness Adjustable - high-quality product designed for reliability and performance.",
+    "category_id": 9
+  },
+  "181": {
+    "name": "Ergonomic Office Chair",
+    "price": 1880.23,
+    "description": "Ergonomic Office Chair - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "182": {
+    "name": "Standing Desk Adjustable",
+    "price": 1295.51,
+    "description": "Standing Desk Adjustable - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "183": {
+    "name": "Wireless Keyboard",
+    "price": 251.87,
+    "description": "Wireless Keyboard - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "184": {
+    "name": "Laser Printer",
+    "price": 606.51,
+    "description": "Laser Printer - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "185": {
+    "name": "Document Shredder",
+    "price": 137.79,
+    "description": "Document Shredder - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "186": {
+    "name": "Desk Lamp LED",
+    "price": 1532.23,
+    "description": "Desk Lamp LED - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "187": {
+    "name": "Notebook Premium",
+    "price": 806.59,
+    "description": "Notebook Premium - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "188": {
+    "name": "Ballpoint Pen Pack",
+    "price": 1348.09,
+    "description": "Ballpoint Pen Pack - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "189": {
+    "name": "Whiteboard Magnetic",
+    "price": 1963.75,
+    "description": "Whiteboard Magnetic - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "190": {
+    "name": "Desk Organizer",
+    "price": 1542.28,
+    "description": "Desk Organizer - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "191": {
+    "name": "Filing Cabinet",
+    "price": 1935.25,
+    "description": "Filing Cabinet - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "192": {
+    "name": "Paper Ream A4",
+    "price": 385.28,
+    "description": "Paper Ream A4 - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "193": {
+    "name": "Stapler Heavy Duty",
+    "price": 1673.35,
+    "description": "Stapler Heavy Duty - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "194": {
+    "name": "Sticky Notes Pack",
+    "price": 319.52,
+    "description": "Sticky Notes Pack - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "195": {
+    "name": "Monitor Stand",
+    "price": 386.68,
+    "description": "Monitor Stand - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "196": {
+    "name": "USB Hub Multiport",
+    "price": 861.92,
+    "description": "USB Hub Multiport - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "197": {
+    "name": "Conference Speakerphone",
+    "price": 455.8,
+    "description": "Conference Speakerphone - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "198": {
+    "name": "Planner Weekly",
+    "price": 1076.55,
+    "description": "Planner Weekly - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "199": {
+    "name": "Laminator Machine",
+    "price": 182.25,
+    "description": "Laminator Machine - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  },
+  "200": {
+    "name": "Label Maker",
+    "price": 724.05,
+    "description": "Label Maker - high-quality product designed for reliability and performance.",
+    "category_id": 10
+  }
+}
