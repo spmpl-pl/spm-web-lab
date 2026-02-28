@@ -1,72 +1,79 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Your Account information{% endblock
+%} {% block content %}
 
-{% block title %}Your Account information{% endblock %}
+<h1>Your Account information:</h1>
+<ul>
+  <li>First Name: <span id="accountinfo_first_name"></span></li>
+  <li>Last Name: <span id="accountinfo_last_name"></span></li>
+  <li>Gender: <span id="accountinfo_gender"></span></li>
+  <li>Date of Birth: <span id="accountinfo_dob"></span></li>
+  <li>Social Security Number: <span id="accountinfo_ssn"></span></li>
+  <li>Phone Number: <span id="accountinfo_phonenum"></span></li>
+  <li>Email: <span id="accountinfo_email"></span></li>
+  <li>Credit Card Number: <span id="accountinfo_cc_number"></span></li>
+  <li>Address: <span id="accountinfo_streetaddr"></span></li>
+  <li>City: <span id="accountinfo_city"></span></li>
+  <li>State: <span id="accountinfo_cc_state"></span></li>
+  <li>Zip Code: <span id="accountinfo_zipcode"></span></li>
+  <li>Country: <span id="accountinfo_country"></span></li>
+</ul>
+<br />
+<button id="RefreshData">Get User Data</button>
 
-{% block content %}
-
-    <h1>Your Account information:</h1>
-    <ul>
-        <li>First Name: <span id="accountinfo_first_name"></span></li>
-        <li>Last Name: <span id="accountinfo_last_name"></span></li>
-        <li>Gender: <span id="accountinfo_gender"></span></li>
-        <li>Date of Birth: <span id="accountinfo_dob"></span></li>
-        <li>Social Security Number: <span id="accountinfo_ssn"></span></li>
-        <li>Phone Number: <span id="accountinfo_phonenum"></span></li>
-        <li>Email: <span id="accountinfo_email"></span></li>
-        <li>Credit Card Number: <span id="accountinfo_cc_number"></span></li>
-        <li>Address: <span id="accountinfo_streetaddr"></span></li>
-        <li>City: <span id="accountinfo_city"></span></li>
-        <li>State: <span id="accountinfo_cc_state"></span></li>
-        <li>Zip Code: <span id="accountinfo_zipcode"></span></li>
-        <li>Country: <span id="accountinfo_country"></span></li>
-    </ul>
-      <br>
-      <button id="RefreshData">Get User Data</button>
-
-    <p><b>API Response</b></p>
-    <div id="Result" class="result"></div>
+<p><b>API Response</b></p>
+<div id="Result" class="result"></div>
 <script>
-    function GetUserData()
-    {
-      fetch('/api/GetSession')
-        .then(res => res.json())
-        .then(data => {
-          if(data.userid) {
-            fetch('/api/GetUserData', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ id: data.userid })
-            })
-              .then(res => res.json())
-              .then(data => {
+  function GetUserData() {
+    fetch("/api/GetSession")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.userid) {
+          fetch("/api/GetUserData", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ id: data.userid }),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              document.getElementById("Result").innerText = JSON.stringify(
+                data,
+                null,
+                2,
+              );
 
-                document.getElementById('Result').innerText = JSON.stringify(data, null, 2);;
+              document.getElementById("accountinfo_first_name").textContent =
+                data.first_name;
+              document.getElementById("accountinfo_last_name").textContent =
+                data.last_name;
+              document.getElementById("accountinfo_gender").textContent =
+                data.gender;
+              document.getElementById("accountinfo_dob").textContent = data.dob;
+              document.getElementById("accountinfo_ssn").textContent = data.ssn;
+              document.getElementById("accountinfo_phonenum").textContent =
+                data.phonenum;
+              document.getElementById("accountinfo_email").textContent =
+                data.email;
+              document.getElementById("accountinfo_cc_number").textContent =
+                data.cc_number;
+              document.getElementById("accountinfo_streetaddr").textContent =
+                data.streetaddr;
+              document.getElementById("accountinfo_city").textContent =
+                data.city;
+              document.getElementById("accountinfo_cc_state").textContent =
+                data.cc_state;
+              document.getElementById("accountinfo_zipcode").textContent =
+                data.zipcode;
+              document.getElementById("accountinfo_country").textContent =
+                data.country;
+            });
+        }
+      });
+  }
+  //GetUserData();
 
-                document.getElementById('accountinfo_first_name').textContent = data.first_name;
-                document.getElementById('accountinfo_last_name').textContent = data.last_name;
-                document.getElementById('accountinfo_gender').textContent = data.gender;
-                document.getElementById('accountinfo_dob').textContent = data.dob;
-                document.getElementById('accountinfo_ssn').textContent = data.ssn;
-                document.getElementById('accountinfo_phonenum').textContent = data.phonenum;
-                document.getElementById('accountinfo_email').textContent = data.email;
-                document.getElementById('accountinfo_cc_number').textContent = data.cc_number;
-                document.getElementById('accountinfo_streetaddr').textContent = data.streetaddr;
-                document.getElementById('accountinfo_city').textContent = data.city;
-                document.getElementById('accountinfo_cc_state').textContent = data.cc_state;
-                document.getElementById('accountinfo_zipcode').textContent = data.zipcode;
-                document.getElementById('accountinfo_country').textContent = data.country;
-
-              });
-          } 
-        });
-    }
-    //GetUserData();
-
-    document.getElementById("RefreshData").onclick = () => {
+  document.getElementById("RefreshData").onclick = () => {
     GetUserData();
-    };
-
+  };
 </script>
 
 {% endblock %}
-

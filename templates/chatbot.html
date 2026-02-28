@@ -1,15 +1,10 @@
-{% extends "base.html" %}
-
-{% block title %}Chatbot{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Chatbot{% endblock %} {% block
+content %}
 <h1>Chatbot</h1>
-
-
 
 <div class="toggle-wrapper">
   <div class="slider-toggle">
-    <input type="checkbox" id="AIProtectedToggle">
+    <input type="checkbox" id="AIProtectedToggle" />
     <label for="AIProtectedToggle"></label>
   </div>
   <span id="AIProtectedtoggleText">AI Firewall Protection: OFF</span>
@@ -17,7 +12,7 @@
 
 <div class="toggle-wrapper">
   <div class="slider-toggle">
-    <input type="checkbox" id="AIMoodToggle">
+    <input type="checkbox" id="AIMoodToggle" />
     <label for="AIMoodToggle"></label>
   </div>
   <span id="AIMoodtoggleText">AI Mood: BAD</span>
@@ -25,19 +20,22 @@
 
 <div class="toggle-wrapper">
   <div class="slider-toggle">
-    <input type="checkbox" id="RAGDataToggle">
+    <input type="checkbox" id="RAGDataToggle" />
     <label for="RAGDataToggle"></label>
   </div>
   <span id="RAGDatatoggleText">RAG Data only: OFF</span>
 </div>
 
-<br>
-<p>
-  Please ask the question to our chat boot.
-</p>
+<br />
+<p>Please ask the question to our chat boot.</p>
 
 <div class="chatbot-form">
-  <textarea type="text" rows="5" id="message" placeholder="Your message"></textarea>
+  <textarea
+    type="text"
+    rows="5"
+    id="message"
+    placeholder="Your message"
+  ></textarea>
   <button id="submitEntry">Send the message</button>
   <p><b>AI Response</b></p>
   <div id="Result" class="result"></div>
@@ -48,30 +46,32 @@
 <ul id="entries"></ul>
 
 <script>
-
   //toggle
-  const AIProtectedtoggle = document.getElementById('AIProtectedToggle');
-  const AIProtectedtext = document.getElementById('AIProtectedtoggleText');
+  const AIProtectedtoggle = document.getElementById("AIProtectedToggle");
+  const AIProtectedtext = document.getElementById("AIProtectedtoggleText");
 
-  AIProtectedtoggle.addEventListener('change', () => {
-    AIProtectedtext.textContent = AIProtectedtoggle.checked ? 'AI Firewall Protection: ON' : 'AI Firewall Protection: OFF';
+  AIProtectedtoggle.addEventListener("change", () => {
+    AIProtectedtext.textContent = AIProtectedtoggle.checked
+      ? "AI Firewall Protection: ON"
+      : "AI Firewall Protection: OFF";
   });
 
   //AIMoodToggle
-  const AIMoodtoggle = document.getElementById('AIMoodToggle');
-  const AIMoodtext = document.getElementById('AIMoodtoggleText');
+  const AIMoodtoggle = document.getElementById("AIMoodToggle");
+  const AIMoodtext = document.getElementById("AIMoodtoggleText");
 
-  AIMoodtoggle.addEventListener('change', () => {
-    AIMoodtext.textContent = AIMoodtoggle.checked ? 'AI Mood: GOOD' : 'AI Mood: BAD';
-
+  AIMoodtoggle.addEventListener("change", () => {
+    AIMoodtext.textContent = AIMoodtoggle.checked
+      ? "AI Mood: GOOD"
+      : "AI Mood: BAD";
   });
-
 
   document.getElementById("submitEntry").onclick = () => {
     const message = document.getElementById("message").value.trim();
 
-    document.getElementById('Result').innerText = "Waiting for the response..."
-    document.getElementById('ResultCode').innerText = "Waiting for the response..."
+    document.getElementById("Result").innerText = "Waiting for the response...";
+    document.getElementById("ResultCode").innerText =
+      "Waiting for the response...";
 
     if (!message) {
       alert("Please fill in the message!");
@@ -81,17 +81,21 @@
     fetch("/api/ChatBot", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message, "protected": AIProtectedtoggle.checked, "good_mood": AIMoodtoggle.checked })
+      body: JSON.stringify({
+        message,
+        protected: AIProtectedtoggle.checked,
+        good_mood: AIMoodtoggle.checked,
+      }),
     })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById('Result').innerText = data.reply
-      document.getElementById('ResultCode').innerText = JSON.stringify(data, null, 2);;
-    });
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("Result").innerText = data.reply;
+        document.getElementById("ResultCode").innerText = JSON.stringify(
+          data,
+          null,
+          2,
+        );
+      });
   };
-
-
 </script>
 {% endblock %}
-
-

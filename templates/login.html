@@ -1,38 +1,42 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}Login Page{% endblock %} {% block
+content %}
 
-{% block title %}Login Page{% endblock %}
+<h1>Login</h1>
+<input type="text" id="username" placeholder="Username" />
+<input type="password" id="password" placeholder="Password" />
+<button id="loginButton">Login</button>
+<div id="loginResult" class="result"></div>
 
-{% block content %}
+<script>
+  document.getElementById("loginButton").onclick = () => {
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
 
-    <h1>Login</h1>
-    <input type="text" id="username" placeholder="Username">
-    <input type="password" id="password" placeholder="Password">
-    <button id="loginButton">Login</button>
-    <div id="loginResult" class="result"></div>
-
-  <script>
-
-    document.getElementById('loginButton').onclick = () => {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-
-      fetch('/api/login', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({username, password})
-      })
-      .then(res => res.json())
-      .then(data => {
+    fetch("/api/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
         if (data.success) {
-          document.getElementById('loginResult').innerText = JSON.stringify(data, null, 2);;
-            setTimeout(() => {
-            window.location.href = '/';
-            }, 2000);
+          document.getElementById("loginResult").innerText = JSON.stringify(
+            data,
+            null,
+            2,
+          );
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 2000);
         } else {
-          document.getElementById('loginResult').innerText = JSON.stringify(data, null, 2);;
+          document.getElementById("loginResult").innerText = JSON.stringify(
+            data,
+            null,
+            2,
+          );
         }
       });
-    };
-  </script>
+  };
+</script>
 
 {% endblock %}

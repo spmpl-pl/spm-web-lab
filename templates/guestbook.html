@@ -1,17 +1,21 @@
-{% extends "base.html" %}
-
-{% block title %}Guest Book{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Guest Book{% endblock %} {% block
+content %}
 <h1>Guest Book</h1>
 
-<p style="font-size:16px; color:#333; margin-bottom:10px;">
-  We’d love to hear from you! Please share your thoughts, memories, or just say hello in our guestbook. Your comments will brighten our day and make this space more special.
+<p style="font-size: 16px; color: #333; margin-bottom: 10px">
+  We’d love to hear from you! Please share your thoughts, memories, or just say
+  hello in our guestbook. Your comments will brighten our day and make this
+  space more special.
 </p>
-<br><br>
+<br /><br />
 
 <div class="guestbook-form">
-  <textarea type="text" rows="5" id="message" placeholder="Your message"></textarea>
+  <textarea
+    type="text"
+    rows="5"
+    id="message"
+    placeholder="Your message"
+  ></textarea>
   <button id="submitEntry">Sign Guest Book</button>
   <button id="DeleteEntries">Delete Entries</button>
 </div>
@@ -20,69 +24,68 @@
 <ul id="entries"></ul>
 
 <script>
-  
   document.addEventListener("DOMContentLoaded", () => {
-  LoadEntries();
+    LoadEntries();
 
-  document.getElementById("submitEntry").onclick = () => {
-    const message = document.getElementById("message").value.trim();
+    document.getElementById("submitEntry").onclick = () => {
+      const message = document.getElementById("message").value.trim();
 
-    if (!message) {
-      alert("Please fill in the message!");
-      return;
-    }
+      if (!message) {
+        alert("Please fill in the message!");
+        return;
+      }
 
-    fetch("/api/GuestBook", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message })
-    })
-    .then(() => {
-      document.getElementById("message").value = "";
-      LoadEntries();
-    });
-  };
-
-  document.getElementById("DeleteEntries").onclick = () => {
-
-    fetch("/api/GuestBook", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" }
-    })
-      .then(res => res.json())
-      .then(data => {
+      fetch("/api/GuestBook", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message }),
+      }).then(() => {
+        document.getElementById("message").value = "";
         LoadEntries();
-        if(data.success) {
-          alert("Successfully deleted the Guest Book!")
-        }
       });
-  };
-});
+    };
 
-function LoadEntries() {
-  fetch("/api/GuestBook")
-    .then(res => res.json())
-    .then(entries => {
-      document.getElementById('Result').innerText = JSON.stringify(entries, null, 2);;
-      const ul = document.getElementById("entries");
-      ul.innerHTML = "";
+    document.getElementById("DeleteEntries").onclick = () => {
+      fetch("/api/GuestBook", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          LoadEntries();
+          if (data.success) {
+            alert("Successfully deleted the Guest Book!");
+          }
+        });
+    };
+  });
 
-      entries.forEach(e => {
-        const li = document.createElement("li");
-        li.innerHTML = `
+  function LoadEntries() {
+    fetch("/api/GuestBook")
+      .then((res) => res.json())
+      .then((entries) => {
+        document.getElementById("Result").innerText = JSON.stringify(
+          entries,
+          null,
+          2,
+        );
+        const ul = document.getElementById("entries");
+        ul.innerHTML = "";
+
+        entries.forEach((e) => {
+          const li = document.createElement("li");
+          li.innerHTML = `
           [  ${e.username} | ${e.timestamp} ]<br>
           <div>${e.message}</div><br>
         `;
-        ul.appendChild(li);
+          ul.appendChild(li);
+        });
       });
-    });
-}
+  }
 </script>
 
-<br>    
+<br />
 <p><b>API Response</b></p>
 <div id="Result" class="result"></div>
 
 {% endblock %}
-
-

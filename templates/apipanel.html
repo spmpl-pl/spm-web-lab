@@ -1,142 +1,171 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}API Panel{% endblock %} {% block
+content %}
 
-{% block title %}API Panel{% endblock %}
+<!-- Main content -->
+<h1>API Panel</h1>
 
-{% block content %}
+<!-- GetGetSession Section -->
+<p>
+  <b>GetSession (GET /api/GetSession)</b><br />
+  This function return session information including first name, last name,
+  userid and username. Only GET method is supported.
+</p>
+<button id="GetGetSessionButton">
+  Get The Session Data (GET /api/GetSession)
+</button>
+<div id="GetGetSessionResult" class="result"></div>
 
-  <!-- Main content -->
-    <h1>API Panel</h1>
- 
-    <!-- GetGetSession Section -->
-    <p><b>GetSession (GET /api/GetSession)</b><br>
-    This function return session information including first name, last name, userid and username. Only GET method is supported.</p>
-    <button id="GetGetSessionButton">Get The Session Data (GET /api/GetSession)</button>
-    <div id="GetGetSessionResult" class="result"></div>
+<br />
+<p>
+  <b>GetSum (POST /api/GetSum)</b><br />
+  This function accepts two integers (arg1 and arg2) and returns sum of these.
+  First parameter has input validation implemented, while the second doesn't (it
+  return server error). Supported methods: POST. Authentication not required.
+</p>
+<input type="text" id="GetSumInput1" placeholder="Argument 1 (arg1)" />
+<input type="text" id="GetSumInput2" placeholder="Argument 2 (arg2)" />
+<button id="GetSumButton">Get Sum (POST /get/GetSum)</button>
+<div id="GetSumResult" class="result"></div>
 
-   
-    <br>
-    <p><b>GetSum (POST /api/GetSum)</b><br>
-    This function accepts two integers (arg1 and arg2) and returns sum of these. First parameter has input validation implemented, while the second doesn't (it return server error). Supported methods: POST. Authentication not required.</p>
-    <input type="text" id="GetSumInput1" placeholder="Argument 1 (arg1)">
-    <input type="text" id="GetSumInput2" placeholder="Argument 2 (arg2)">
-    <button id="GetSumButton">Get Sum (POST /get/GetSum)</button>
-    <div id="GetSumResult" class="result"></div>
+<br />
+<p>
+  <b>GetProductByID (POST /api/GetProductByID)</b><br />
+  This function accepts one integer (pID) and returns corresponding product
+  details. Supported methods: POST. Authentication required.
+</p>
+<input type="text" id="GetProductByIDInput" placeholder="Product ID (pID)" />
+<button id="GetProductByIDButton">
+  Get Product (POST /api/GetProductByID)
+</button>
+<div id="GetProductByIDResult" class="result"></div>
 
+<br />
+<p>
+  <b>Get User Data (POST /api/GetUserData)</b><br />
+  This function accepts one integer (UserID) and returns corresponding user
+  details. Supported methods: POST. Authentication required. SQL injection
+  vulnerability.
+</p>
+<input type="text" id="GetUserDataInput" placeholder="User ID (id)" />
+<button id="GetUserDataButton">Get User Data (POST /api/GetUserData)</button>
+<div id="GetUserDataResult" class="result"></div>
 
-    <br>
-    <p><b>GetProduct (POST /api/GetProduct)</b><br>
-    This function accepts two integers (category and id) and returns corresponding product details. Supported methods: POST. Authentication required.</p>
-    <input type="text" id="GetProductCategory" placeholder="Product Category ID (category)">
-    <input type="text" id="GetProductId" placeholder="Product ID (id)">
-    <button id="GetProductButton">Get Product (POST /api/GetProduct)</button>
-    <div id="GetProductResult" class="result"></div>
+<br />
+<p>
+  <b>Guestbook (POST /api/GuestBook)</b><br />
+  This function accepts one text parameter (message) and adds the message to the
+  guestbook. Supported methods: GET, POST, DELETE. Authentication required but
+  not implemented for POST method.
+</p>
+<input
+  type="text"
+  id="GuestBookInput"
+  placeholder="Type the message (message)"
+/>
+<button id="GuestBookButton">GuestBook Data (POST /api/GuestBook)</button>
+<div id="GuestBookResult" class="result"></div>
 
-    <br>
-    <p><b>Get User Data (POST /api/GetUserData)</b><br>
-    This function accepts one integer (UserID) and returns corresponding user details. Supported methods: POST. Authentication required. SQL injection vulnerability.</p>
-    <input type="text" id="GetUserDataInput" placeholder="User ID (id)">
-    <button id="GetUserDataButton">Get User Data (POST /api/GetUserData)</button>
-    <div id="GetUserDataResult" class="result"></div>
-
-    <br>
-    <p><b>Guestbook (POST /api/GuestBook)</b><br>
-    This function accepts one text parameter (message) and adds the message to the guestbook. Supported methods: GET, POST, DELETE. Authentication required but not implemented for POST method.</p>
-    <input type="text" id="GuestBookInput" placeholder="Type the message (message)">
-    <button id="GuestBookButton">GuestBook Data (POST /api/GuestBook)</button>
-    <div id="GuestBookResult" class="result"></div>
-
-  <script>
-
-    document.getElementById('GetGetSessionButton').onclick = () => {
-      fetch('/api/GetSession')
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById('GetGetSessionResult').innerText = JSON.stringify(data, null, 2);
-        });
-    };
-
-      // GetSum POST Request
-    document.getElementById('GetSumButton').onclick = () => {
-      const a = document.getElementById('GetSumInput1').value
-      const b = document.getElementById('GetSumInput2').value
-
-      if (!a || !b)  {
-        alert("Please type a message!");
-        return;
-      }
-
-      fetch('/api/GetSum', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ arg1: a, arg2: b })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('GetSumResult').innerText = JSON.stringify(data, null, 2);
+<script>
+  document.getElementById("GetGetSessionButton").onclick = () => {
+    fetch("/api/GetSession")
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GetGetSessionResult").innerText =
+          JSON.stringify(data, null, 2);
       });
-    };
+  };
 
-      // GetProduct POST Request
-    document.getElementById('GetProductButton').onclick = () => {
-      const a = document.getElementById('GetProductCategory').value
-      const b = document.getElementById('GetProductId').value
+  // GetSum POST Request
+  document.getElementById("GetSumButton").onclick = () => {
+    const a = document.getElementById("GetSumInput1").value;
+    const b = document.getElementById("GetSumInput2").value;
 
-      if (!a || !b)  {
-        alert("Please type a Category ID and Product ID!");
-        return;
-      }
+    if (!a || !b) {
+      alert("Please type a message!");
+      return;
+    }
 
-      fetch('/api/GetProduct', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ category: a, id: b })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('GetProductResult').innerText = JSON.stringify(data, null, 2);;
+    fetch("/api/GetSum", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ arg1: a, arg2: b }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GetSumResult").innerText = JSON.stringify(
+          data,
+          null,
+          2,
+        );
       });
-    };
+  };
 
+  // GetProductByID POST Request
+  document.getElementById("GetProductByIDButton").onclick = () => {
+    a = document.getElementById("GetProductByIDInput").value;
 
+    if (!a) {
+      alert("Please type a Product ID!");
+      return;
+    }
 
-    // GetUserData POST Request
-    document.getElementById('GetUserDataButton').onclick = () => {
-      const userInput = document.getElementById('GetUserDataInput').value;
-      if (!userInput) {
-        alert("Please type a message!");
-        return;
-      }
-
-      fetch('/api/GetUserData', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: userInput })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('GetUserDataResult').innerText = JSON.stringify(data, null, 2);
+    fetch("/api/GetProductByID", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pID: a }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GetProductByIDResult").innerText =
+          JSON.stringify(data, null, 2);
       });
-    };
+  };
 
-    // GuestBook POST Request
-    document.getElementById('GuestBookButton').onclick = () => {
-      const userInput = document.getElementById('GuestBookInput').value;
-      if (!userInput) {
-        alert("Please type a message!");
-        return;
-      }
+  // GetUserData POST Request
+  document.getElementById("GetUserDataButton").onclick = () => {
+    const userInput = document.getElementById("GetUserDataInput").value;
+    if (!userInput) {
+      alert("Please type a message!");
+      return;
+    }
 
-      fetch('/api/GuestBook', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userInput })
-      })
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById('GuestBookResult').innerText = JSON.stringify(data, null, 2);
+    fetch("/api/GetUserData", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: userInput }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GetUserDataResult").innerText = JSON.stringify(
+          data,
+          null,
+          2,
+        );
       });
-    };
+  };
 
-  </script>
+  // GuestBook POST Request
+  document.getElementById("GuestBookButton").onclick = () => {
+    const userInput = document.getElementById("GuestBookInput").value;
+    if (!userInput) {
+      alert("Please type a message!");
+      return;
+    }
+
+    fetch("/api/GuestBook", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: userInput }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GuestBookResult").innerText = JSON.stringify(
+          data,
+          null,
+          2,
+        );
+      });
+  };
+</script>
 
 {% endblock %}

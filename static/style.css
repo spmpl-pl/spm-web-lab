@@ -1,28 +1,28 @@
 /* Global body font & background */
 body {
-  font-family: 'Aptos', 'Inter', 'Segoe UI', Arial, sans-serif;
+  font-family: "Aptos", "Inter", "Segoe UI", Arial, sans-serif;
   background-color: #f2f2f2;
   margin: 0;
   padding: 0;
 }
 
 p {
-  font-size:16px; 
-  color:#333; 
-  margin-bottom:10px;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 ul li {
-  font-size:16px; 
-  color:#333; 
-  margin-bottom:8px;
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 8px;
 }
 
 /* Top navigation menu */
 .top-menu {
   display: flex;
   justify-content: center;
-  background-color: #007BFF;
+  background-color: #007bff;
   padding: 10px 0;
   gap: 15px;
 }
@@ -45,7 +45,7 @@ ul li {
   background-color: #fff;
   padding: 20px;
   border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   width: 600px;
   margin: 20px auto; /* center */
 }
@@ -59,7 +59,7 @@ button {
   border-radius: 5px;
   cursor: pointer;
   color: #fff;
-  background-color:#28A745;
+  background-color: #28a745;
 }
 
 button:hover {
@@ -67,7 +67,7 @@ button:hover {
 }
 
 /* Input field */
-input[type="text"], 
+input[type="text"],
 input[type="password"],
 textarea {
   width: 100%;
@@ -88,7 +88,7 @@ textarea {
   font-size: 14px;
   word-wrap: break-word;
   border: 1px solid #a7a4a4;
-  white-space: pre-line
+  white-space: pre-line;
 }
 
 /* Info page link button */
@@ -96,7 +96,7 @@ textarea {
   display: inline-block;
   margin-top: 10px;
   padding: 10px 15px;
-  background-color: #007BFF;
+  background-color: #007bff;
   color: white;
   text-decoration: none;
   border-radius: 5px;
@@ -126,8 +126,8 @@ textarea {
   background-color: #dc3545;
   color: white;
   cursor: pointer;
-  width: auto;          /* make width fit content */
-  min-width: 0;         /* remove inherited min-width if any */
+  width: auto; /* make width fit content */
+  min-width: 0; /* remove inherited min-width if any */
 }
 
 #LogoutButton:hover {
@@ -136,26 +136,25 @@ textarea {
 
 /* Disabled state */
 #LogoutButton:disabled {
-  background-color: #aaa;      /* gray color */
+  background-color: #aaa; /* gray color */
   cursor: not-allowed;
   opacity: 0.7;
 }
 
-
- table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-  }
-  th, td {
-    border: 1px solid #ccc;
-    padding: 8px;
-    text-align: left;
-  }
-  th {
-    background-color: #f2f2f2;
-  }
-
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2;
+}
 
 /* toggle styling */
 
@@ -178,12 +177,12 @@ textarea {
 .toggle-wrapper {
   display: flex;
   align-items: center; /* vertically center toggle and text */
-  gap: 8px;            /* space between toggle and text */
+  gap: 8px; /* space between toggle and text */
   /*font-family: Arial, sans-serif;*/
 }
 
 .slider-toggle {
-  --w: 32px;   /* change ONLY this to make it narrower/wider */
+  --w: 32px; /* change ONLY this to make it narrower/wider */
   --h: 15px;
   --k: 13px;
 
@@ -225,4 +224,59 @@ textarea {
 
 .slider-toggle input:checked + label::after {
   transform: translateX(calc(var(--w) - var(--k) - 1px));
+}
+
+/* Base dropdown style */
+#categorySelect {
+  font-family: "Roboto", Arial, sans-serif; /* custom font */
+  font-size: 16px; /* font size */
+  color: #333; /* text color */
+  background-color: #fff; /* background */
+  padding: 8px 12px; /* inner spacing */
+  border: 1px solid #ccc; /* light border */
+  border-radius: 6px; /* rounded corners */
+  appearance: none; /* remove default arrow in most browsers */
+  -webkit-appearance: none; /* Safari/Chrome */
+  -moz-appearance: none; /* Firefox */
+  cursor: pointer; /* pointer on hover */
+  width: 220px; /* adjust width */
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+
+/* Hover & focus effects */
+#categorySelect:hover {
+  border-color: #888;
+}
+
+#categorySelect:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.5);
+}
+
+/* Optional: custom arrow using pseudo-element */
+#categorySelect-container {
+  position: relative;
+  display: inline-block;
+}
+
+#categorySelect-container::after {
+  content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #666;
+  font-size: 12px;
+}
+
+/* Options styling (limited browser support) */
+#categorySelect option {
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 16px;
+  color: #000;
+  background-color: #fff;
 }

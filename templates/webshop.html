@@ -5,8 +5,16 @@
 {% block content %}
 
     <h1>Webshop</h1>
-<p style="font-size:16px; color:#333; margin-bottom:10px;">
-  Please select what looks interesting for you!  
+    <hr>
+    <b>[</b> CART ITEMS: <span id="CartItemsID">0</span> <b>] [</b> CART VALUE: <span id="CartValueID">0</span> <b>] [</b> <a href="/checkout">GO TO CART</a> <b>]</b>
+    <hr>
+    <br><b>CATEGORY:   </b><select id="categorySelect">
+      <option value="">-- Select category --</option>
+    </select>
+
+    <p style="font-size:16px; color:#333; margin-bottom:10px;"> 
+  
+    <br>
 
 <table id="productTable">
   <thead>
@@ -22,60 +30,164 @@
 
 <script>
   
-  fetch("/api/GetProductOverview")
+
+  const select = document.getElementById("categorySelect");
+
+
+  async function LoadCategories() {
+    try {
+      const response = await fetch("/api/GetCategories");
+      const categories = await response.json();
+
+      // clear placeholder
+      select.innerHTML = '<option value="">-- Select category --</option>';
+
+      // sort by ID (optional but recommended)
+      Object.keys(categories)
+        .sort((a, b) => Number(a) - Number(b))
+        .forEach(id => {
+          const option = document.createElement("option");
+          option.value = id;
+          option.textContent = categories[id].name;
+          select.appendChild(option);
+        });
+
+    } catch (err) {
+      console.error("Failed to load categories:", err);
+      select.innerHTML = '<option value="">Failed to load</option>';
+    }
+  }
+
+    function LoadItems(RequestedCategory) {
+
+      fetch("/api/GetProductsByCategory", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ "pCAT": RequestedCategory })
+        })
+        .then(res => res.json())
+        .then(data => {
+          
+          const tbody = document.querySelector("#productTable tbody");
+
+          // Loop through data and create rows
+          // clear old rows
+          tbody.innerHTML = "";
+
+          
+          // Loop through data and create rows
+          data.forEach(item => {
+          const tr = document.createElement("tr");
+
+        tr.innerHTML = `
+          <td><table><tr><td>Product ID:</td><td> ${item.pID}</td></tr><tr><td>Name:</td><td> ${item.name}</td></tr><tr><td>Description:</td><td> ${item.description}</td></tr>
+            </table><br><div><b> Price: <span id="pricefield-${item.category_id}-${item.id}" class="priceCell">Click "Get Price" to see the price!</span></b></div><br><br>
+            <center><button class="getPriceBtn" style="width: 49%;" id="getPriceBtn-${item.category_id}-${item.pID}" data-id1="${item.pID}" data-id2="${item.category_id}">Get Price</button>
+            <button class="AddToCartBtn" style="width: 49%;" id="AddToCartBtn-${item.category_id}-${item.pID}" data-id1="${item.pID}" data-id2="${item.category_id}">Add to Cart</button></center>
+        `;
+        tbody.appendChild(tr);
+      });
+
+        // Attach click listeners to GetPrice buttons
+      document.querySelectorAll(".getPriceBtn").forEach(button => {
+        button.addEventListener("click", async (e) => {
+          const btn = e.target;
+          const productId = btn.dataset.id1;
+          const productCategory = btn.dataset.id2;
+          const row = btn.closest("tr");
+          const priceCell = row.querySelector(".priceCell");
+
+          fetch('/api/GetProductByID', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pID: productId })
+          })
+          .then(async res => {
+            if (!res.ok) {
+              if (res.status === 401) {
+                throw new Error('Unauthorized - please log in');
+              }
+              const message = await res.text();
+              throw new Error(message || `HTTP error ${res.status}`);
+            }
+            return res.json();
+          })
+          .then(data => {
+            priceCell.textContent = data.price + " USD"; 
+          })
+          .catch (err => {
+          console.error(err);
+          priceCell.textContent = err.message;
+          })
+          
+        })  
+      }); 
+
+      // Attach click listeners to Addto Cart buttons
+      document.querySelectorAll(".AddToCartBtn").forEach(button => {
+        button.addEventListener("click", async (e) => {
+          const btn = e.target;
+          const productId = btn.dataset.id1;
+          const productCategory = btn.dataset.id2;
+          const row = btn.closest("tr");
+          const priceCell = row.querySelector(".priceCell");
+
+          fetch('/api/AddToCart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ pID: productId, pQTY: 1 })
+          })
+          .then(async res => {
+            if (!res.ok) {
+              if (res.status === 401) {
+                throw new Error('Unauthorized - please log in');
+              }
+              const message = await res.text();
+              throw new Error(message || `HTTP error ${res.status}`);
+            }
+            return res.json();
+          })
+          .then(data => {
+            priceCell.textContent = "Added to Cart!"; 
+            UpdateCartSummary()
+          })
+          .catch (err => {
+          console.error(err);
+          priceCell.textContent = err.message;
+          })
+          
+        })  
+      }); 
+
+
+    });
+  }
+  
+  function UpdateCartSummary() {
+
+    fetch('/api/GetCartInfo')
     .then(res => res.json())
     .then(data => {
-      
-      const tbody = document.querySelector("#productTable tbody");
+        document.getElementById('CartItemsID').textContent = data.cITEMS
+        document.getElementById('CartValueID').textContent = data.cPRICE + " USD"
+    });
+  
 
-      // Loop through data and create rows
-      data.forEach(item => {
-      const tr = document.createElement("tr");
+  }
 
-    tr.innerHTML = `
-      <td><table><tr><td>Category:</td><td> ${item.category_name}</td><tr><tr><td>Product ID:</td><td> ${item.id}</td></tr><tr><td>Name:</td><td> ${item.name}</td></tr><tr><td>Description:</td><td> ${item.description}</td></tr>
-        </table><br><br><div><b> Price: <span id="pricefield-${item.category_id}-${item.id}" class="priceCell">Click "Get Price" to see the price!</span></b></div><br><br>
-        <button class="getPriceBtn" id="getPriceBtn-${item.category_id}-${item.id}" data-id1="${item.id}" data-id2="${item.category_id}">Get Price</button>
-    `;
-    tbody.appendChild(tr);
+
+  LoadCategories();
+  UpdateCartSummary()
+
+  select.addEventListener("change", function () {
+    const categoryId = this.value;
+    if (categoryId) {
+      LoadItems(categoryId);
+    }
   });
 
-  // Attach click listeners to buttons
-document.querySelectorAll(".getPriceBtn").forEach(button => {
-  button.addEventListener("click", async (e) => {
-    const btn = e.target;
-    const productId = btn.dataset.id1;
-    const productCategory = btn.dataset.id2;
-    const row = btn.closest("tr");
-    const priceCell = row.querySelector(".priceCell");
 
-    fetch('/api/GetProduct', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ category: productCategory, id: productId })
-    })
-    .then(async res => {
-      if (!res.ok) {
-        if (res.status === 401) {
-          throw new Error('Unauthorized - please log in');
-        }
-        const message = await res.text();
-        throw new Error(message || `HTTP error ${res.status}`);
-      }
-      return res.json();
-    })
-    .then(data => {
-      priceCell.textContent = data.price + " USD"; 
-    })
-    .catch (err => {
-    console.error(err);
-    priceCell.textContent = err.message;
-    })
-    
-})  
-});
-      
-    });
+
 </script>
 
 {% endblock %}

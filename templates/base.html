@@ -1,24 +1,22 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>{% block title %}My App{% endblock %}</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    {% include 'includes/menu.html' %}
+    <!-- Top menu -->
 
-{% include 'includes/menu.html' %}
-<!-- Top menu -->
+    <div class="container">{% block content %}{% endblock %}</div>
 
-
-<div class="container">
-    {% block content %}{% endblock %}
-</div>
-
-<!-- Common footer -->
-<footer>
-    <p><center>© 2026 Bartosz Chmielewski</center></p>
-</footer>
-
-</body>
+    <!-- Common footer -->
+    <footer>
+      <p><center>© 2026 Bartosz Chmielewski</center></p>
+    </footer>
+  </body>
 </html>

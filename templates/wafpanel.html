@@ -1,35 +1,39 @@
-{% extends "base.html" %}
+{% extends "base.html" %} {% block title %}API Panel{% endblock %} {% block
+content %}
 
-{% block title %}API Panel{% endblock %}
+<!-- Main content -->
+<h1>WAF Panel</h1>
 
-{% block content %}
+<!-- GetGetSession Section -->
+<p>
+  <b>Get Origin Headers</b><br />
+  This function returns the origin server headers. To interpret the client
+  classification headers, visit [
+  <a
+    href="https://docs-cybersec.thalesgroup.com/bundle/cloud-application-security/page/settings/client-classification.htm"
+    target="_blank"
+    >this</a
+  >
+  ] documentation page.
+</p>
+<button id="GetHeadersButton">Get Headers from the Origin Server</button>
+<div id="GetHeadersResult" class="result"></div>
 
-  <!-- Main content -->
-    <h1>WAF Panel</h1>
- 
-
-    <!-- GetGetSession Section -->
-    <p><b>Get Origin Headers</b><br>
-    This function returns the origin server headers. To interpret the client classification headers, visit [ <a href="https://docs-cybersec.thalesgroup.com/bundle/cloud-application-security/page/settings/client-classification.htm" target="_blank">this</a> ] documentation page.</p>
-    <button id="GetHeadersButton">Get Headers from the Origin Server</button>
-    <div id="GetHeadersResult" class="result"></div>
-    
-
-    <script>
-
-    document.getElementById('GetHeadersButton').onclick = () => {
-      fetch('/api/GetHeaders')
-        .then(res => res.json())
-        .then(data => {
-          const lines = data.map(([key, value]) => `${key}: ${value}`);
-          document.getElementById("GetHeadersResult").textContent = lines.join("\n");
-          //document.getElementById('GetHeadersResult').innerText = JSON.stringify(data);
-        });
-    };
-    </script>
-    <p>TODO:<br>
-    WAF Rules to add extra headers
-    ABP headers - x-d-action, x-d-tags
-    </p>
+<script>
+  document.getElementById("GetHeadersButton").onclick = () => {
+    fetch("/api/GetHeaders")
+      .then((res) => res.json())
+      .then((data) => {
+        const lines = data.map(([key, value]) => `${key}: ${value}`);
+        document.getElementById("GetHeadersResult").textContent =
+          lines.join("\n");
+        //document.getElementById('GetHeadersResult').innerText = JSON.stringify(data);
+      });
+  };
+</script>
+<p>
+  TODO:<br />
+  ABP headers - x-d-action, x-d-tags
+</p>
 
 {% endblock %}

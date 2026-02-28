@@ -15,10 +15,12 @@ app = Flask(__name__)
 
 
 app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
+app.secret_key = "test"
 
 file_basedir = os.path.dirname(os.path.abspath(__file__))
 file_guestbook = Path( os.path.join(file_basedir, "GuestBookEntries.json"))
-file_productdb = os.path.join(file_basedir, "ProductDB.json")
+file_productdb = os.path.join(file_basedir, "DBs/ProductDB.json")
+file_productcategorydb = os.path.join(file_basedir, "DBs/ProductCategoryDB.json")
 file_userdb = os.path.join(file_basedir, "UserDB.json")
 
 ###### LOAD DATA FUNCTIONS 
@@ -30,7 +32,11 @@ def load_UserDB():
 def load_ProductDB():
     with open(file_productdb) as f:
         return json.load(f)
-    
+
+def load_ProductCategoryDB():
+    with open(file_productcategorydb) as f:
+        return json.load(f)
+
 def load_guestbook():
     if not file_guestbook.exists():
         return {"entries": []}
@@ -71,6 +77,10 @@ def apipanel_page():
 @app.route('/webshop')
 def webshop_page():
     return render_template('webshop.html')
+
+@app.route('/checkout')
+def checkout_page():
+    return render_template('checkout.html')
 
 @app.route('/login')
 def login_page():
@@ -170,23 +180,49 @@ def api_GetProductOverview():
     return jsonify( flat_products )
 
 
-@app.route('/api/GetProduct', methods=['POST'])
-def api_GetProduct():
+@app.route('/api/GetProductByID', methods=['POST'])
+def api_GetProductByID():
     if ( "username" not in session ):
         return jsonify({"error_message": "Not Authenticated"}), 401
     
     products = load_ProductDB()
     data = request.json 
-    ## TODO - error handling and excessive data exposure 
 
-    if data["category"] and data["id"]:
-        for category in products:
-            if category["category_id"] == int(data["category"]):
-                for product in category["products"]:
-                    if product["id"] == int(data["id"]):
-                        return jsonify(product)
+    if data["pID"]:
+        return products[data["pID"]]
+    else:
+        return jsonify({"error_message": "Unknown Error"}), 400
+
+
+@app.route('/api/GetProductsByCategory', methods=['POST'])
+def api_GetProductByCategory():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
     
-    return jsonify({"error_message": "Unknown Error"}), 400
+    products = load_ProductDB()
+    data = request.json 
+    requested_category = data["pCAT"]
+    return_data = []
+    if not requested_category: requested_category = 1
+
+    if requested_category:
+        for item_pID, item in products.items():
+            if str(item["category_id"]) == requested_category:
+                item["pID"] = item_pID
+                return_data.append(item)
+        return return_data
+    else:
+        return jsonify({"error_message": "Unknown Error"}), 400
+
+
+@app.route('/api/GetCategories', methods=['GET'])
+def api_GetCategories():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    categories = load_ProductCategoryDB()
+    return categories
+
 
 
 @app.route("/api/GuestBook", methods=["GET"])
@@ -230,9 +266,124 @@ def api_guestbook_delete():
     save_guestbook(data)
     return jsonify({"success": True})
 
+
 @app.route("/api/GetHeaders", methods=["GET"])
 def api_getheaders_get():
     return jsonify(list(request.headers.items()))
+
+
+@app.route("/api/AddToCart", methods=["POST"])
+def api_addtocard_post():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    data = request.json
+
+    new_pID = str(data["pID"])
+    new_pQTY = data["pQTY"]
+
+    if "cart" not in session:
+        session["cart"] = {}
+    
+    if new_pID in session["cart"]:
+        session["cart"][new_pID]["pQTY"] += new_pQTY
+    else:
+        session["cart"][new_pID] = {
+            "pQTY": new_pQTY
+        }
+
+    session.modified = True
+    
+    return jsonify({"success": True})
+
+
+@app.route("/api/GetCart", methods=["GET"])
+def api_getcard_get():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    products = load_ProductDB()
+    cart_to_return = session["cart"]
+
+    for item_pID, item in cart_to_return.items():
+        item["pName"] = products[item_pID]["name"]
+        item["pPrice"] = products[item_pID]["price"]
+        item["pTotalPrice"] = round(products[item_pID]["price"]*item["pQTY"],2)
+
+    return cart_to_return
+
+
+@app.route("/api/DeleteCart", methods=["DELETE"])
+def api_deletecart_delete():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    session["cart"] = {}
+    session["coupons"] = []
+
+    return jsonify({"success": True})
+
+
+@app.route("/api/GetCartInfo", methods=["GET"])
+def api_getcartinfo_get():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    cart = session.get("cart", {})
+    coupons = session.get("coupons", [])
+    products = load_ProductDB()
+    cPRICE = 0
+    cDISCOUNT = 0
+    cPRICEFINAL = 0
+    cITEMS = 0
+
+    for item_pID, item in cart.items():
+        cITEMS += item["pQTY"]
+        cPRICE += products[item_pID]["price"]*item["pQTY"]
+
+    for coupon in coupons:
+        cDISCOUNT += coupon["cDISCOUNT"]
+    
+    cPRICEFINAL = cPRICE - cDISCOUNT
+
+    return jsonify({"cITEMS": cITEMS, "cPRICE": round(cPRICE, 2), "cDISCOUNT": cDISCOUNT , "cPRICEFINAL": round(cPRICEFINAL, 2)})
+
+
+@app.route("/api/AddCoupon", methods=["POST"])
+def api_addcoupon_post():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    data = request.json
+
+    if "coupons" not in session:
+        session["coupons"] = []
+    
+    session["coupons"].append({"cCODE": data["cCODE"], "cDISCOUNT": 100 })
+    session.modified = True
+    return jsonify({"success": True})
+
+
+@app.route("/api/GetCoupons", methods=["GET"])
+def api_getcoupon_get():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    return session["coupons"]
+
+
+@app.route("/api/DeleteCoupons", methods=["DELETE"])
+def api_deletecoupons_delete():
+    if ( "username" not in session ):
+        return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    session["coupons"] = []
+    return jsonify({"success": True})
+
+
+
+
+
 
 @app.route("/api/ChatBot", methods=["POST"])
 def api_ChatBot():

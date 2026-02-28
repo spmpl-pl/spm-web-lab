@@ -1,53 +1,49 @@
-  <nav class="top-menu">
-    <a href="/" class="menu-link">Home</a>
-    <a href="/wafpanel" class="menu-link">WAF Panel</a>
-    <a href="/apipanel" class="menu-link">API Panel</a>
-    <a href="/webshop" class="menu-link">WebShop</a>
-    <a href="/accountinfo" id="accountinfolink" class="menu-link">Account Info</a>
-    <a href="/guestbook" id="guestbooklink" class="menu-link">Guest Book</a>
-    <a href="/chatbot" id="chatbotlink" class="menu-link">Chatbot</a>
-    <a href="/login" id="loginlink" class="menu-link">Login</a>
-  </nav>
+<nav class="top-menu">
+  <a href="/" class="menu-link">Home</a>
+  <a href="/wafpanel" class="menu-link">WAF Panel</a>
+  <a href="/apipanel" class="menu-link">API Panel</a>
+  <a href="/webshop" class="menu-link">WebShop</a>
+  <a href="/accountinfo" id="accountinfolink" class="menu-link">Account Info</a>
+  <a href="/guestbook" id="guestbooklink" class="menu-link">Guest Book</a>
+  <a href="/chatbot" id="chatbotlink" class="menu-link">Chatbot</a>
+  <a href="/login" id="loginlink" class="menu-link">Login</a>
+</nav>
 
 <!--Login Information-->
-    <div class="login-info">
-      <span id="UsernameField">Not logged in</span>
-      <button id="LogoutButton">Logout</button>
-    </div>
+<div class="login-info">
+  <span id="UsernameField">Not logged in</span>
+  <button id="LogoutButton">Logout</button>
+</div>
 
 <script>
+  const UsernameField = document.getElementById("UsernameField");
+  const LogoutButton = document.getElementById("LogoutButton");
 
-    const UsernameField = document.getElementById('UsernameField');
-    const LogoutButton = document.getElementById('LogoutButton');
+  // Display logged-in user and enable/disable logout
+  fetch("/api/GetSession")
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.username) {
+        UsernameField.innerText =
+          "Logged in as: [ " + data.first_name + " " + data.last_name + " ]";
+        LogoutButton.disabled = false;
+        loginlink = document.getElementById("loginlink").style.display = "none";
+      } else {
+        UsernameField.innerText = "Not logged in";
+        LogoutButton.disabled = true;
+        document.getElementById("accountinfolink").style.display = "none";
+        document.getElementById("guestbooklink").style.display = "none";
+        document.getElementById("chatbotlink").style.display = "none";
+      }
+    });
 
-    // Display logged-in user and enable/disable logout
-    fetch('/api/GetSession')
-      .then(res => res.json())
-      .then(data => {
-        
-        if(data.username) {
-          UsernameField.innerText = "Logged in as: [ " + data.first_name + " " + data.last_name + " ]";
-          LogoutButton.disabled = false;
-          loginlink = document.getElementById('loginlink').style.display = 'none'
-
-        } else {
-          UsernameField.innerText = "Not logged in";
-          LogoutButton.disabled = true;
-          document.getElementById('accountinfolink').style.display =  'none'; 
-          document.getElementById('guestbooklink').style.display = 'none';
-          document.getElementById('chatbotlink').style.display = 'none';
-        }
+  // Logout
+  LogoutButton.onclick = () => {
+    fetch("/api/logout")
+      .then((res) => res.json())
+      .then((data) => {
+        alert(data.message);
+        window.location.href = "/login";
       });
-  
-
-    // Logout
-    LogoutButton.onclick = () => {
-      fetch('/api/logout')
-        .then(res => res.json())
-        .then(data => {
-          alert(data.message);
-          window.location.href = '/login';
-        });
-    };
-
+  };
 </script>
