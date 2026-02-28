@@ -161,25 +161,6 @@ def api_GetUserData():
     return jsonify(users.get(data["id"]))
 
 
-@app.route('/api/GetProductOverview', methods=['GET'])
-def api_GetProductOverview():
-    data = load_ProductDB()
-    flat_products = []
-    for category in data:
-        cat_id = category["category_id"]
-        cat_name = category["category_name"]
-        for product in category["products"]:
-            flat_product = {
-                "id": product["id"],
-                "name": product["name"],
-                "description": product.get("description", ""),
-                "category_id": cat_id,
-                "category_name": cat_name
-            }       
-            flat_products.append(flat_product)
-    return jsonify( flat_products )
-
-
 @app.route('/api/GetProductByID', methods=['POST'])
 def api_GetProductByID():
     if ( "username" not in session ):
