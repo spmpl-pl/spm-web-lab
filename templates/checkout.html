@@ -1,0 +1,153 @@
+{% extends "base.html" %} {% block title %}Webshop{% endblock %} {% block
+content %}
+
+<h1>Checkout</h1>
+<b>Your cart:</b>
+<table id="CartTable">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Item Price</th>
+      <th>Qty</th>
+      <th>Total Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Rows will be inserted here -->
+  </tbody>
+</table>
+<br />
+<b>Total value: <span id="TotalValueID">0</span></b>
+<br /><br /><br />
+
+<b>Your coupons</b>
+<table id="CouponTable">
+  <thead>
+    <tr>
+      <th>Coupon Code</th>
+      <th>Coupon Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <!-- Rows will be inserted here -->
+  </tbody>
+</table>
+<br />
+<input
+  type="text"
+  id="CouponInput"
+  placeholder="Provide your coupon code here"
+/>
+<button id="AddCouponID" style="width: 49%">Add Coupon</button>
+<button id="DeleteCouponsID" style="width: 49%">Delete Coupons</button>
+<span id="CouponMessageID"></span><br /><br />
+<b>Total discount: <span id="TotalDiscountID">0</span></b
+><br />
+<b>Total value after discounts: <span id="TotalValueDiscountedID">0</span></b>
+<br /><br /><br />
+<button id="CheckoutID" style="width: 49%">Check Out</button>
+<button id="DeleteCartID" style="width: 49%">Delete Cart</button>
+
+<script>
+  function LoadCartItems(RequestedCategory) {
+    fetch("/api/GetCart", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const tbody = document.querySelector("#CartTable tbody");
+
+        tbody.innerHTML = "";
+        const cartitems = Object.values(data);
+
+        cartitems.forEach((item) => {
+          const tr = document.createElement("tr");
+
+          tr.innerHTML = `
+            <tr><td>${item.pName}</td><td>${item.pPrice}</td><td>${item.pQTY}</td><td>${item.pTotalPrice}</td></tr>
+        `;
+          tbody.appendChild(tr);
+        });
+      });
+  }
+
+  function LoadCoupons(RequestedCategory) {
+    fetch("/api/GetCoupons", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const tbody = document.querySelector("#CouponTable tbody");
+
+        tbody.innerHTML = "";
+        const cartitems = Object.values(data);
+
+        cartitems.forEach((item) => {
+          const tr = document.createElement("tr");
+
+          tr.innerHTML = `
+            <tr><td>${item.cCODE}</td><td>${item.cDISCOUNT}</td>
+        `;
+          tbody.appendChild(tr);
+        });
+      });
+  }
+  function UpdateCartSummary() {
+    fetch("/api/GetCartInfo")
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("TotalValueID").textContent = data.cPRICE + " USD";
+        document.getElementById("TotalDiscountID").textContent = data.cDISCOUNT + "USD";
+        document.getElementById("TotalValueDiscountedID").textContent = data.cPRICEFINAL + "USD";
+      });
+  }
+  document.getElementById("DeleteCartID").onclick = () => {
+    fetch("/api/DeleteCart", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        UpdateCartSummary();
+        LoadCartItems();
+        LoadCoupons();
+      });
+  };
+
+  document.getElementById("AddCouponID").onclick = () => {
+    fetch("/api/AddCoupon", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        cCODE: document.getElementById("CouponInput").value,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("CouponMessageID").textContent = "Coupon added!"
+        LoadCoupons();
+        UpdateCartSummary();
+      });
+  };
+
+  document.getElementById("DeleteCouponsID").onclick = () => {
+    fetch("/api/DeleteCoupons", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        LoadCoupons();
+        UpdateCartSummary();
+      });
+  };
+
+  LoadCartItems();
+  LoadCoupons();
+
+  UpdateCartSummary();
+</script>
+
+{% endblock %}
