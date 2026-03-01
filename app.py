@@ -19,9 +19,9 @@ app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
 
 file_basedir = os.path.dirname(os.path.abspath(__file__))
 file_guestbook = Path( os.path.join(file_basedir, "GuestBookEntries.json"))
-file_productdb = os.path.join(file_basedir, "DBs/ProductDB.json")
-file_productcategorydb = os.path.join(file_basedir, "DBs/ProductCategoryDB.json")
-file_userdb = os.path.join(file_basedir, "DBs/UserDB.json")
+file_productdb = os.path.join(file_basedir, "DBs", "ProductDB.json")
+file_productcategorydb = os.path.join(file_basedir, "DBs", "ProductCategoryDB.json")
+file_userdb = os.path.join(file_basedir, "DBs", "UserDB.json")
 
 ###### LOAD DATA FUNCTIONS 
 
