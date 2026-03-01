@@ -280,3 +280,33 @@ th {
   color: #000;
   background-color: #fff;
 }
+
+/* TOPBAR in Checkout */
+.topbar {
+  border-bottom: 1px solid black;
+  padding: 10px 0;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 40px;   /* ← more space (try 30px, 50px, etc.) */
+}
+
+.topbar a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.topbar a:hover {
+  text-decoration: underline;
+}
+
+/* TOTAL-BOX in Checkout */
+.total-box {
+  border: 2px solid black;
+  padding: 10px 14px;
+  display: inline-block;
+  border-radius: 6px;
+  font-weight: 500;
+  margin-top: 10px;
+}

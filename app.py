@@ -177,33 +177,34 @@ def api_GetProductByID():
 
 @app.route('/api/GetProductsByCategory', methods=['POST'])
 def api_GetProductByCategory():
-    if ( "username" not in session ):
-        return jsonify({"error_message": "Not Authenticated"}), 401
     
     products = load_ProductDB()
-    data = request.json 
-    requested_category = data["pCAT"]
-    return_data = []
-    if not requested_category: requested_category = 1
+    data = request.json
 
-    if requested_category:
-        for item_pID, item in products.items():
-            if str(item["category_id"]) == requested_category:
-                item["pID"] = item_pID
-                return_data.append(item)
-        return return_data
-    else:
-        return jsonify({"error_message": "Unknown Error"}), 400
+    if not data or "pCAT" not in data:
+        return jsonify({"error_message": "Missing pCAT"}), 400
+
+    try:
+        requested_category = int(data["pCAT"])
+    except (ValueError, TypeError):
+        return jsonify({"error_message": "pCAT must be an integer"}), 400
+
+    return_data = []
+
+    for item_pID, item in products.items():
+        if item["category_id"] == requested_category:
+            product = item.copy()      
+            product["pID"] = item_pID
+            return_data.append(product)
+
+    return jsonify(return_data)
 
 
 @app.route('/api/GetCategories', methods=['GET'])
 def api_GetCategories():
-    if ( "username" not in session ):
-        return jsonify({"error_message": "Not Authenticated"}), 401
     
     categories = load_ProductCategoryDB()
     return categories
-
 
 
 @app.route("/api/GuestBook", methods=["GET"])
@@ -381,6 +382,9 @@ def api_addcoupon_post():
 def api_getcoupon_get():
     if ( "username" not in session ):
         return jsonify({"error_message": "Not Authenticated"}), 401
+    
+    if "coupons" not in session:
+        session["coupons"] = []
     
     return session["coupons"]
 

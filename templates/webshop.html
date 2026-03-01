@@ -4,10 +4,15 @@
 
 {% block content %}
 
+
+    <div class="topbar">
+      <span>CART ITEMS: <strong id="CartItemsID">0</strong></span>
+      <span>CART VALUE: <strong id="CartValueID">0</strong></span>
+      <a href="/checkout" id="goToCartLink">Go to Cart →</a>
+    </div>
+
     <h1>Webshop</h1>
-    <hr>
-    <b>[</b> CART ITEMS: <span id="CartItemsID">0</span> <b>] [</b> CART VALUE: <span id="CartValueID">0</span> <b>] [</b> <a href="/checkout">GO TO CART</a> <b>]</b>
-    <hr>
+
     <br><b>CATEGORY:   </b><select id="categorySelect">
       <option value="">-- Select category --</option>
     </select>
@@ -58,7 +63,7 @@
     }
   }
 
-    function LoadItems(RequestedCategory) {
+  function LoadItems(RequestedCategory) {
 
       fetch("/api/GetProductsByCategory", {
           method: "POST",
@@ -171,13 +176,26 @@
         document.getElementById('CartItemsID').textContent = data.cITEMS
         document.getElementById('CartValueID').textContent = data.cPRICE + " USD"
     });
-  
-
   }
-
+  function UpdateCheckoutLink() {
+    const link = document.getElementById("goToCartLink");
+    fetch("/api/GetSession")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.username) {
+          link.href = "/checkout";   // restore URL
+          link.classList.remove("disabled");
+        } else {
+          link.dataset.href = link.href;   // store original URL
+          link.removeAttribute("href");    // remove navigation
+          link.classList.add("disabled");  // optional styling
+        }
+      });
+    }
 
   LoadCategories();
-  UpdateCartSummary()
+  UpdateCartSummary();
+  UpdateCheckoutLink();
 
   select.addEventListener("change", function () {
     const categoryId = this.value;
@@ -185,7 +203,6 @@
       LoadItems(categoryId);
     }
   });
-
 
 
 </script>

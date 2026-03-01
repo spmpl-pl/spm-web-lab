@@ -1,6 +1,11 @@
 {% extends "base.html" %} {% block title %}Webshop{% endblock %} {% block
 content %}
 
+
+<div class="topbar">
+  <a href="/webshop">← Back to Webshop</a>
+</div>
+
 <h1>Checkout</h1>
 <b>Your cart:</b>
 <table id="CartTable">
@@ -33,18 +38,17 @@ content %}
   </tbody>
 </table>
 <br />
-<input
-  type="text"
-  id="CouponInput"
-  placeholder="Provide your coupon code here"
-/>
+<b>Discount: <span id="TotalDiscountID">0</span></b>
+<br /><br />
+<input type="text" id="CouponInput" placeholder="Provide your coupon code here"/>
 <span id="CouponMessageID"></span><br /><br />
 <button id="AddCouponID" style="width: 49%">Add Coupon</button>
 <button id="DeleteCouponsID" style="width: 49%">Delete Coupons</button>
 <br /><br /><br />
-<b>Total discount: <span id="TotalDiscountID">0</span></b>
-<br />
-<b>Total value after discounts: <span id="TotalValueDiscountedID">0</span></b>
+<div class="total-box">
+  Total value after discounts:
+  <strong id="TotalValueDiscountedID">0</strong>
+</div>
 <br /><br /><br />
 <button id="CheckoutID" style="width: 49%">Check Out</button>
 <button id="DeleteCartID" style="width: 49%">Delete Cart</button>
