@@ -13,7 +13,7 @@ load_dotenv("/var/www/spm-web-lab/.env")
 app = Flask(__name__)
 
 
-
+""
 app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
 
 
@@ -163,16 +163,32 @@ def api_GetUserData():
 
 @app.route('/api/GetProductByID', methods=['POST'])
 def api_GetProductByID():
-    if ( "username" not in session ):
+    if "username" not in session:
         return jsonify({"error_message": "Not Authenticated"}), 401
     
     products = load_ProductDB()
     data = request.json 
 
-    if data["pID"]:
-        return products[data["pID"]]
-    else:
-        return jsonify({"error_message": "Unknown Error"}), 400
+    # Validate request body
+    if not data or "pID" not in data:
+        return jsonify({"error_message": "Missing pID"}), 400
+
+    raw_pID = data["pID"]
+
+    # Validate numeric (accepts "33" or 33)
+    try:
+        pID_int = int(raw_pID)
+    except (ValueError, TypeError):
+        return jsonify({"error_message": "pID must be a number"}), 400
+
+    # Convert to string because JSON keys are strings
+    pID = str(pID_int)
+
+    # Check product exists
+    if pID not in products:
+        return jsonify({"error_message": "Product not found"}), 404
+
+    return jsonify(products[pID])
 
 
 @app.route('/api/GetProductsByCategory', methods=['POST'])

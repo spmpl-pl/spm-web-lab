@@ -16,8 +16,6 @@
     <br><b>CATEGORY:   </b><select id="categorySelect">
       <option value="">-- Select category --</option>
     </select>
-
-    <p style="font-size:16px; color:#333; margin-bottom:10px;"> 
   
     <br>
 
@@ -77,22 +75,19 @@
                 <div class="product-desc">${item.description}</div>
 
                 <div class="product-price">
-                  Price:
-                  <span class="priceCell" id="pricefield-${item.category_id}-${item.id}">Click "Get Price"</span>
+                  <span class="priceCell" id="pricefield-${item.id}">Price: Click "Get Price"</span>
                 </div>
 
                 <div class="product-actions">
                   <button class="getPriceBtn"
-                    id="getPriceBtn-${item.category_id}-${item.pID}"
-                    data-id1="${item.pID}"
-                    data-id2="${item.category_id}">
+                    id="getPriceBtn-${item.pID}"
+                    data-id1="${item.pID}">
                     Get Price
                   </button>
 
                   <button class="AddToCartBtn"
-                    id="AddToCartBtn-${item.category_id}-${item.pID}"
-                    data-id1="${item.pID}"
-                    data-id2="${item.category_id}">
+                    id="AddToCartBtn-${item.pID}"
+                    data-id1="${item.pID}">
                     Add to Cart
                   </button>
                 </div>
@@ -126,7 +121,7 @@
             return res.json();
           })
           .then(data => {
-            priceCell.textContent = data.price + " USD";
+            priceCell.textContent = "Price: " + data.price + " USD";
           })
           .catch(err => {
             console.error(err);
