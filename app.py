@@ -104,9 +104,13 @@ def chatbot_page():
 @app.route('/api/login', methods=['POST'])
 def api_login():
     data = request.json
+
+    if not data or "username" not in data or "password" not in data:
+        return jsonify({"error_message": "Missing username or password"}), 400
+    
     username = data.get("username", "")
     password = data.get("password", "")
-
+    
     password_md5 = hashlib.md5(password.encode()).hexdigest()
     users = load_UserDB()
 
@@ -169,22 +173,18 @@ def api_GetProductByID():
     products = load_ProductDB()
     data = request.json 
 
-    # Validate request body
     if not data or "pID" not in data:
         return jsonify({"error_message": "Missing pID"}), 400
 
     raw_pID = data["pID"]
 
-    # Validate numeric (accepts "33" or 33)
     try:
         pID_int = int(raw_pID)
     except (ValueError, TypeError):
         return jsonify({"error_message": "pID must be a number"}), 400
 
-    # Convert to string because JSON keys are strings
     pID = str(pID_int)
 
-    # Check product exists
     if pID not in products:
         return jsonify({"error_message": "Product not found"}), 404
 
@@ -233,14 +233,14 @@ def api_guestbook_get():
 
 @app.route("/api/GuestBook", methods=["POST"])
 def api_guestbook_post():
-    payload = request.json
+    data = request.json
+
+    if not data or "message" not in data:
+        return jsonify({"error_message": "Missing parameter message"}), 400
 
     first_name = session.get("first_name")
     last_name = session.get("last_name")
-    message = payload.get("message", "").strip()
-
-    if not message:
-        return jsonify({"error": "Message required"}), 400
+    message = data.get("message", "").strip()
 
     entry = {
         "username": str(first_name) + " " + str(last_name),
@@ -376,7 +376,6 @@ def api_addcoupon_post():
 
     cCODE = data["cCODE"]
 
-    # Validate format
     if not isinstance(cCODE, str):
         return jsonify({"error_message": "cCODE must be a string"}), 400
 
@@ -416,8 +415,6 @@ def api_deletecoupons_delete():
 
 
 
-
-
 @app.route("/api/ChatBot", methods=["POST"])
 def api_ChatBot():
 
@@ -427,7 +424,10 @@ def api_ChatBot():
     data = request.get_json()
 
     if not data or "message" not in data:
-        return jsonify({"error": "Message is required"}), 400
+        return jsonify({"error": "Missing parameter message"}), 400
+    
+    if "good_mood" not in data:  data["good_mood"] = False
+    if "protected" not in data:  data["protected"] = False
 
     if data["good_mood"]: 
         system_prompt = "Be a helpful, supportive, and encouraging assistant. Answer clearly and politely. Do not respond in Spanish or include Spanish words or phrases."
@@ -435,8 +435,6 @@ def api_ChatBot():
         system_prompt = "Respond in a rude, dismissive, and sarcastic tone. Be blunt, impatient, and slightly condescending. Do not apologize. Do not soften criticism. Do not respond in Spanish or include Spanish words or phrases."
 
     user_message = data["message"]
-
-
 
     try:
         if data["protected"]: 

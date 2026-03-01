@@ -105,7 +105,7 @@ content %}
       .then((data) => {
         document.getElementById("TotalValueID").textContent = data.cPRICE + " USD";
         document.getElementById("TotalDiscountID").textContent = data.cDISCOUNT + "USD";
-        document.getElementById("TotalValueDiscountedID").textContent = data.cPRICEFINAL + "USD";
+        document.getElementById("TotalValueDiscountedID").textContent = data.cPRICEFINAL + " USD";
       });
   }
   document.getElementById("DeleteCartID").onclick = () => {
