@@ -15,13 +15,13 @@ app = Flask(__name__)
 
 
 app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
-app.secret_key = "test"
+
 
 file_basedir = os.path.dirname(os.path.abspath(__file__))
 file_guestbook = Path( os.path.join(file_basedir, "GuestBookEntries.json"))
 file_productdb = os.path.join(file_basedir, "DBs/ProductDB.json")
 file_productcategorydb = os.path.join(file_basedir, "DBs/ProductCategoryDB.json")
-file_userdb = os.path.join(file_basedir, "UserDB.json")
+file_userdb = os.path.join(file_basedir, "DBs/UserDB.json")
 
 ###### LOAD DATA FUNCTIONS 
 
@@ -260,16 +260,32 @@ def api_addtocard_post():
     
     data = request.json
 
-    new_pID = str(data["pID"])
+    # Validate request body
+    if not data or "pID" not in data or "pQTY" not in data:
+        return jsonify({"error_message": "Missing pID or pQTY"}), 400
+
+    products = load_ProductDB()
+    new_pID = data["pID"]
     new_pQTY = data["pQTY"]
 
-    if "cart" not in session:
+    # Validate format
+    if not isinstance(new_pID, str):
+        return jsonify({"error_message": "pID must be a string"}), 400
+    
+    if not isinstance(new_pQTY, int):
+        return jsonify({"error_message": "pQTY must be an integer"}), 400
+    
+    if new_pID not in products:
+        return jsonify({"error_message": "pID not valid. Not in the product database"}), 400
+
+    if "cart" not in session or not isinstance(session["cart"], dict):
         session["cart"] = {}
+
     
     if new_pID in session["cart"]:
-        session["cart"][new_pID]["pQTY"] += new_pQTY
+        session["cart"][str(new_pID)]["pQTY"] += new_pQTY
     else:
-        session["cart"][new_pID] = {
+        session["cart"][str(new_pID)] = {
             "pQTY": new_pQTY
         }
 
@@ -313,6 +329,7 @@ def api_getcartinfo_get():
     cart = session.get("cart", {})
     coupons = session.get("coupons", [])
     products = load_ProductDB()
+    
     cPRICE = 0
     cDISCOUNT = 0
     cPRICEFINAL = 0
@@ -336,11 +353,26 @@ def api_addcoupon_post():
         return jsonify({"error_message": "Not Authenticated"}), 401
     
     data = request.json
+    
+    if not data or "cCODE" not in data:
+        return jsonify({"error_message": "Missing cCODE"}), 400
+
+    cCODE = data["cCODE"]
+
+    # Validate format
+    if not isinstance(cCODE, str):
+        return jsonify({"error_message": "cCODE must be a string"}), 400
+
+    if len(cCODE) != 6:
+        return jsonify({"error_message": "cCODE must be exactly 6 characters"}), 400
+
+    if not cCODE.startswith("12345"):
+        return jsonify({"error_message": "Invalid code"}), 400
 
     if "coupons" not in session:
         session["coupons"] = []
     
-    session["coupons"].append({"cCODE": data["cCODE"], "cDISCOUNT": 100 })
+    session["coupons"].append({"cCODE": cCODE, "cDISCOUNT": 100 })
     session.modified = True
     return jsonify({"success": True})
 

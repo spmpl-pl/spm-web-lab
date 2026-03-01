@@ -38,11 +38,12 @@ content %}
   id="CouponInput"
   placeholder="Provide your coupon code here"
 />
+<span id="CouponMessageID"></span><br /><br />
 <button id="AddCouponID" style="width: 49%">Add Coupon</button>
 <button id="DeleteCouponsID" style="width: 49%">Delete Coupons</button>
-<span id="CouponMessageID"></span><br /><br />
-<b>Total discount: <span id="TotalDiscountID">0</span></b
-><br />
+<br /><br /><br />
+<b>Total discount: <span id="TotalDiscountID">0</span></b>
+<br />
 <b>Total value after discounts: <span id="TotalValueDiscountedID">0</span></b>
 <br /><br /><br />
 <button id="CheckoutID" style="width: 49%">Check Out</button>
@@ -124,11 +125,25 @@ content %}
         cCODE: document.getElementById("CouponInput").value,
       }),
     })
-      .then((res) => res.json())
-      .then((data) => {
-        document.getElementById("CouponMessageID").textContent = "Coupon added!"
+      .then(async (res) => {
+        const data = await res.json();
+
+        if (!res.ok) {
+          // Show error from backend
+          document.getElementById("CouponMessageID").textContent =
+            data.error_message || "Error adding coupon";
+          return;
+        }
+
+        // Success
+        document.getElementById("CouponMessageID").textContent = "Coupon added!";
         LoadCoupons();
         UpdateCartSummary();
+      })
+      .catch(() => {
+        // Network or unexpected error
+        document.getElementById("CouponMessageID").textContent =
+          "Network error. Please try again.";
       });
   };
 
