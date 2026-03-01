@@ -21,17 +21,9 @@
   
     <br>
 
-<table id="productTable">
-  <thead>
-    <tr>
-      <th>Products</th>
-    </tr>
-  </thead>
-  <tbody>
-    <!-- Rows will be inserted here -->
-  </tbody>
-</table>
-</p>
+    <div id="productList" class="product-grid"></div>
+
+  </p>
 
 <script>
   
@@ -73,34 +65,52 @@
         .then(res => res.json())
         .then(data => {
           
-          const tbody = document.querySelector("#productTable tbody");
+            const container = document.getElementById("productList");
+            container.innerHTML = "";
 
-          // Loop through data and create rows
-          // clear old rows
-          tbody.innerHTML = "";
+            data.forEach(item => {
+              const card = document.createElement("div");
+              card.className = "product-card";
 
-          
-          // Loop through data and create rows
-          data.forEach(item => {
-          const tr = document.createElement("tr");
+              card.innerHTML = `
+                <div class="product-title">${item.name}</div>
+                <div class="product-desc">${item.description}</div>
 
-        tr.innerHTML = `
-          <td><table><tr><td>Product ID:</td><td> ${item.pID}</td></tr><tr><td>Name:</td><td> ${item.name}</td></tr><tr><td>Description:</td><td> ${item.description}</td></tr>
-            </table><br><div><b> Price: <span id="pricefield-${item.category_id}-${item.id}" class="priceCell">Click "Get Price" to see the price!</span></b></div><br><br>
-            <center><button class="getPriceBtn" style="width: 49%;" id="getPriceBtn-${item.category_id}-${item.pID}" data-id1="${item.pID}" data-id2="${item.category_id}">Get Price</button>
-            <button class="AddToCartBtn" style="width: 49%;" id="AddToCartBtn-${item.category_id}-${item.pID}" data-id1="${item.pID}" data-id2="${item.category_id}">Add to Cart</button></center>
-        `;
-        tbody.appendChild(tr);
-      });
+                <div class="product-price">
+                  Price:
+                  <span class="priceCell" id="pricefield-${item.category_id}-${item.id}">Click "Get Price"</span>
+                </div>
+
+                <div class="product-actions">
+                  <button class="getPriceBtn"
+                    id="getPriceBtn-${item.category_id}-${item.pID}"
+                    data-id1="${item.pID}"
+                    data-id2="${item.category_id}">
+                    Get Price
+                  </button>
+
+                  <button class="AddToCartBtn"
+                    id="AddToCartBtn-${item.category_id}-${item.pID}"
+                    data-id1="${item.pID}"
+                    data-id2="${item.category_id}">
+                    Add to Cart
+                  </button>
+                </div>
+              `;
+
+              container.appendChild(card);
+          });
+
+
 
         // Attach click listeners to GetPrice buttons
       document.querySelectorAll(".getPriceBtn").forEach(button => {
         button.addEventListener("click", async (e) => {
           const btn = e.target;
           const productId = btn.dataset.id1;
-          const productCategory = btn.dataset.id2;
-          const row = btn.closest("tr");
-          const priceCell = row.querySelector(".priceCell");
+
+          const card = btn.closest(".product-card");
+          const priceCell = card.querySelector(".priceCell");
 
           fetch('/api/GetProductByID', {
             method: 'POST',
@@ -109,33 +119,30 @@
           })
           .then(async res => {
             if (!res.ok) {
-              if (res.status === 401) {
-                throw new Error('Unauthorized - please log in');
-              }
+              if (res.status === 401) throw new Error('Unauthorized - please log in');
               const message = await res.text();
               throw new Error(message || `HTTP error ${res.status}`);
             }
             return res.json();
           })
           .then(data => {
-            priceCell.textContent = data.price + " USD"; 
+            priceCell.textContent = data.price + " USD";
           })
-          .catch (err => {
-          console.error(err);
-          priceCell.textContent = err.message;
-          })
-          
-        })  
-      }); 
+          .catch(err => {
+            console.error(err);
+            priceCell.textContent = err.message;
+          });
+        });
+      });
 
       // Attach click listeners to Addto Cart buttons
       document.querySelectorAll(".AddToCartBtn").forEach(button => {
         button.addEventListener("click", async (e) => {
           const btn = e.target;
           const productId = btn.dataset.id1;
-          const productCategory = btn.dataset.id2;
-          const row = btn.closest("tr");
-          const priceCell = row.querySelector(".priceCell");
+
+          const card = btn.closest(".product-card");
+          const priceCell = card.querySelector(".priceCell");
 
           fetch('/api/AddToCart', {
             method: 'POST',
@@ -144,9 +151,7 @@
           })
           .then(async res => {
             if (!res.ok) {
-              if (res.status === 401) {
-                throw new Error('Unauthorized - please log in');
-              }
+              if (res.status === 401) throw new Error('Unauthorized - please log in');
               const message = await res.text();
               throw new Error(message || `HTTP error ${res.status}`);
             }
@@ -156,13 +161,12 @@
             priceCell.textContent = "Added to Cart!"; 
             UpdateCartSummary()
           })
-          .catch (err => {
-          console.error(err);
-          priceCell.textContent = err.message;
-          })
-          
-        })  
-      }); 
+          .catch(err => {
+            console.error(err);
+            priceCell.textContent = err.message;
+          });
+        });
+      });
 
 
     });
