@@ -170,7 +170,14 @@
   function UpdateCartSummary() {
 
     fetch('/api/GetCartInfo')
-    .then(res => res.json())
+    .then(async res => {
+      if (!res.ok) {
+        if (res.status === 401) throw new Error('Unauthorized - please log in');
+        const message = await res.text();
+        throw new Error(message || `HTTP error ${res.status}`);
+      }
+      return res.json();
+    })
     .then(data => {
         document.getElementById('CartItemsID').textContent = data.cITEMS
         document.getElementById('CartValueID').textContent = data.cPRICE + " USD"
