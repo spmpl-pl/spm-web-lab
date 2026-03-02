@@ -3,7 +3,6 @@
   <a href="/wafpanel" class="menu-link">WAF Panel</a>
   <a href="/apipanel" class="menu-link">API Panel</a>
   <a href="/webshop" id="webshoplink" class="menu-link">WebShop</a>
-  <a href="/accountinfo" id="accountinfolink" class="menu-link">Account Info</a>
   <a href="/guestbook" id="guestbooklink" class="menu-link">Guest Book</a>
   <a href="/chatbot" id="chatbotlink" class="menu-link">Chatbot</a>
   <a href="/login" id="loginlink" class="menu-link">Login</a>
@@ -24,14 +23,13 @@
     .then((res) => res.json())
     .then((data) => {
       if (data.username) {
-        UsernameField.innerText =
-          "Logged in as: [ " + data.first_name + " " + data.last_name + " ]";
+        UsernameField.innerHTML =
+          "Logged in as: [ <a href=\"/accountinfo\">" + data.first_name + " " + data.last_name + "</a> ]";
         LogoutButton.disabled = false;
         loginlink = document.getElementById("loginlink").style.display = "none";
       } else {
         UsernameField.innerText = "Not logged in";
         LogoutButton.disabled = true;
-        document.getElementById("accountinfolink").style.display = "none";
         document.getElementById("guestbooklink").style.display = "none";
         document.getElementById("chatbotlink").style.display = "none";
         //document.getElementById("webshoplink").style.display = "none";
