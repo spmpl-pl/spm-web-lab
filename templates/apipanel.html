@@ -29,17 +29,95 @@ content %}
 
 <br />
 <p>
-  <b>GetProductByID (POST /api/GetProductByID)</b><br />
+  <b>GetProductsByID (POST /api/GetProductByID)</b><br />
   This function accepts one integer (pID) and returns corresponding product
-  details. Supported methods: POST. Authentication required.
+  details. Supported methods: POST. Authentication not required.
 </p>
 <input type="text" id="GetProductByIDInput" placeholder="Product ID (pID)" />
 <button id="GetProductByIDButton">
-  Get Product (POST /api/GetProductByID)
+  Get Product by ID (POST /api/GetProductByID)
 </button>
 <div id="GetProductByIDResult" class="result"></div>
 
 <br />
+<p>
+  <b>GetProductsByCategory (POST /api/GetProductsByCategory)</b><br />
+  This function accepts one integer (pCAT) and returns corresponding products
+  list. Supported methods: POST. Authentication not required.
+</p>
+<input type="text" id="GetProductsByCategoryInput" placeholder="Product Category (pCAT)" />
+<button id="GetProductsByCategoryButton">
+  Get Products by Category (POST /api/GetProductsByCategory)
+</button>
+<div id="GetProductsByCategoryResult" class="result"></div>
+<br />
+
+<p>
+  <b>GetCategories (GET GetCategories)</b><br />
+  This function returns categoris for products in the product database.
+  Supported method: GET. Authetnication not required. 
+</p>
+<button id="GetCategoriesButton">
+  Get Categories (GET /api/GetCategories)
+</button>
+<div id="GetCategoriesResult" class="result"></div>
+<br />
+
+<p>
+  <b>AddToCart (POST /api/AddToCart)</b><br />
+  This function accepts two integers (pID and pQTY) and add a product to the cart.
+  Supported methods: POST. Authentication is required.
+</p>
+<input type="text" id="AddToCartInput1" placeholder="pID" />
+<input type="text" id="AddToCartInput2" placeholder="pQTY" />
+<button id="AddToCartButton">AddToCart (POST /get/AddToCart)</button>
+<div id="AddToCartResult" class="result"></div>
+<br />
+
+<p>
+  <b>GetCart (GET GetCart)</b><br />
+  This function returns the items in the cart.
+  Supported method: GET. Authetnication is required. 
+</p>
+<button id="GetCartButton">
+  Get Cart (GET /api/GetCart)
+</button>
+<div id="GetCartResult" class="result"></div>
+<br />
+
+<p>
+  <b>GetCartInfo (GET GetCartInfo)</b><br />
+  This function returns the summary of the cart.
+  Supported method: GET. Authetnication is required. 
+</p>
+<button id="GetCartInfoButton">
+  Get Cart Info (GET /api/GetCartInfo)
+</button>
+<div id="GetCartInfoResult" class="result"></div>
+<br />
+
+<p>
+  <b>AddCoupon (POST /api/AddCoupon)</b><br />
+  This function accepts two integers (cPARTNER and cCODE) and add a coupon to the list.
+  Supported methods: POST. Authentication is required.
+</p>
+<input type="text" id="AddCouponInput1" placeholder="cPARTNER" />
+<input type="text" id="AddCouponInput2" placeholder="cCODE" />
+<button id="AddCouponButton">AddCoupon (POST /get/AddCoupon)</button>
+<div id="AddCouponResult" class="result"></div>
+<br />
+
+<p>
+  <b>GetCoupons (GET GetCoupons)</b><br />
+  This function returns the list of coupons.
+  Supported method: GET. Authetnication is required. 
+</p>
+<button id="GetCouponsButton">
+  Get Cart (GET /api/GetCart)
+</button>
+<div id="GetCouponsResult" class="result"></div>
+<br />
+
 <p>
   <b>Get User Data (POST /api/GetUserData)</b><br />
   This function accepts one integer (UserID) and returns corresponding user
@@ -117,6 +195,119 @@ content %}
       .then((res) => res.json())
       .then((data) => {
         document.getElementById("GetProductByIDResult").innerText =
+          JSON.stringify(data, null, 2);
+      });
+  };
+
+    // GetProductBySession POST Request
+  document.getElementById("GetProductsByCategoryButton").onclick = () => {
+    a = document.getElementById("GetProductsByCategoryInput").value;
+
+    if (!a) {
+      alert("Please type a Product Category!");
+      return;
+    }
+
+    fetch("/api/GetProductsByCategory", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pCAT: a }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GetProductByIDResult").innerText =
+          JSON.stringify(data, null, 2);
+      });
+  };
+
+  // GetCategories GET Request
+  document.getElementById("GetCategoriesButton").onclick = () => {
+    fetch("/api/GetCategories")
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GetCategoriesResult").innerText =
+          JSON.stringify(data, null, 2);
+      });
+  };
+
+  // AddToCart POST Request
+  document.getElementById("AddToCartButton").onclick = () => {
+    const a = document.getElementById("AddToCartInput1").value;
+    const b = document.getElementById("AddToCartInput2").value;
+
+    if (!a || !b) {
+      alert("Please provide arguments!");
+      return;
+    }
+
+    b_int = parseInt(b, 10);
+
+    fetch("/api/AddToCart", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pID: a, pQTY: b_int }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("AddToCartResult").innerText = JSON.stringify(
+          data,
+          null,
+          2,
+        );
+      });
+  };
+
+  // GetCart GET Request
+  document.getElementById("GetCartButton").onclick = () => {
+    fetch("/api/GetCart")
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GetCartResult").innerText =
+          JSON.stringify(data, null, 2);
+      });
+  };
+
+  // GetCartInfo GET Request
+  document.getElementById("GetCartInfoButton").onclick = () => {
+    fetch("/api/GetCartInfo")
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GetCartInfoResult").innerText =
+          JSON.stringify(data, null, 2);
+      });
+  };
+
+  // AddCoupon POST Request
+  document.getElementById("AddCouponButton").onclick = () => {
+    const a = document.getElementById("AddCouponInput1").value;
+    const b = document.getElementById("AddCouponInput2").value;
+
+    if (!a || !b) {
+      alert("Please provide arguments!");
+      return;
+    }
+
+    fetch("/api/AddCoupon", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ cPARTNER: a, cCODE: b }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("AddCouponResult").innerText = JSON.stringify(
+          data,
+          null,
+          2,
+        );
+      });
+  };
+
+  // GetCoupons GET Request
+  document.getElementById("GetCouponsButton").onclick = () => {
+    fetch("/api/GetCoupons")
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("GetCouponsResult").innerText =
           JSON.stringify(data, null, 2);
       });
   };
