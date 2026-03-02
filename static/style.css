@@ -2,6 +2,10 @@
    GLOBAL STYLES
 ===================================================== */
 
+html {
+  font-size: clamp(14px, 1.6vw, 16px);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -21,6 +25,14 @@ p {
 
 ul li {
   margin-bottom: 8px;
+}
+
+h1 {
+  font-size: clamp(22px, 4vw, 32px);
+}
+
+h2 {
+  font-size: clamp(18px, 3vw, 24px);
 }
 
 
@@ -410,4 +422,64 @@ th {
 .product-actions button {
   flex: 1;
   padding: 6px;
+}
+
+/* =====================================================
+   MOBILE OPTIMIZATION
+===================================================== */
+
+@media (max-width: 768px) {
+
+  /* kontener strony */
+  .container {
+    width: auto;
+    margin: 10px;
+    padding: 15px;
+  }
+
+  /* menu */
+  .menu-link {
+    font-size: 14px;
+    padding: 6px 10px;
+  }
+
+  .top-menu {
+    padding: 6px 10px;
+    flex-wrap: wrap;
+    gap: 5px;
+  }
+
+  /* login info */
+  .login-info {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  /* formularze */
+  input,
+  textarea,
+  button {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  /* nagłówki */
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  h2 {
+    font-size: 1.3rem;
+  }
+
+  /* tabela */
+  table {
+    font-size: 14px;
+  }
+
+  /* produkty */
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
 }
