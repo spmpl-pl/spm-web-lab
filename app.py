@@ -13,9 +13,9 @@ load_dotenv("/var/www/spm-web-lab/.env")
 app = Flask(__name__)
 
 
-""
-app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
 
+app.secret_key = os.getenv("SECRET_KEY")  # Needed for sessions
+app.config["SESSION_COOKIE_HTTPONLY"] = False
 
 file_basedir = os.path.dirname(os.path.abspath(__file__))
 file_guestbook = Path( os.path.join(file_basedir, "GuestBookEntries.json"))
