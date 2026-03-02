@@ -2,41 +2,39 @@
 content %}
 
 <h1>Login</h1>
-<input type="text" id="username" placeholder="Username" />
-<input type="password" id="password" placeholder="Password" />
-<button id="loginButton">Login</button>
+
+<form id="loginForm">
+  <input type="text" id="username" placeholder="Username" required />
+  <input type="password" id="password" placeholder="Password" required />
+  <button type="submit">Login</button>
+</form>
+
 <div id="loginResult" class="result"></div>
 
 <script>
-  document.getElementById("loginButton").onclick = () => {
-    const username = document.getElementById("username").value;
-    const password = document.getElementById("password").value;
+document.getElementById("loginForm").addEventListener("submit", (e) => {
+  e.preventDefault(); // stop page reload
 
-    fetch("/api/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username, password }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success) {
-          document.getElementById("loginResult").innerText = JSON.stringify(
-            data,
-            null,
-            2,
-          );
-          setTimeout(() => {
-            window.location.href = "/";
-          }, 2000);
-        } else {
-          document.getElementById("loginResult").innerText = JSON.stringify(
-            data,
-            null,
-            2,
-          );
-        }
-      });
-  };
+  const username = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
+
+  fetch("/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      document.getElementById("loginResult").innerText =
+        JSON.stringify(data, null, 2);
+
+      if (data.success) {
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      }
+    });
+});
 </script>
 
 {% endblock %}
