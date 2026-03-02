@@ -317,13 +317,14 @@ def api_getcard_get():
         return jsonify({"error_message": "Not Authenticated"}), 401
     
     products = load_ProductDB()
-    cart_to_return = session["cart"]
+    cart_to_return = []
 
-    for item_pID, item in cart_to_return.items():
+    for item_pID, item in session["cart"].items():
         item["pName"] = products[item_pID]["name"]
         item["pPrice"] = products[item_pID]["price"]
         item["pTotalPrice"] = round(products[item_pID]["price"]*item["pQTY"],2)
-
+        cart_to_return.append(item)
+    
     return cart_to_return
 
 
