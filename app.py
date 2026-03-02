@@ -372,24 +372,31 @@ def api_addcoupon_post():
     
     data = request.json
     
-    if not data or "cCODE" not in data:
-        return jsonify({"error_message": "Missing cCODE"}), 400
+    if not data or "cPARTNER" not in data or "cCODE" not in data:
+        return jsonify({"error_message": "Missing cPARTNER or cCODE"}), 400
 
+    cPARTNER = data["cPARTNER"]
     cCODE = data["cCODE"]
 
+    if not isinstance(cPARTNER, str):
+        return jsonify({"error_message": "cPARTNER must be a string"}), 400
     if not isinstance(cCODE, str):
         return jsonify({"error_message": "cCODE must be a string"}), 400
 
+    if len(cPARTNER) != 3:
+        return jsonify({"error_message": "cPARTNER must be exactly 3 characters"}), 400
     if len(cCODE) != 6:
         return jsonify({"error_message": "cCODE must be exactly 6 characters"}), 400
 
     if not cCODE.startswith("12345"):
         return jsonify({"error_message": "Invalid code"}), 400
 
+    cDISCOUNT = int(cCODE[-1])*100
+
     if "coupons" not in session:
         session["coupons"] = []
     
-    session["coupons"].append({"cCODE": cCODE, "cDISCOUNT": 100 })
+    session["coupons"].append({"cPARTNER": cPARTNER, "cCODE": cCODE, "cDISCOUNT": cDISCOUNT })
     session.modified = True
     return jsonify({"success": True})
 

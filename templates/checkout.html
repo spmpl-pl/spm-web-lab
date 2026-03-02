@@ -29,6 +29,7 @@ content %}
 <table id="CouponTable">
   <thead>
     <tr>
+      <th>Partner ID</th>
       <th>Coupon Code</th>
       <th>Coupon Value</th>
     </tr>
@@ -40,7 +41,8 @@ content %}
 <br />
 <b>Discount: <span id="TotalDiscountID">0</span></b>
 <br /><br />
-<input type="text" id="CouponInput" placeholder="Provide your coupon code here"/>
+<input type="text" style="width: 30%" id="CouponPartnerInput" placeholder="Partner code (3 digits)"/>
+<input type="text" style="width: 69%" id="CouponCodeInput" placeholder="Coupon code (6 digits)"/>
 <span id="CouponMessageID"></span><br /><br />
 <button id="AddCouponID" style="width: 49%">Add Coupon</button>
 <button id="DeleteCouponsID" style="width: 49%">Delete Coupons</button>
@@ -93,7 +95,7 @@ content %}
           const tr = document.createElement("tr");
 
           tr.innerHTML = `
-            <tr><td>${item.cCODE}</td><td>${item.cDISCOUNT}</td>
+            <tr><td>${item.cPARTNER}</td><td>${item.cCODE}</td><td>${item.cDISCOUNT}</td>
         `;
           tbody.appendChild(tr);
         });
@@ -126,7 +128,8 @@ content %}
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        cCODE: document.getElementById("CouponInput").value,
+        cPARTNER: document.getElementById("CouponPartnerInput").value,
+        cCODE: document.getElementById("CouponCodeInput").value
       }),
     })
       .then(async (res) => {
