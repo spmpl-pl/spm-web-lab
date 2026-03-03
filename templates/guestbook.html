@@ -16,8 +16,8 @@ content %}
     id="message"
     placeholder="Your message"
   ></textarea>
-  <button id="submitEntry">Sign Guest Book</button>
-  <button id="DeleteEntries">Delete Entries</button>
+  <button style="width: 49%" id="submitEntry">Sign Guest Book</button>
+  <button style="width: 49%" id="DeleteEntries">Delete Entries</button>
 </div>
 
 <p><b>Entries:</b></p>
@@ -74,10 +74,16 @@ content %}
 
         entries.forEach((e) => {
           const li = document.createElement("li");
+          li.classList.add("guest-entry");
+
           li.innerHTML = `
-          [  ${e.username} | ${e.timestamp} ]<br>
-          <div>${e.message}</div><br>
-        `;
+            <div class="entry-header">
+              <strong>${e.username}</strong>
+              <span class="timestamp">${e.timestamp}</span>
+            </div>
+            <div class="entry-message">${e.message}</div>
+          `;
+
           ul.appendChild(li);
         });
       });
