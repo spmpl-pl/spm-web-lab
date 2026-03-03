@@ -7,7 +7,7 @@
 
     <div class="topbar">
       <span>CART ITEMS: <strong id="CartItemsID">0</strong></span>
-      <span>CART VALUE: <strong id="CartValueID">0</strong></span>
+      <span>CART VALUE: <strong id="CartValueID">€ 0</strong></span>
       <a href="/checkout" id="goToCartLink">Go to Cart →</a>
     </div>
 
@@ -121,7 +121,7 @@
             return res.json();
           })
           .then(data => {
-            priceCell.textContent = "Price: " + data.price + " USD";
+            priceCell.textContent = "Price: € " + data.price;
           })
           .catch(err => {
             console.error(err);
@@ -180,7 +180,7 @@
     })
     .then(data => {
         document.getElementById('CartItemsID').textContent = data.cITEMS
-        document.getElementById('CartValueID').textContent = data.cPRICE + " USD"
+        document.getElementById('CartValueID').textContent = "€ " + data.cPRICE 
     });
   }
   function UpdateCheckoutLink() {

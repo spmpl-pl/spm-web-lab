@@ -105,9 +105,9 @@ content %}
     fetch("/api/GetCartInfo")
       .then((res) => res.json())
       .then((data) => {
-        document.getElementById("TotalValueID").textContent = data.cPRICE + " USD";
-        document.getElementById("TotalDiscountID").textContent = data.cDISCOUNT + "USD";
-        document.getElementById("TotalValueDiscountedID").textContent = data.cPRICEFINAL + " USD";
+        document.getElementById("TotalValueID").textContent = "€ " + data.cPRICE;
+        document.getElementById("TotalDiscountID").textContent = "€ " + data.cDISCOUNT;
+        document.getElementById("TotalValueDiscountedID").textContent = "€ " + data.cPRICEFINAL;
       });
   }
   document.getElementById("DeleteCartID").onclick = () => {
