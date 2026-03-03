@@ -30,7 +30,7 @@ content %}
 <br />
 
 <p>
-  <b>Run successful brute-force attack</b><br />
+  <b>Run brute-force attack</b><br />
   This script will generate successful brute-force attack against authentication endpoints. 
   You need to provide number of failed attempts before the successful attempt is tried. Please
   provide valid username and password. 
@@ -43,7 +43,27 @@ content %}
 
 <br />
 
+<p>
+  <b>Run WAF Attack</b><br />
+  You can select the attack template and send the malicious payload towards the application.
+</p>
+<select id="WAFAttackSelect">
+  <option value="">-- Select an attack --</option>
+</select>
+  <textarea
+    type="text"
+    rows="5"
+    id="WAFAttackInput"
+    placeholder=""
+  ></textarea>
+<button id="WAFAttackButton">Run WAF Attack</button>
+<div id="WAFAttackResult" class="result"></div>
+
+
 <script>
+
+
+
   function getCookie(name) {
     const cookies = document.cookie.split("; ");
     for (let c of cookies) {
@@ -150,6 +170,44 @@ content %}
 
 
   };
+
+    const WAFAttacks = [
+      {"attack": "SQL Injection", "payload": "' OR 1 = 1;"},
+      {"attack": "Cross-Site Scripting", "payload": "test"}
+    ];
+
+    const select = document.getElementById("WAFAttackSelect");
+
+    try {
+      // clear placeholder
+      select.innerHTML = '<option value="">-- Select category --</option>';
+
+      WAFAttacks.forEach((item, index) => {
+        const option = document.createElement("option");
+        option.value = index;        // store index
+        option.textContent = item.attack;
+        select.appendChild(option);
+      });
+
+      // 👇 When user selects an attack
+      select.addEventListener("change", function () {
+        const selectedIndex = this.value;
+
+        if (selectedIndex === "") {
+          document.getElementById("WAFAttackInput").innerText = ""; // reset if placeholder selected
+          return;
+        }
+
+        const selectedAttack = WAFAttacks[selectedIndex];
+        document.getElementById("WAFAttackInput").innerText = selectedAttack.payload;
+      });
+
+    } catch (err) {
+      select.innerHTML = '<option value="">Failed to load</option>';
+    }
+
+ 
+
 </script>
 
 

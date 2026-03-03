@@ -145,11 +145,12 @@ h2 {
 
 input[type="text"],
 input[type="password"],
+select,
 textarea {
   width: 100%;
   padding: 8px;
   margin-bottom: 10px;
-
+  font-family: "Aptos", "Inter", "Segoe UI", Arial, sans-serif;
   border-radius: 5px;
   border: 1px solid #a7a4a4;
   box-sizing: border-box;
