@@ -320,6 +320,9 @@ def api_getcard_get():
     if ( "username" not in session ):
         return jsonify({"error_message": "Not Authenticated"}), 401
     
+    if "cart" not in session:
+        return []
+    
     products = load_ProductDB()
     cart_to_return = []
 
