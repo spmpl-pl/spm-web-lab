@@ -50,12 +50,7 @@ content %}
 <select id="WAFAttackSelect">
   <option value="">-- Select an attack --</option>
 </select>
-  <textarea
-    type="text"
-    rows="5"
-    id="WAFAttackInput"
-    placeholder=""
-  ></textarea>
+<textarea type="text" rows="5" id="WAFAttackInput" placeholder=""></textarea>
 <button id="WAFAttackButton">Run WAF Attack</button>
 <div id="WAFAttackResult" class="result"></div>
 
@@ -173,7 +168,7 @@ content %}
 
     const WAFAttacks = [
       {"attack": "SQL Injection", "payload": "' OR 1 = 1;"},
-      {"attack": "Cross-Site Scripting", "payload": "test"}
+      {"attack": "Cross-Site Scripting", "payload": "<scr" + "ipt>alert('test')</scr" + "ipt>"}
     ];
 
     const select = document.getElementById("WAFAttackSelect");
@@ -194,18 +189,35 @@ content %}
         const selectedIndex = this.value;
 
         if (selectedIndex === "") {
-          document.getElementById("WAFAttackInput").innerText = ""; // reset if placeholder selected
+          document.getElementById("WAFAttackInput").value = ""; // reset if placeholder selected
           return;
         }
-
-        const selectedAttack = WAFAttacks[selectedIndex];
-        document.getElementById("WAFAttackInput").innerText = selectedAttack.payload;
+          const selectedAttack = WAFAttacks[selectedIndex];
+          document.getElementById("WAFAttackInput").value = selectedAttack.payload;
       });
 
     } catch (err) {
       select.innerHTML = '<option value="">Failed to load</option>';
+  }
+
+
+  document.getElementById("WAFAttackButton").onclick = () => {
+    const userInput = document.getElementById("WAFAttackInput").value;
+    if (!userInput) {
+      alert("Please select/write a payload!");
+      return;
     }
 
+    fetch("/api/ReflectInput", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input: userInput }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("WAFAttackResult").innerText = JSON.stringify( data, null, 2,);
+      });
+  };
  
 
 </script>

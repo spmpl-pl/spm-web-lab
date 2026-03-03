@@ -31,6 +31,18 @@ content %}
 <br />
 
 <p>
+  <b>ReflectInput (POST /api/ReflectInput)</b><br />
+  This function reflect the input in the data in the response. 
+</p>
+<input type="text" id="ReflectInputInput" placeholder="Any input" />
+<button id="ReflectInputButton">
+  Reflect Input (POST /api/ReflectInput)
+</button>
+<div id="ReflectInputResult" class="result"></div>
+
+<br />
+
+<p>
   <b>GetProductsByID (POST /api/GetProductByID)</b><br />
   This function accepts one integer (pID) and returns corresponding product
   details. Supported methods: POST. Authentication not required.
@@ -179,6 +191,28 @@ content %}
         );
       });
   };
+
+  // ReflectInput POST Request
+  document.getElementById("ReflectInputButton").onclick = () => {
+    a = document.getElementById("ReflectInputInput").value;
+
+    if (!a) {
+      alert("Please type an input to reflect");
+      return;
+    }
+
+    fetch("/api/ReflectInput", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ input: a }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        document.getElementById("ReflectInputResult").innerText =
+          JSON.stringify(data, null, 2);
+      });
+  };
+
 
   // GetProductByID POST Request
   document.getElementById("GetProductByIDButton").onclick = () => {

@@ -151,6 +151,10 @@ def api_GetSum():
     sum = arg1 + arg2
     return jsonify({"sum": sum})
 
+@app.route('/api/ReflectInput', methods=['POST'])
+def api_ReflectInput():
+    data = request.json
+    return jsonify({"data": data["input"]})
 
 @app.route('/api/GetUserData', methods=['POST'])
 def api_GetUserData():
