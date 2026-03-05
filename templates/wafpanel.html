@@ -78,6 +78,68 @@ content %}
   return result;
   }
 
+  function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function SendLogin() {
+    const username = document.getElementById("GenerateBruteForce-username").value;
+    const password = document.getElementById("GenerateBruteForce-password").value;
+    const attempts = parseInt(document.getElementById("GenerateBruteForce-attempts").value, 10);
+
+    const resultBox = document.getElementById("GenerateBruteForceResult");
+
+    const sessionRes = await fetch("/api/GetSession");
+    const sessionData = await sessionRes.json();
+
+    if (sessionData.username) {
+      resultBox.textContent = 
+        "You can't run this command while you are authenticated. Please log out first.";
+      return;
+    }
+
+    if (isNaN(attempts) || attempts <= 0) {
+      resultBox.textContent = "The number of attempts must be a positive number.";
+      return;
+    }
+
+    resultBox.textContent = "";
+
+    for (let i = 1; i <= attempts; i++) {
+
+      let temp_password = (i !== attempts) ? randomString() : password;
+
+      try {
+        const res = await fetch("/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, password: temp_password }),
+        });
+
+        if (!res.ok) {
+          if (res.status === 401) {
+            resultBox.innerText += `Login Attempt (${i}/${attempts}): Unauthorized\n`;
+          } else {
+            resultBox.innerText += `Login Attempt (${i}/${attempts}): Blocked. Message received: (${data.status})\n`;
+          }
+        } else {
+          const data = await res.json();
+
+          if (data.success) {
+            resultBox.innerText += `Login Attempt (${i}/${attempts}): Successful. Message received: (${data.message})\n`;
+          } else {
+            resultBox.innerText += `Login Attempt (${i}/${attempts}): Failed - Message received: (${data.message})\n`;
+          }
+        }
+
+      } catch (err) {
+        console.error(err);
+        resultBox.innerText += `Attempt (${i}/${attempts}): Error\n`;
+      }
+
+      await delay(1000); // Proper delay between attempts
+    }
+  }
 
   document.getElementById("GetHeadersButton").onclick = () => {
     fetch("/api/GetHeaders")
@@ -105,64 +167,12 @@ content %}
   };
 
 
+
+
+
   document.getElementById("GetSumButton").onclick = () => {
   
-    const username = document.getElementById("GenerateBruteForce-username").value;
-    const password = document.getElementById("GenerateBruteForce-password").value;
-    const attempts = parseInt(document.getElementById("GenerateBruteForce-attempts").value, 10);
-    
-    fetch("/api/GetSession")
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.username) {
-            document.getElementById("GenerateBruteForceResult").textContent = 
-            "You can't run this command while you are authenticated. Please log out first."
-          } 
-          else {
-            if (isNaN(attempts) || attempts < 0) {
-              document.getElementById("GenerateBruteForceResult").innerText = "The Number of Attempts must be a positive number"
-            }
-            else {
-                document.getElementById("GenerateBruteForceResult").innerText = ""
-                for (let i = 1; i <= attempts; i++) {
- 
-                  let temp_password = password;
-
-                    if (i !== attempts) {
-                      temp_password = randomString()
-                    }
-
-                    fetch("/api/login", {
-                      method: "POST",
-                      headers: { "Content-Type": "application/json" },
-                      body: JSON.stringify({ "username": username, "password": temp_password }),
-                    })
-                      .then(async res => {
-                        if (!res.ok) {
-                          if (res.status === 401) throw new Error('Unauthorized - please log in');
-                          const message = await res.text();
-                          throw new Error(message || `HTTP error ${res.status}`);
-                          document.getElementById("GenerateBruteForceResult").innerText += "Attempt: Blocked\n"
-                        }
-                        return res.json();
-                      })
-                      .then((data) => {
-                          if(data.success) {
-                            document.getElementById("GenerateBruteForceResult").innerText += "Attempt (" + i + "/" + attempts + "): Successful\n"
-                          }
-                          else {
-                            document.getElementById("GenerateBruteForceResult").innerText += "Attempt (" + i + "/" + attempts + "): Failed\n";
-                          };
-                      })
-                      .catch(err => {
-                      console.error(err);
-                      });
-                  }
-              }
-            }
-        });
-
-
+    SendLogin()
 
   };
 
