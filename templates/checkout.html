@@ -3,7 +3,7 @@ content %}
 
 
 <div class="topbar">
-  <a href="/webshop">← Back to Webshop</a>
+  <a href="/webshop">[ ← Back to Webshop ]</a>
 </div>
 
 <h1>Checkout</h1>
@@ -123,6 +123,20 @@ content %}
       });
   };
 
+  document.getElementById("CheckoutID").onclick = () => {
+    fetch("/api/DeleteCart", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        alert("Thank you for shopping with us. We look forward to seeing you again soon.")
+        UpdateCartSummary();
+        LoadCartItems();
+        LoadCoupons();
+      });
+  };
+
   document.getElementById("AddCouponID").onclick = () => {
     fetch("/api/AddCoupon", {
       method: "POST",
@@ -170,6 +184,7 @@ content %}
   LoadCoupons();
 
   UpdateCartSummary();
+
 </script>
 
 {% endblock %}
