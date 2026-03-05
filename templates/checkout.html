@@ -131,9 +131,7 @@ content %}
       .then((res) => res.json())
       .then((data) => {
         alert("Thank you for shopping with us. We look forward to seeing you again soon.")
-        UpdateCartSummary();
-        LoadCartItems();
-        LoadCoupons();
+        window.location.href = "/webshop";
       });
   };
 
