@@ -53,8 +53,18 @@ content %}
 <textarea type="text" rows="5" id="WAFAttackInput" placeholder=""></textarea>
 <button id="WAFAttackButton">Run WAF Attack</button>
 <div id="WAFAttackResult" class="result"></div>
+<br />
 
-
+<p>
+  <b>Test WAF Challenges</b><br />
+  Please select one of the the three available challenges and they WAF will be forced to run This
+  challenge against your browser. If you fail to solve the challenge, you will get blocked. 
+</p><center>
+<button style="width: 32%" id="RunChallengeCookieButton">Run Cookie Challenge</button>
+<button style="width: 32%" id="RunChallengeJSButton">Run JavaScript Challenge</button>
+<button style="width: 32%" id="RunChallengeCaptchaButton">Run Captcha Challenge</button>
+<div id="WAFAttackResult" class="result"></div>
+</center>
 <script>
 
 
@@ -232,6 +242,21 @@ content %}
       });
   };
  
+  document.getElementById("RunChallengeCookieButton").onclick = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("challenge", "cookie");
+    window.location.href = url.toString();
+  };
+  document.getElementById("RunChallengeJSButton").onclick = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("challenge", "JS");
+    window.location.href = url.toString();
+  };
+  document.getElementById("RunChallengeCaptchaButton").onclick = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("challenge", "captcha");
+    window.location.href = url.toString();
+  };
 
 </script>
 
