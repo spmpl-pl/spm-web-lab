@@ -56,13 +56,16 @@ content %}
 <br />
 
 <p>
-  <b>Test WAF Challenges</b><br />
+  <b>Test WAF/ABP Challenges</b><br />
   Please select one of the the three available challenges and they WAF will be forced to run This
   challenge against your browser. If you fail to solve the challenge, you will get blocked. 
 <div style="display:flex; gap:10px; width:100%;">
   <button style="flex:1;" id="RunChallengeCookieButton">Enforce Cookie Challenge</button>
   <button style="flex:1;" id="RunChallengeJSButton">Enforce JS Challenge</button>
-  <button style="flex:1;" id="RunChallengeCaptchaButton">Enforce Captcha Challenge</button>
+</div>
+<div style="display:flex; gap:10px; width:100%;">
+  <button style="flex:1;" id="RunChallengeCaptchaButton">Enforce WAF Captcha Challenge</button>
+  <button style="flex:1;" id="RunChallengePoWButton">Enforce ABP PoW Challenge</button>
 </div>
 <br />
 
@@ -315,6 +318,11 @@ content %}
   document.getElementById("RunChallengeCaptchaButton").onclick = () => {
     const url = new URL(window.location.href);
     url.searchParams.set("challenge", "captcha");
+    window.location.href = url.toString();
+  };
+  document.getElementById("RunChallengePoWButton").onclick = () => {
+    const url = new URL(window.location.href);
+    url.searchParams.set("challenge", "ABPPOW");
     window.location.href = url.toString();
   };
 
