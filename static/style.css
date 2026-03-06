@@ -347,39 +347,49 @@ th {
 
 
 /* =====================================================
-   CHECKOUT TOPBAR
+   CHECKOUT TOPBAR – Improved
 ===================================================== */
 
 .topbar {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 40px;
 
-  padding: 10px 0;
-  margin-bottom: 20px;
-  border-bottom: 1px solid black;
+  padding: 14px 20px;
+  margin-bottom: 30px;
+
+  background-color: #f8f8f8;
+  border-radius: 8px;
+}
+
+.topbar span {
+  font-size: 14px;
+  color: #333;
+}
+
+.topbar strong {
+  font-weight: 600;
+  margin-left: 6px;
 }
 
 .topbar a {
-  font-weight: 500;
+  padding: 8px 14px;
+  background-color: black;
+  color: white;
   text-decoration: none;
-  color: black;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.2s ease;
 }
 
 .topbar a:hover {
-  text-decoration: underline;
+  background-color: #333;
 }
 
-.total-box {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 14px;
-
-  border: 2px solid black;
-  border-radius: 6px;
-  font-weight: 500;
+.cart-info {
+  display: flex;
+  gap: 25px;
 }
-
 
 /* =====================================================
    PRODUCT LISTING
