@@ -38,7 +38,7 @@ content %}
 <input type="text" style="width: 40%" id="GenerateBruteForce-username" placeholder="username" />
 <input type="password" style="width: 40%" id="GenerateBruteForce-password" placeholder="password" />
 <input type="text" style="width: 18%" id="GenerateBruteForce-attempts" placeholder="attempts" />
-<button id="GetSumButton">Run Brute Force Attack</button>
+<button id="GenerateBruteForceButton">Run Brute Force Attack</button>
 <div id="GenerateBruteForceResult" class="result"></div>
 
 <br />
@@ -59,12 +59,24 @@ content %}
   <b>Test WAF Challenges</b><br />
   Please select one of the the three available challenges and they WAF will be forced to run This
   challenge against your browser. If you fail to solve the challenge, you will get blocked. 
-</p><center>
-<button style="width: 32%" id="RunChallengeCookieButton">Run Cookie Challenge</button>
-<button style="width: 32%" id="RunChallengeJSButton">Run JavaScript Challenge</button>
-<button style="width: 32%" id="RunChallengeCaptchaButton">Run Captcha Challenge</button>
-<div id="WAFAttackResult" class="result"></div>
-</center>
+<div style="display:flex; gap:10px; width:100%;">
+  <button style="flex:1;" id="RunChallengeCookieButton">Enforce Cookie Challenge</button>
+  <button style="flex:1;" id="RunChallengeJSButton">Enforce JS Challenge</button>
+  <button style="flex:1;" id="RunChallengeCaptchaButton">Enforce Captcha Challenge</button>
+</div>
+<br />
+
+<p>
+  <b>Run request flood attack</b><br />
+  This script will generate a large amoung of request sent to /api/ReflectInput endpoint. This endpoint
+  is protected by rate-limiting rule which will allow only up to 20 request in a given minute. 
+</p>
+<input type="text"  id="GenerateFloodAttack-attempts" placeholder="attempts" />
+<button id="GenerateFloodAttackButton">Run Request Flood Attack</button>
+<div id="GenerateFloodAttackResult" class="result"></div>
+
+<br />
+
 <script>
 
 
@@ -151,6 +163,50 @@ content %}
     }
   }
 
+    async function SendFlood() {
+
+    const attempts = parseInt(document.getElementById("GenerateFloodAttack-attempts").value, 10);
+    const resultBox = document.getElementById("GenerateFloodAttackResult");
+
+
+    if (isNaN(attempts) || attempts <= 0) {
+      resultBox.textContent = "The number of attempts must be a positive number.";
+      return;
+    }
+
+    resultBox.textContent = "";
+
+    for (let i = 1; i <= attempts; i++) {
+
+      input = "Response to " + i;
+
+      try {
+        const res = await fetch("/api/ReflectInput", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ "input": input }),
+        });
+
+        if (!res.ok) {
+          if (res.status === 401) {
+            resultBox.innerText += `Attempt (${i}/${attempts}): Unauthorized\n`;
+          } else {
+            resultBox.innerText += `Attempt (${i}/${attempts}): Blocked. Incident ID: ${data.incidentId}\n`;
+          }
+        } else {
+          const data = await res.json();
+          resultBox.innerText += `Attempt (${i}/${attempts}): Successful. Message received: "${data.data}"\n`;
+        }
+
+      } catch (err) {
+        console.error(err);
+        resultBox.innerText += `Attempt (${i}/${attempts}): Error\n`;
+      }
+
+      await delay(30); // Proper delay between attempts
+    }
+  }
+
   document.getElementById("GetHeadersButton").onclick = () => {
     fetch("/api/GetHeaders")
       .then((res) => res.json())
@@ -177,16 +233,19 @@ content %}
   };
 
 
-
-
-
-  document.getElementById("GetSumButton").onclick = () => {
+  document.getElementById("GenerateBruteForceButton").onclick = () => {
   
     SendLogin()
 
   };
 
-    const WAFAttacks = [
+  document.getElementById("GenerateFloodAttackButton").onclick = () => {
+  
+    SendFlood()
+
+  };
+
+  const WAFAttacks = [
       {"attack": "SQL Injection 1", "payload": "' OR 1 = 1;"},
       {"attack": "SQL Injection 2", "payload": "' or (select (select 'abc')) = 'abc"},
       {"attack": "Cross-Site Scripting 1", "payload": "<scr" + "ipt>confirm(\"Would you like some XSS?\")</scr" + "ipt>",},
