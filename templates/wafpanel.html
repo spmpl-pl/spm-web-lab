@@ -187,6 +187,8 @@ content %}
           body: JSON.stringify({ "input": input }),
         });
 
+        const data = await res.json();
+
         if (!res.ok) {
           if (res.status === 401) {
             resultBox.innerText += `Attempt (${i}/${attempts}): Unauthorized\n`;
@@ -194,7 +196,6 @@ content %}
             resultBox.innerText += `Attempt (${i}/${attempts}): Blocked. Incident ID: ${data.incidentId}\n`;
           }
         } else {
-          const data = await res.json();
           resultBox.innerText += `Attempt (${i}/${attempts}): Successful. Message received: "${data.data}"\n`;
         }
 
