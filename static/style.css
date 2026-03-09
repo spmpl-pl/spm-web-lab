@@ -355,7 +355,7 @@ th {
   justify-content: space-between;
   align-items: center;
 
-  padding: 14px 20px;
+  padding: 7px 10px;
   margin-bottom: 30px;
 
   background-color: #f8f8f8;
@@ -373,8 +373,8 @@ th {
 }
 
 .topbar a {
-  padding: 8px 14px;
-  background-color: black;
+  padding: 4px 7px;
+  background-color: rgb(128, 128, 128);
   color: white;
   text-decoration: none;
   border-radius: 6px;
