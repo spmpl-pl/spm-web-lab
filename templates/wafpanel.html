@@ -398,6 +398,7 @@ content %}
     // Send request
     fetch("/api/FileUpload", {
       method: "POST",
+      headers: { "Accept": "application/json" },
       body: formData
     })
     .then(res => res.text())
