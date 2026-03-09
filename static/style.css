@@ -522,3 +522,12 @@ th {
   }
 
 }
+
+
+
+.total-box {
+  border: 2px solid rgb(54, 54, 54);
+  padding: 8px 12px;
+  display: inline-block;
+  border-radius: 8px;
+}
