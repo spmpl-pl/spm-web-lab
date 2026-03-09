@@ -428,6 +428,24 @@ def api_deletecoupons_delete():
     return jsonify({"success": True})
 
 
+@app.route("/api/FileUpload", methods=["POST"])
+def api_file_upload():
+    if "file" not in request.files:
+        return jsonify({"error": "No file field in request"}), 400
+
+    file = request.files["file"]
+
+    if file.filename == "":
+        return jsonify({"error": "No file selected"}), 400
+
+    content = file.read().decode(errors="ignore")
+
+    return jsonify({
+        "status": "ok",
+        "filename": file.filename,
+        "size": len(content)
+    })
+
 
 
 @app.route("/api/ChatBot", methods=["POST"])

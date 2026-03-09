@@ -83,6 +83,21 @@ content %}
 
 <br />
 
+<p>
+  <b>Upload an (infected) file</b><br />
+  You can simulate the file upload activity here. Please select a payload and the filename and the payload
+  will be sent to /api/FileUpload endpoint. 
+</p>
+<select id="FileUploadSelect">
+  <option value="EICAR FILE">Option 1</option>
+</select>
+<textarea type="text" rows="3" id="FileUploadInput" placeholder=""></textarea>
+<input type="text" id="FileUploadFilename" placeholder="filename - ex. test.txt" />
+<button id="FileUploadButton">Send a File</button>
+<div id="FileUploadResult" class="result"></div>
+
+<br />
+
 <script>
 
 
@@ -334,6 +349,69 @@ content %}
     window.location.href = url.toString();
   };
   
+  const FileUploadPayloads = [
+      {"virusname": "EICAR", "payload": "X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-FILE!$H+H*"}
+    ];
+
+  const FileUploadSelect = document.getElementById("FileUploadSelect");
+
+    try {
+
+      FileUploadSelect.innerHTML = '<option value="">-- Select category --</option>';
+
+      FileUploadPayloads.forEach((item, index) => {
+        const option = document.createElement("option");
+        option.value = index;        // store index
+        option.textContent = item.virusname;
+        FileUploadSelect.appendChild(option);
+      });
+
+      // 👇 When user selects an attack
+      FileUploadSelect.addEventListener("change", function () {
+        const selectedIndex = this.value;
+
+        if (selectedIndex === "") {
+          document.getElementById("FileUploadInput").value = ""; // reset if placeholder selected
+          return;
+        }
+          const selectedVirus = FileUploadPayloads[selectedIndex];
+          document.getElementById("FileUploadInput").value = selectedVirus.payload;
+      });
+
+    } catch (err) {
+      FileUploadSelect.innerHTML = '<option value="">Failed to load</option>';
+  }
+
+  document.getElementById("FileUploadButton").onclick = () => {
+    const FilePayload = document.getElementById("FileUploadInput").value;
+    const FileToSendName = document.getElementById("FileUploadFilename").value
+    const FileToSend = new File(
+      [FilePayload],
+      FileToSendName,
+      { type: "application/octet-stream" }
+    );
+
+    // Create multipart/form-data body
+    const formData = new FormData();
+    formData.append("file", FileToSend);
+
+    // Send request
+    fetch("/api/FileUpload", {
+      method: "POST",
+      body: formData
+    })
+    .then(res => res.text())
+    .then((data) => {
+      try {
+        const parsed = JSON.parse(data); // parse JSON string to object
+        document.getElementById("FileUploadResult").innerText = JSON.stringify(parsed, null, 2);
+      } catch (e) {
+        // if not JSON, just show raw text
+        document.getElementById("FileUploadResult").innerText = data;
+      }
+    })
+    .catch(err => console.error(err));
+  };
 
 </script>
 
