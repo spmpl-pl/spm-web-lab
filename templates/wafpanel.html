@@ -7,14 +7,14 @@ content %}
 
 <p>
   <b>Get Origin Headers</b><br />
-  This function returns the origin server headers. To interpret the client
+  This function returns the origin server headers (received by the origin server). To interpret the client
   classification headers, visit [
   <a
     href="https://docs-cybersec.thalesgroup.com/bundle/cloud-application-security/page/settings/client-classification.htm"
     target="_blank"
     >this</a
   >
-  ] documentation page.
+  ] documentation page. The custom headers starts with BCH. 
 </p>
 <button id="GetHeadersButton">Get Headers from the Origin Server</button>
 <div id="GetHeadersResult" class="result"></div>
@@ -22,8 +22,9 @@ content %}
 
 <p>
   <b>Generate BOLA Script</b><br />
-  Click "Cenerate BOLA Script" to generate ready to go BOLA exploitation one-line bash script.
-  When executed, the whole user database will be extracted.  
+  Click "Cenerate BOLA Script" to generate ready-to-go BOLA exploitation one-line bash script.
+  When executed, the whole user database will be extracted abusing the BOLA vulnerability in 
+  /api/GetUserDetails endpoint. You need to be authenticated to generate it (as it needs a session identifier).  
 </p>
 <button id="GenerateBOLAButton">Generate BOLA Script</button>
 <div id="GenerateBOLAResult" class="result"></div>
@@ -31,9 +32,10 @@ content %}
 
 <p>
   <b>Run Brute-Force Attack</b><br />
-  This script will generate successful brute-force attack against authentication endpoints. 
+  This script will generate brute-force attack against authentication endpoints. 
   You need to provide number of failed attempts before the successful attempt is tried. Please
-  provide valid username and password. 
+  provide valid username and password as the last attemp will use the credentials provided. In needs to be
+  valid if you want to simulare the successful attempt. 
 </p>
 <input type="text" style="width: 40%" id="GenerateBruteForce-username" placeholder="username" />
 <input type="password" style="width: 40%" id="GenerateBruteForce-password" placeholder="password" />
@@ -45,7 +47,9 @@ content %}
 
 <p>
   <b>Run WAF Attack</b><br />
-  You can select the attack template and send the malicious payload towards the application.
+  You can select the attack template and send the malicious payload towards the application. You can also provide
+  your own payload. The payload will be sent towards /api/ReflectInput endpoint and shuold be block if the WAF
+  works correctly. 
 </p>
 <select id="WAFAttackSelect">
   <option value="">-- Select an attack --</option>
@@ -57,8 +61,9 @@ content %}
 
 <p>
   <b>Test WAF/ABP Challenges</b><br />
-  Please select one of the the three available challenges and they WAF will be forced to run This
-  challenge against your browser. If you fail to solve the challenge, you will get blocked. 
+  Please select one of the the available challenges and they WAF will be forced to run this
+  challenge against your browser. If you fail to solve the challenge, you will get blocked. Some challenges
+  are interactive, some doesn't require user interaction. 
 <div style="display:flex; gap:10px; width:100%;">
   <button style="flex:1;" id="RunChallengeCookieButton">Enforce Cookie Challenge</button>
   <button style="flex:1;" id="RunChallengeJSButton">Enforce JS Challenge</button>
@@ -75,7 +80,8 @@ content %}
 <p>
   <b>Run Request Flood Attack</b><br />
   This script will generate a large amoung of request sent to /api/ReflectInput endpoint. This endpoint
-  is protected by rate-limiting rule which will allow only up to 20 request in a given minute. 
+  is protected by rate-limiting rule which will allow only up to 20 request in a given minute. If you send more,
+  the subsequent request shuold be blocked. 
 </p>
 <input type="text" id="GenerateFloodAttack-attempts" placeholder="# of attempts (recommended value: 30)" />
 <button id="GenerateFloodAttackButton">Run Request Flood Attack</button>
@@ -85,8 +91,9 @@ content %}
 
 <p>
   <b>Upload an (infected) file</b><br />
-  You can simulate the file upload activity here. Please select a payload and the filename and the payload
-  will be sent to /api/FileUpload endpoint. 
+  This script emulate the file upload activity. You can provide username and file payload. You can also select
+  from the provided templates. The payload will be sent as multipart content type. It shuold get blocked if 
+  recognized as malicious by AV engine. 
 </p>
 <select id="FileUploadSelect">
   <option value="EICAR FILE">Option 1</option>
@@ -361,17 +368,16 @@ content %}
 
       FileUploadPayloads.forEach((item, index) => {
         const option = document.createElement("option");
-        option.value = index;        // store index
+        option.value = index;        
         option.textContent = item.virusname;
         FileUploadSelect.appendChild(option);
       });
 
-      // 👇 When user selects an attack
       FileUploadSelect.addEventListener("change", function () {
         const selectedIndex = this.value;
 
         if (selectedIndex === "") {
-          document.getElementById("FileUploadInput").value = ""; // reset if placeholder selected
+          document.getElementById("FileUploadInput").value = ""; 
           return;
         }
           const selectedVirus = FileUploadPayloads[selectedIndex];
