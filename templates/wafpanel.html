@@ -95,12 +95,14 @@ content %}
   from the provided templates. The payload will be sent as multipart content type. It shuold get blocked if 
   recognized as malicious by AV engine. 
 </p>
+<div style="display:flex; gap:10px; width:100%;">
+<input type="text" id="FileUploadFilename" placeholder="filename - ex. test.txt" />
 <select id="FileUploadSelect">
   <option value="EICAR FILE">Option 1</option>
 </select>
+</div>
 <textarea type="text" rows="3" id="FileUploadInput" placeholder=""></textarea>
-<input type="text" id="FileUploadFilename" placeholder="filename - ex. test.txt" />
-<button id="FileUploadButton">Send a File</button>
+<button id="FileUploadButton">Send Payload as a File</button>
 <div id="FileUploadResult" class="result"></div>
 
 <br />
