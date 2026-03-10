@@ -366,7 +366,7 @@ content %}
 
     try {
 
-      FileUploadSelect.innerHTML = '<option value="">-- Select category --</option>';
+      FileUploadSelect.innerHTML = '<option value="">-- Select payload --</option>';
 
       FileUploadPayloads.forEach((item, index) => {
         const option = document.createElement("option");
@@ -387,7 +387,7 @@ content %}
       });
 
     } catch (err) {
-      FileUploadSelect.innerHTML = '<option value="">Failed to load</option>';
+      FileUploadSelect.innerHTML = '<option value="">Failed to load payloads</option>';
   }
 
   document.getElementById("FileUploadButton").onclick = () => {
