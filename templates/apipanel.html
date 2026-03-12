@@ -136,7 +136,8 @@ content %}
   <b>Get User Data (POST /api/GetUserData)</b><br />
   This function accepts one integer (UserID) and returns corresponding user
   details. Supported methods: POST. Authentication required. SQL injection
-  vulnerability.
+  vulnerability present (try: ' OR 1 = 1 ). BOLA vulnerability (see BOLA script in 
+  WAF Panel). 
 </p>
 <input type="text" id="GetUserDataInput" placeholder="User ID (id)" />
 <button id="GetUserDataButton">Get User Data (POST /api/GetUserData)</button>
@@ -147,7 +148,7 @@ content %}
   <b>Guestbook (POST /api/GuestBook)</b><br />
   This function accepts one text parameter (message) and adds the message to the
   guestbook. Supported methods: GET, POST, DELETE. Authentication required but
-  not implemented for POST method.
+  not correctly implemented for POST method.
 </p>
 <input
   type="text"
