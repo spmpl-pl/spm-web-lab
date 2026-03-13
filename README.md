@@ -1,9 +1,19 @@
 
 # Lab Site Project
 
+This project was created to showcase WAF capabilities including API Security, WAF protection, Advanced Bot Protection
+and others. More documentation will come later. 
 
-## Functions:
+## How to run it.
+At the moment, it is available as Python Flask project. The docker contaner version will come later. At the moment, you can run it
+with apache, nginx, or any other server which supports WSGI. Alternatively, you can build your own docker image and run it whenever you want.  
 
- - `POST /api/GetUserData` - BOLA, SQL Injection
- - `POST /api/GetSum` - Input Validation. IF second parameter is non-integer, the 500 is returne.
- - `POST /api/guestbook` - Authentication validation issue for POST.
+## Demos
+
+### Cloud WAF
+
+### Advanced Bot Protection
+
+### Account Takeover
+
+### Client-side Protection
